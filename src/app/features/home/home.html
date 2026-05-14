@@ -1,0 +1,248 @@
+<section class="home-dashboard">
+  <!-- ── COLUMNA PRINCIPAL ── -->
+  <div class="home-main">
+    <!-- SALUDO -->
+    @if (nombreUsuario()) {
+      <div class="home-greeting">
+        <h2>¡Hola {{ nombreUsuario() }}! 👋</h2>
+        <p>Encuentra los mejores productos latinos en España</p>
+      </div>
+    }
+
+    <!-- HERO + BUSCADOR -->
+    <section class="hero-section">
+      <div class="hero-body">
+        <div class="hero-left">
+          <span class="hero-badge">Marketplace latino en España</span>
+          <h1>Compra productos <span class="hero-highlight">latinos</span> cerca de ti</h1>
+          <p>Auténticos sabores, productos y tiendas de Latinoamérica en un solo lugar.</p>
+          <div class="search-bar">
+            <input
+              #searchInput
+              type="text"
+              placeholder="¿Qué producto latino buscas hoy?"
+              class="search-input"
+              (keydown.enter)="buscar(searchInput.value)"
+            />
+            <button type="button" class="search-btn" (click)="buscar(searchInput.value)">🔍</button>
+          </div>
+        </div>
+        <div class="hero-right">
+          <img src="assets/hero-banderas.png" alt="Banderas Latinoamérica" class="hero-flags-img" />
+        </div>
+      </div>
+
+      <div class="hero-benefits">
+        <div class="benefit-item">
+          <span class="benefit-icon">🚚</span>
+          <div><strong>Envíos rápidos</strong><span>En tu puerta en 1 - 2 h</span></div>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-icon">🛡️</span>
+          <div><strong>Compra segura</strong><span>100% protegido</span></div>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-icon">📦</span>
+          <div><strong>Miles de productos</strong><span>Directo de Latam</span></div>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-icon">🎧</span>
+          <div><strong>Atención al cliente</strong><span>Siempre para ayudarte</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATEGORÍAS -->
+    <div class="categories-row">
+      @for (cat of categorias; track cat.label) {
+        <a routerLink="/productos" [queryParams]="cat.queryParams" class="cat-pill">
+          <span>{{ cat.icon }}</span
+          >{{ cat.label }}
+        </a>
+      }
+    </div>
+
+
+    <!-- TIENDAS -->
+    @if (tiendas().length > 0) {
+      <section class="panel-section">
+        <div class="section-head">
+          <h2>Tiendas disponibles</h2>
+          <a routerLink="/tiendas" class="ver-todas">Ver todas </a>
+        </div>
+
+        <div class="tiendas-grid">
+          @for (tienda of tiendasPaginadas(); track tienda.id) {
+            <a [routerLink]="['/tiendas', tienda.id]" class="tienda-card">
+              <div
+                class="tienda-img"
+                [style.background]="tienda.imagenUrl ? 'none' : tiendaColor(tienda.id)"
+              >
+                @if (tienda.imagenUrl) {
+                  <img [src]="tienda.imagenUrl" [alt]="tienda.nombreNegocio" class="tienda-foto" />
+                } @else {
+                  <span class="tienda-inicial">{{
+                    tienda.nombreNegocio.charAt(0).toUpperCase()
+                  }}</span>
+                }
+              </div>
+              <h4>{{ tienda.nombreNegocio }}</h4>
+              <p class="tienda-ciudad">{{ tienda.ciudad }}</p>
+              <span class="envio-badge">Envío rápido</span>
+            </a>
+          }
+        </div>
+
+      </section>
+    }
+
+    <!-- TODOS LOS PRODUCTOS -->
+    @if (productos().length > 0) {
+      <section class="panel-section">
+        <div class="section-head">
+          <h2>Todos los productos</h2>
+          <a routerLink="/productos" class="ver-todas">Ver catálogo </a>
+        </div>
+
+        <div class="productos-grid">
+          @for (producto of productosPaginados(); track producto.id) {
+            <div class="producto-card">
+              <a [routerLink]="['/tiendas', producto.tiendaId]" class="producto-img-wrap">
+                @if (producto.destacado) {
+                  <span class="popular-badge">Destacado</span>
+                }
+                @if (producto.imagenUrl) {
+                  <img [src]="producto.imagenUrl" [alt]="producto.nombre" />
+                } @else {
+                  <div class="producto-img-placeholder">{{ producto.nombre.charAt(0) }}</div>
+                }
+              </a>
+              <div class="producto-body">
+                <a [routerLink]="['/tiendas', producto.tiendaId]" class="producto-nombre">{{
+                  producto.nombre
+                }}</a>
+                <strong class="producto-precio">{{ producto.precio | currency: 'EUR' }}</strong>
+                <div class="producto-footer">
+                  <a [routerLink]="['/tiendas', producto.tiendaId]" class="btn-ver">Ver tienda</a>
+                  <div class="btn-carrito-wrap">
+                    <button
+                      type="button"
+                      class="btn-carrito"
+                      [class.btn-carrito-ok]="productoAgregadoId() === producto.id"
+                      (click)="agregarAlCarrito(producto.id)"
+                    >
+                      {{ productoAgregadoId() === producto.id ? '✓' : '🛒' }}
+                    </button>
+                    @if (loginRequerido() === producto.id) {
+                      <div class="login-tooltip">
+                        <p>🔒 Inicia sesión para comprar</p>
+                        <div class="tooltip-links">
+                          <a routerLink="/login">Iniciar sesión</a>
+                          <a routerLink="/registro-cliente">Crear cuenta</a>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        @if (totalPaginasProductos() > 1) {
+          <div class="section-pagination">
+            <span>Página {{ paginaProductos() }} de {{ totalPaginasProductos() }}</span>
+            <div>
+              <button
+                type="button"
+                (click)="productoAnterior()"
+                [disabled]="paginaProductos() === 1"
+              >
+                Anterior
+              </button>
+              <button
+                type="button"
+                (click)="productoSiguiente()"
+                [disabled]="paginaProductos() === totalPaginasProductos()"
+              >
+                Siguiente
+              </button>
+            </div>
+          </div>
+        }
+      </section>
+    }
+
+  </div>
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="home-sidebar">
+    <!-- ACCESO RÁPIDO -->
+    <div class="sidebar-card">
+      <h3>¿Ya tienes cuenta?</h3>
+      <p>Inicia sesión para ver tus pedidos y comprar más rápido.</p>
+      <a routerLink="/login" class="btn-login">Iniciar sesión</a>
+    </div>
+
+    <!-- OFERTAS -->
+    <div class="sidebar-card ofertas-sidebar-card">
+      <div class="ofertas-head-new">
+        <h3>Ofertas de la semana 🔥</h3>
+        <a routerLink="/ofertas" class="ver-todas-link">Ver todas </a>
+      </div>
+
+      @if (ofertaActiva()) {
+        <a [routerLink]="['/productos', ofertaActiva()!.id]" class="oferta-producto-row">
+          <div class="oferta-img-box">
+            @if (ofertaActiva()!.imagenUrl) {
+              <img [src]="ofertaActiva()!.imagenUrl" [alt]="ofertaActiva()!.nombre" class="oferta-img" />
+            } @else {
+              <div class="oferta-img-placeholder">{{ ofertaActiva()!.nombre.charAt(0) }}</div>
+            }
+          </div>
+          <div class="oferta-info">
+            <span class="oferta-nombre">{{ ofertaActiva()!.nombre }}</span>
+            <span class="oferta-precio">{{ ofertaActiva()!.precioOferta | currency: 'EUR' }}</span>
+          </div>
+        </a>
+      } @else {
+        <p class="ofertas-empty">No hay ofertas activas en este momento.</p>
+      }
+
+      @if (productosEnOferta().length > 1) {
+        <div class="oferta-dots">
+          @for (o of productosEnOferta(); track o.id; let i = $index) {
+            <span class="dot" [class.active]="i === ofertaActivaIndex()"></span>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- TIENDA CTA -->
+    <div class="oferta-card">
+      <span class="oferta-label">PARA TIENDAS</span>
+      <h3>¿Tienes una tienda latina?</h3>
+      <p>Regístrate gratis y llega a miles de clientes en España.</p>
+      <a routerLink="/registro-tienda" class="btn-oferta">Registrar mi tienda</a>
+    </div>
+
+    <!-- CÓMO FUNCIONA -->
+    <div class="sidebar-card how-card-sidebar">
+      <h3>Cómo funciona</h3>
+      <div class="how-steps">
+        <div class="how-step">
+          <div class="how-num">1</div>
+          <p>Selecciona una tienda cerca de ti</p>
+        </div>
+        <div class="how-step">
+          <div class="how-num">2</div>
+          <p>Añade productos al carrito</p>
+        </div>
+        <div class="how-step">
+          <div class="how-num">3</div>
+          <p>Recibe tu pedido en casa</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+</section>

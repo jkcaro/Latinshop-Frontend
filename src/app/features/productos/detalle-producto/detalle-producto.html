@@ -1,0 +1,73 @@
+<section class="detalle-producto">
+  @if (producto(); as p) {
+    <div class="detalle-layout">
+      <div class="detalle-imagen">
+        @if (p.imagenUrl) {
+          <img [src]="p.imagenUrl" [alt]="p.nombre" />
+        } @else {
+          <div class="sin-imagen">Sin imagen</div>
+        }
+      </div>
+
+      <div class="detalle-info">
+        <span class="categoria-badge">{{ p.categoria }}</span>
+        <h1>{{ p.nombre }}</h1>
+        <p class="marca">{{ p.marca }} &mdash; {{ p.paisOrigen }}</p>
+        @if (p.precioOferta) {
+          <div class="precio-wrap">
+            <span class="precio-original">{{ p.precio | currency: 'EUR' }}</span>
+            <span class="precio-oferta">{{ p.precioOferta | currency: 'EUR' }}</span>
+            <span class="descuento-badge">-{{ ((1 - p.precioOferta / p.precio) * 100) | number: '1.0-0' }}%</span>
+          </div>
+        } @else {
+          <p class="precio">{{ p.precio | currency: 'EUR' }}</p>
+        }
+        <p class="descripcion">{{ p.descripcion }}</p>
+
+        <p class="stock" [class.sin-stock]="p.stock === 0">
+          @if (p.stock > 0) {
+            {{ p.stock }} unidades disponibles
+          } @else {
+            Sin stock
+          }
+        </p>
+
+        @if (tienda(); as t) {
+          <p class="tienda-ref">
+            Vendido por
+            <a [routerLink]="[tiendaBase, t.id]">{{ t.nombreNegocio }}</a>
+          </p>
+        }
+
+        @if (loginRequerido()) {
+          <div class="auth-warning-box">
+            <p>🔒 Para agregar productos al carrito debes iniciar sesión como cliente.</p>
+            <div class="auth-actions">
+              <a routerLink="/login">Iniciar sesión</a>
+              <span>·</span>
+              <a routerLink="/registro-cliente">Crear cuenta gratis</a>
+            </div>
+          </div>
+        }
+
+
+        <div class="acciones">
+          <button
+            type="button"
+            class="btn-agregar"
+            [disabled]="p.stock === 0"
+            (click)="agregarAlCarrito()"
+          >
+            Agregar al carrito
+          </button>
+          <a [routerLink]="volverRuta" class="btn-back">{{ volverLabel }}</a>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="no-encontrado">
+      <p>Producto no encontrado.</p>
+    </div>
+  }
+</section>
+

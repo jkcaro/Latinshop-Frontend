@@ -1,0 +1,195 @@
+<section class="auth-page">
+  <section class="auth-hero">
+    <div class="auth-hero-content">
+      <span class="auth-badge">Registro de negocio</span>
+      <h1>Registra tu tienda en LatinShop España</h1>
+      <p>
+        Únete al marketplace y gestiona tus productos, pedidos y perfil de tienda
+        desde una sola plataforma.
+      </p>
+
+      <div class="auth-features">
+        <article>
+          <h3>Publica tus productos</h3>
+          <p>Crea tu catálogo y actualiza precios, stock e imágenes.</p>
+        </article>
+
+        <article>
+          <h3>Recibe pedidos</h3>
+          <p>Consulta compras de clientes y cambia el estado del pedido.</p>
+        </article>
+
+        <article>
+          <h3>Gestiona tu negocio</h3>
+          <p>Mantén actualizada la información de tu tienda y su actividad.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="auth-card auth-card-wide">
+    <div class="card-title-wrap">
+      <h2>Registro de tienda</h2>
+      <span class="card-title-bar"></span>
+    </div>
+
+    <form class="auth-form" (ngSubmit)="registrar()">
+      <div class="form-grid">
+        <div>
+          <label for="nombrePropietario">Nombre del propietario</label>
+          <input
+            id="nombrePropietario"
+            type="text"
+            [ngModel]="nombrePropietario()"
+            (ngModelChange)="nombrePropietario.set($event)"
+            name="nombrePropietario"
+          />
+        </div>
+
+        <div>
+          <label for="apellidosPropietario">Apellidos del propietario</label>
+          <input
+            id="apellidosPropietario"
+            type="text"
+            [ngModel]="apellidosPropietario()"
+            (ngModelChange)="apellidosPropietario.set($event)"
+            name="apellidosPropietario"
+          />
+        </div>
+
+        <div>
+          <label for="email">Correo electrónico</label>
+          <input
+            id="email"
+            type="email"
+            [ngModel]="email()"
+            (ngModelChange)="email.set($event)"
+            name="email"
+          />
+        </div>
+
+        <div>
+          <label for="password">Contraseña</label>
+          <input
+            id="password"
+            type="password"
+            [ngModel]="password()"
+            (ngModelChange)="password.set($event)"
+            name="password"
+          />
+        </div>
+
+        <div>
+          <label for="nombreNegocio">Nombre del negocio</label>
+          <input
+            id="nombreNegocio"
+            type="text"
+            [ngModel]="nombreNegocio()"
+            (ngModelChange)="nombreNegocio.set($event)"
+            name="nombreNegocio"
+          />
+        </div>
+
+        <div>
+          <label for="nifCif">NIF / CIF</label>
+          <input
+            id="nifCif"
+            type="text"
+            [ngModel]="nifCif()"
+            (ngModelChange)="nifCif.set($event)"
+            name="nifCif"
+          />
+        </div>
+
+        <div>
+          <label for="ciudad">Ciudad</label>
+          <select
+            id="ciudad"
+            [ngModel]="ciudadId()"
+            (ngModelChange)="ciudadId.set(+$event)"
+            name="ciudad"
+          >
+            <option [value]="0" disabled>Selecciona una ciudad</option>
+            @for (c of ciudades(); track c.id) {
+              <option [value]="c.id">{{ c.nombre }}</option>
+            }
+          </select>
+        </div>
+
+        <div>
+          <label for="telefono">Teléfono</label>
+          <input
+            id="telefono"
+            type="text"
+            [ngModel]="telefono()"
+            (ngModelChange)="telefono.set($event)"
+            name="telefono"
+          />
+        </div>
+
+        <div class="full-width">
+          <label for="direccion">Dirección</label>
+          <input
+            id="direccion"
+            type="text"
+            [ngModel]="direccion()"
+            (ngModelChange)="direccion.set($event)"
+            name="direccion"
+          />
+        </div>
+
+        <div class="full-width">
+          <label for="descripcion">Descripción</label>
+          <textarea
+            id="descripcion"
+            [ngModel]="descripcion()"
+            (ngModelChange)="descripcion.set($event)"
+            name="descripcion"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="checkbox-group full-width">
+        <label class="checkbox-label">
+          <input
+            type="checkbox"
+            [ngModel]="aceptaPolitica()"
+            (ngModelChange)="aceptaPolitica.set($event)"
+            name="aceptaPolitica"
+          />
+          He leído y acepto la
+          <a routerLink="/politica-privacidad" target="_blank">política de privacidad</a>
+          y las
+          <a routerLink="/condiciones-uso" target="_blank">condiciones de uso</a>
+          <span class="required-mark">*</span>
+        </label>
+      </div>
+
+      <div class="checkbox-group full-width">
+        <label class="checkbox-label">
+          <input
+            type="checkbox"
+            [ngModel]="recibeOfertas()"
+            (ngModelChange)="recibeOfertas.set($event)"
+            name="recibeOfertas"
+          />
+          Acepto el envío de comunicaciones publicitarias y/o comerciales
+        </label>
+      </div>
+
+      <button type="submit">Registrar tienda</button>
+
+      @if (error()) {
+        <p class="error">{{ error() }}</p>
+      }
+
+      @if (success()) {
+        <p class="success">{{ success() }}</p>
+      }
+    </form>
+
+    <div class="auth-links">
+      <a routerLink="/login">Ya tengo acceso</a>
+    </div>
+  </section>
+</section>

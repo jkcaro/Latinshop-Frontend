@@ -1,0 +1,92 @@
+@if (visible()) {
+  <div class="cookie-overlay">
+    <div class="cookie-banner" role="dialog" aria-modal="true" aria-label="Configuración de cookies">
+
+      @if (!modoDetallado()) {
+        <!-- Vista principal -->
+        <div class="cookie-main">
+          <div class="cookie-icon">🍪</div>
+
+          <div class="cookie-text">
+            <h2>Usamos cookies</h2>
+            <p>
+              Utilizamos cookies propias y de terceros para mejorar tu experiencia de navegación y
+              mostrarte contenido personalizado. Puedes aceptarlas todas, rechazar las opcionales
+              o configurarlas a tu gusto. Más información en nuestra
+              <a routerLink="/politica-cookies">política de cookies</a>.
+            </p>
+          </div>
+
+          <div class="cookie-actions">
+            <button type="button" class="btn-secondary" (click)="rechazar()">
+              Solo necesarias
+            </button>
+            <button type="button" class="btn-secondary" (click)="mostrarDetalle()">
+              Configurar
+            </button>
+            <button type="button" class="btn-primary" (click)="aceptarTodo()">
+              Aceptar todas
+            </button>
+          </div>
+        </div>
+      } @else {
+        <!-- Vista detallada de configuración -->
+        <div class="cookie-detail">
+          <h2>Configurar cookies</h2>
+
+          <div class="cookie-category">
+            <div class="category-header">
+              <span class="category-name">Cookies necesarias</span>
+              <span class="badge-required">Siempre activas</span>
+            </div>
+            <p>Imprescindibles para el funcionamiento del sitio: autenticación, carrito y seguridad.</p>
+          </div>
+
+          <div class="cookie-category">
+            <div class="category-header">
+              <label class="category-name" for="ck-analytics">Cookies analíticas</label>
+              <label class="toggle">
+                <input
+                  id="ck-analytics"
+                  type="checkbox"
+                  [ngModel]="analytics()"
+                  (ngModelChange)="analytics.set($event)"
+                  name="analytics"
+                />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <p>Nos ayudan a entender cómo usas el sitio para mejorarlo.</p>
+          </div>
+
+          <div class="cookie-category">
+            <div class="category-header">
+              <label class="category-name" for="ck-marketing">Cookies de marketing</label>
+              <label class="toggle">
+                <input
+                  id="ck-marketing"
+                  type="checkbox"
+                  [ngModel]="marketing()"
+                  (ngModelChange)="marketing.set($event)"
+                  name="marketing"
+                />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <p>Permiten mostrar publicidad personalizada según tu navegación.</p>
+          </div>
+
+          <div class="cookie-actions">
+            <button type="button" class="btn-secondary" (click)="rechazar()">
+              Solo necesarias
+            </button>
+            <button type="button" class="btn-primary" (click)="guardarSeleccion()">
+              Guardar preferencias
+            </button>
+          </div>
+        </div>
+      }
+
+    </div>
+  </div>
+}

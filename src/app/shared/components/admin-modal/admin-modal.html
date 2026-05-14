@@ -1,0 +1,33 @@
+<div class="modal-backdrop" (click)="close.emit()">
+  <section class="modal-card" (click)="$event.stopPropagation()">
+    <header class="modal-header">
+      <h2>{{ title() }}</h2>
+      <button type="button" class="close-btn" (click)="close.emit()">×</button>
+    </header>
+
+    @if (description()) {
+      <p class="modal-description">{{ description() }}</p>
+    }
+
+    <ng-content></ng-content>
+
+    <footer class="modal-actions">
+      @if (showConfirm()) {
+        <button
+          type="button"
+          class="confirm-btn"
+          [class.danger]="danger()"
+          (click)="confirm.emit()"
+        >
+          {{ confirmText() }}
+        </button>
+      }
+
+      @if (showCancel()) {
+        <button type="button" class="cancel-btn" (click)="close.emit()">
+          {{ cancelText() }}
+        </button>
+      }
+    </footer>
+  </section>
+</div>

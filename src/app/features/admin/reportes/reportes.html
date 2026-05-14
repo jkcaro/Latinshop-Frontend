@@ -1,0 +1,197 @@
+<section class="reports-page">
+  <section class="reports-hero">
+    <div class="hero-icon">📊</div>
+
+    <div>
+      <span>Informes del sistema</span>
+      <h1>Reportes generales</h1>
+      <p>
+        Consulta un resumen ejecutivo de LatinShop: productos, tiendas, pedidos,
+        usuarios y ventas registradas.
+      </p>
+    </div>
+  </section>
+
+  <section class="reports-grid">
+    <section class="report-card productos">
+      <div class="report-card-header">
+        <div>
+          <h2>Productos</h2>
+          <p>Resumen del catálogo del marketplace</p>
+        </div>
+      </div>
+
+      <div class="mini-cards">
+        <div class="mini neutral">
+          <strong>{{ totalProductos() }}</strong>
+          <span>Total</span>
+        </div>
+
+        <div class="mini success">
+          <strong>{{ productosAprobados() }}</strong>
+          <span>Activos</span>
+        </div>
+
+        <div class="mini danger">
+          <strong>{{ productosPendientes() }}</strong>
+          <span>Inactivos</span>
+        </div>
+
+        <div class="mini primary">
+          <strong>{{ productosDestacados() }}</strong>
+          <span>Destacados</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="report-card tiendas">
+      <div class="report-card-header">
+        <div>
+          <h2>Tiendas</h2>
+          <p>Estado general de vendedores</p>
+        </div>
+      </div>
+
+      <div class="mini-cards">
+        <div class="mini neutral">
+          <strong>{{ totalTiendas() }}</strong>
+          <span>Total</span>
+        </div>
+
+        <div class="mini warning">
+          <strong>{{ tiendasPendientes() }}</strong>
+          <span>Pendientes</span>
+        </div>
+
+        <div class="mini success">
+          <strong>{{ tiendasAprobadas() }}</strong>
+          <span>Aprobadas</span>
+        </div>
+
+        <div class="mini danger">
+          <strong>{{ tiendasRechazadas() }}</strong>
+          <span>Rechazadas</span>
+        </div>
+
+        <div class="mini muted">
+          <strong>{{ tiendasBloqueadas() }}</strong>
+          <span>Bloqueadas</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="report-card pedidos">
+      <div class="report-card-header">
+        <div>
+          <h2>Pedidos</h2>
+          <p>Resumen operativo de pedidos</p>
+        </div>
+      </div>
+
+      <div class="mini-cards">
+        <div class="mini neutral">
+          <strong>{{ totalPedidos() }}</strong>
+          <span>Total</span>
+        </div>
+
+        <div class="mini warning">
+          <strong>{{ pedidosPendientes() }}</strong>
+          <span>Pendientes</span>
+        </div>
+
+        <div class="mini primary">
+          <strong>{{ pedidosPreparacion() }}</strong>
+          <span>En preparación</span>
+        </div>
+
+        <div class="mini info">
+          <strong>{{ pedidosEnviados() }}</strong>
+          <span>Enviados</span>
+        </div>
+
+        <div class="mini success">
+          <strong>{{ pedidosCompletados() }}</strong>
+          <span>Completados</span>
+        </div>
+
+        <div class="mini danger">
+          <strong>{{ pedidosCancelados() }}</strong>
+          <span>Cancelados</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="report-card usuarios">
+      <div class="report-card-header">
+        <div>
+          <h2>Usuarios</h2>
+          <p>Clientes registrados en la plataforma</p>
+        </div>
+      </div>
+
+      <div class="mini-cards">
+        <div class="mini neutral">
+          <strong>{{ totalClientes() }}</strong>
+          <span>Total clientes</span>
+        </div>
+
+        <div class="mini success">
+          <strong>{{ clientesAprobados() }}</strong>
+          <span>Activos</span>
+        </div>
+
+        <div class="mini muted">
+          <strong>{{ clientesBloqueados() }}</strong>
+          <span>Bloqueados</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="report-card ventas">
+      <div class="report-card-header">
+        <div>
+          <h2>Ventas</h2>
+          <p>Ingresos y ticket promedio</p>
+        </div>
+      </div>
+
+      <div class="mini-cards">
+        <div class="mini success wide">
+          <strong>{{ totalVentas() | currency:'EUR' }}</strong>
+          <span>Ventas totales</span>
+        </div>
+
+        <div class="mini primary wide">
+          <strong>{{ ticketPromedio() | currency:'EUR' }}</strong>
+          <span>Ticket promedio</span>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <section class="report-actions">
+  <div class="action-card tiendas">
+    <div>
+      <h3>Gestionar tiendas</h3>
+      <p>Aprueba, revisa o bloquea negocios registrados.</p>
+      <button routerLink="/admin/tiendas">Ir a tiendas </button>
+    </div>
+  </div>
+
+  <div class="action-card usuarios">
+    <div>
+      <h3>Gestionar usuarios</h3>
+      <p>Controla clientes y su estado de acceso.</p>
+      <button routerLink="/admin/usuarios">Ir a usuarios </button>
+    </div>
+  </div>
+
+  <div class="action-card pedidos">
+    <div>
+      <h3>Ver pedidos</h3>
+      <p>Consulta y supervisa todos los pedidos.</p>
+      <button routerLink="/admin/pedidos">Ir a pedidos </button>
+    </div>
+  </div>
+</section>
+</section>

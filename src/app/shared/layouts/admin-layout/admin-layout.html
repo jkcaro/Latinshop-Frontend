@@ -1,0 +1,217 @@
+<section class="admin-shell" [attr.data-theme]="themeService.adminTheme()">
+  <aside class="admin-sidebar" [class.open]="mobileMenuOpen()">
+    <div class="admin-brand">
+      <h1>LatinShop</h1>
+      <span>Panel de administración</span>
+    </div>
+
+    <nav class="admin-nav">
+      <a
+        routerLink="/admin"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-link"
+        (click)="closeMobileMenu()"
+      >
+        <div class="nav-link-content">
+          <lucide-angular [img]="LayoutDashboardIcon" class="nav-icon"></lucide-angular>
+          <span>Panel</span>
+        </div>
+      </a>
+
+      <button
+        type="button"
+        class="nav-link nav-button"
+        [class.active-parent]="isPedidosRoute()"
+        (click)="togglePedidosMenu()"
+      >
+        <div class="nav-link-content">
+          <lucide-angular [img]="ShoppingCartIcon" class="nav-icon"></lucide-angular>
+          <span>Pedidos</span>
+        </div>
+
+        <lucide-angular
+          [img]="pedidosMenuOpen() ? ChevronDownIcon : ChevronRightIcon"
+          class="chevron-icon"
+        ></lucide-angular>
+      </button>
+
+      @if (pedidosMenuOpen()) {
+        <div class="submenu">
+          <a
+            routerLink="/admin/pedidos"
+            routerLinkActive="active-sub"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="closeMobileMenu()"
+          >
+            Todos los pedidos
+          </a>
+
+          <a
+            [routerLink]="'/admin/pedidos'"
+            [queryParams]="{ estado: 'PENDIENTE' }"
+            (click)="closeMobileMenu()"
+          >
+            Pendientes
+          </a>
+
+          <a
+            [routerLink]="'/admin/pedidos'"
+            [queryParams]="{ estado: 'EN_PREPARACION' }"
+            (click)="closeMobileMenu()"
+          >
+            En preparación
+          </a>
+
+          <a
+            [routerLink]="'/admin/pedidos'"
+            [queryParams]="{ estado: 'ENVIADO' }"
+            (click)="closeMobileMenu()"
+          >
+            Enviados
+          </a>
+
+          <a
+            [routerLink]="'/admin/pedidos'"
+            [queryParams]="{ estado: 'ENTREGADO' }"
+            (click)="closeMobileMenu()"
+          >
+            Entregados
+          </a>
+
+          <a
+            [routerLink]="'/admin/pedidos'"
+            [queryParams]="{ estado: 'CANCELADO' }"
+            (click)="closeMobileMenu()"
+          >
+            Cancelados
+          </a>
+        </div>
+      }
+
+      <button
+        type="button"
+        class="nav-link nav-button"
+        [class.active-parent]="isTiendasRoute()"
+        (click)="toggleTiendasMenu()"
+      >
+        <div class="nav-link-content">
+          <lucide-angular [img]="StoreIcon" class="nav-icon"></lucide-angular>
+          <span>Tiendas</span>
+        </div>
+
+        <lucide-angular
+          [img]="tiendasMenuOpen() ? ChevronDownIcon : ChevronRightIcon"
+          class="chevron-icon"
+        ></lucide-angular>
+      </button>
+
+      @if (tiendasMenuOpen()) {
+        <div class="submenu">
+          <a
+            routerLink="/admin/tiendas"
+            routerLinkActive="active-sub"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="closeMobileMenu()"
+          >
+            Todas las tiendas
+          </a>
+        </div>
+      }
+
+      <a
+        routerLink="/admin/usuarios"
+        routerLinkActive="active"
+        class="nav-link"
+        (click)="closeMobileMenu()"
+      >
+        <div class="nav-link-content">
+          <lucide-angular [img]="UsersIcon" class="nav-icon"></lucide-angular>
+          <span>Usuarios</span>
+        </div>
+      </a>
+
+      <a
+        routerLink="/admin/resenas"
+        routerLinkActive="active"
+        class="nav-link"
+        (click)="closeMobileMenu()"
+      >
+        <div class="nav-link-content">
+          <lucide-angular [img]="StarIcon" class="nav-icon"></lucide-angular>
+          <span>Reseñas</span>
+        </div>
+      </a>
+
+      <a
+        routerLink="/admin/reportes"
+        routerLinkActive="active"
+        class="nav-link"
+        (click)="closeMobileMenu()"
+      >
+        <div class="nav-link-content">
+          <lucide-angular [img]="FileBarChart2Icon" class="nav-icon"></lucide-angular>
+          <span>Informes</span>
+        </div>
+      </a>
+    </nav>
+
+    <div class="admin-sidebar-footer">
+      <a class="admin-user" routerLink="/admin" (click)="closeMobileMenu()">
+        <lucide-angular [img]="UserCircle2Icon" class="footer-icon"></lucide-angular>
+        <span>{{ adminName() }}</span>
+      </a>
+
+      <button type="button" class="logout-button" (click)="logout()">
+        <lucide-angular [img]="LogOutIcon" class="footer-icon"></lucide-angular>
+        <span>Salir</span>
+      </button>
+
+      <div class="sidebar-theme-picker">
+        <button type="button" class="stp-btn ocean"
+          [class.active]="themeService.adminTheme() === 'ocean'"
+          (click)="themeService.setAdminTheme('ocean')" title="Océano"></button>
+        <button type="button" class="stp-btn sunset"
+          [class.active]="themeService.adminTheme() === 'sunset'"
+          (click)="themeService.setAdminTheme('sunset')" title="Atardecer"></button>
+        <button type="button" class="stp-btn forest"
+          [class.active]="themeService.adminTheme() === 'forest'"
+          (click)="themeService.setAdminTheme('forest')" title="Bosque"></button>
+      </div>
+    </div>
+  </aside>
+
+  @if (mobileMenuOpen()) {
+    <button type="button" class="sidebar-overlay" (click)="closeMobileMenu()"></button>
+  }
+
+  <section class="admin-main">
+    <header class="admin-topbar">
+      <button type="button" class="mobile-menu-btn" (click)="toggleMobileMenu()">
+        ☰
+      </button>
+
+      <div class="topbar-title">
+        <h2>Panel administrativo</h2>
+        <p>Gestión general del mercado</p>
+      </div>
+
+      <a class="topbar-user" routerLink="/admin" (click)="closeMobileMenu()">
+        {{ adminName() }}
+      </a>
+    </header>
+
+    <main class="admin-content">
+      <router-outlet></router-outlet>
+    </main>
+
+    <footer class="admin-footer">
+      <a routerLink="/aviso-legal">Aviso legal</a>
+      <a routerLink="/politica-privacidad">Privacidad</a>
+      <a routerLink="/condiciones-uso">Condiciones de uso</a>
+      <a routerLink="/politica-cookies">Cookies</a>
+      <span class="footer-sep">·</span>
+      <span>© 2026 LatinShop España</span>
+    </footer>
+  </section>
+</section>

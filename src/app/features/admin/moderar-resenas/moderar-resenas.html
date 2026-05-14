@@ -1,0 +1,75 @@
+<section class="moderar-page">
+  <div class="moderar-header">
+    <h1>Moderación de reseñas</h1>
+    <p>Supervisa y gestiona las valoraciones de los clientes sobre las tiendas.</p>
+  </div>
+
+  @if (mensaje()) {
+    <div class="moderar-msg">{{ mensaje() }}</div>
+  }
+
+  <div class="moderar-filtros">
+    <button type="button" [class.active]="filtro() === 'TODAS'" (click)="filtro.set('TODAS')">Todas</button>
+    <button type="button" [class.active]="filtro() === 'VISIBLE'" (click)="filtro.set('VISIBLE')">Visibles</button>
+    <button type="button" [class.active]="filtro() === 'OCULTA'" (click)="filtro.set('OCULTA')">Ocultas</button>
+    <span class="moderar-count">{{ resenasFiltradas().length }} reseña{{ resenasFiltradas().length !== 1 ? 's' : '' }}</span>
+  </div>
+
+  @if (resenasFiltradas().length > 0) {
+    <div class="moderar-list">
+      @for (r of resenasFiltradas(); track r.id) {
+        <article class="moderar-card" [class.oculta]="r.estado === 'OCULTA'">
+          <div class="moderar-card-top">
+            <div class="moderar-info">
+              <span class="moderar-tienda">{{ r.tiendasNombre }}</span>
+              <span class="moderar-cliente">por {{ r.clienteNombre }}</span>
+              <span class="moderar-fecha">{{ r.fecha | date:'medium' }}</span>
+            </div>
+            <div class="moderar-stars">
+              @for (s of estrellas(r.calificacion); track $index) {
+                <span [class.llena]="s === '★'">{{ s }}</span>
+              }
+              <span class="moderar-num">({{ r.calificacion }}/5)</span>
+            </div>
+          </div>
+
+          @if (r.comentario) {
+            <p class="moderar-comentario">"{{ r.comentario }}"</p>
+          } @else {
+            <p class="moderar-sin-comentario">Sin comentario.</p>
+          }
+
+          <div class="moderar-actions">
+            <span class="moderar-estado" [class.visible]="r.estado === 'VISIBLE'" [class.oculta]="r.estado === 'OCULTA'">
+              {{ r.estado }}
+            </span>
+            <div class="moderar-btns">
+              <button
+                type="button"
+                class="btn-toggle"
+                [class.btn-ocultar]="r.estado === 'VISIBLE'"
+                [class.btn-mostrar]="r.estado === 'OCULTA'"
+                (click)="cambiarEstado(r)"
+                [disabled]="procesando() === r.id"
+              >
+                {{ r.estado === 'VISIBLE' ? 'Ocultar' : 'Hacer visible' }}
+              </button>
+              <button
+                type="button"
+                class="btn-delete"
+                (click)="eliminar(r.id)"
+                [disabled]="procesando() === r.id"
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  } @else {
+    <div class="moderar-empty">
+      <p>No hay reseñas con el filtro seleccionado.</p>
+    </div>
+  }
+</section>

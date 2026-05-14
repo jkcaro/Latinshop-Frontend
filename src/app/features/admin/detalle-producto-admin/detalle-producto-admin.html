@@ -1,0 +1,53 @@
+<section class="admin-detail-page">
+  @if (producto()) {
+    <section class="hero-card">
+      <div class="hero-content">
+        <span class="badge">Producto</span>
+        <h1>{{ producto()?.nombre }}</h1>
+        <p>{{ producto()?.descripcion }}</p>
+      </div>
+    </section>
+
+    <div class="detail-grid">
+      <article class="detail-card">
+        <h2>Información del producto</h2>
+        <p><strong>Marca:</strong> {{ producto()?.marca || 'No especificada' }}</p>
+        <p><strong>Categoría:</strong> {{ producto()?.categoria }}</p>
+        <p><strong>País de origen:</strong> {{ producto()?.paisOrigen || 'No especificado' }}</p>
+        <p><strong>Precio:</strong> {{ producto()?.precio | currency:'EUR' }}</p>
+        <p><strong>Stock:</strong> {{ producto()?.stock }}</p>
+        <p><strong>Estado:</strong> {{ producto()?.activo ? 'Activo' : 'Inactivo' }}</p>
+        <p><strong>Destacado:</strong> {{ producto()?.destacado ? 'Sí' : 'No' }}</p>
+      </article>
+
+      <article class="detail-card">
+        <h2>Tienda propietaria</h2>
+        <p><strong>Negocio:</strong> {{ tienda()?.nombreNegocio }}</p>
+        <p><strong>Email:</strong> {{ tienda()?.email }}</p>
+        <p><strong>Ciudad:</strong> {{ tienda()?.ciudad }}</p>
+        <p><strong>Estado:</strong> {{ tienda()?.estado }}</p>
+
+        @if (tienda()) {
+          <a [routerLink]="['/admin/tiendas', tienda()?.id]" class="link-button">
+            Ver tienda
+          </a>
+        }
+      </article>
+    </div>
+
+    <section class="detail-card">
+      <h2>Imagen</h2>
+
+      <div class="image-box">
+        <img
+          [src]="producto()?.imagenUrl || 'https://via.placeholder.com/420x260?text=Producto'"
+          [alt]="producto()?.nombre || 'Producto'"
+        />
+      </div>
+    </section>
+  } @else {
+    <div class="empty-box">
+      <p>No se encontró el producto.</p>
+    </div>
+  }
+</section>

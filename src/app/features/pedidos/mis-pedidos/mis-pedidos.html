@@ -1,0 +1,143 @@
+<section class="orders-page">
+
+  <!-- HERO -->
+  <div class="hero-card">
+    <div class="hero-left">
+      <span class="hero-eyebrow">Seguimiento de pedidos</span>
+      <h1>Mis pedidos</h1>
+      <p>Consulta el estado de tus compras, revisa el detalle de cada pedido y mantente al tanto del proceso de entrega.</p>
+    </div>
+
+    <div class="hero-steps">
+      <div class="hero-step">
+        <div class="hero-step-icon">🛍</div>
+        <p class="hero-step-title">Realizado</p>
+        <p class="hero-step-desc">Tu pedido ha sido recibido</p>
+      </div>
+      <div class="hero-step-line"></div>
+
+      <div class="hero-step">
+        <div class="hero-step-icon">📦</div>
+        <p class="hero-step-title">En preparación</p>
+        <p class="hero-step-desc">Estamos preparando tus productos</p>
+      </div>
+      <div class="hero-step-line"></div>
+
+      <div class="hero-step">
+        <div class="hero-step-icon">🚚</div>
+        <p class="hero-step-title">Enviado</p>
+        <p class="hero-step-desc">Tu pedido está en camino</p>
+      </div>
+      <div class="hero-step-line"></div>
+
+      <div class="hero-step">
+        <div class="hero-step-icon hero-step-icon--active">✓</div>
+        <p class="hero-step-title">Entregado</p>
+        <p class="hero-step-desc">Tu pedido ha sido entregado</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BARRA DE BÚSQUEDA Y FILTROS -->
+  <div class="filters-bar">
+    <div class="search-wrap">
+      <span class="search-icon-svg">🔍</span>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Buscar pedido (ej. PED-0007)"
+        [(ngModel)]="textoBusqueda" />
+    </div>
+
+    <div class="filter-wrap">
+      <span class="filter-icon">▼</span>
+      <select class="filter-select" [(ngModel)]="estadoFiltro">
+        <option value="">Filtrar por estado</option>
+        <option value="PENDIENTE">Pendiente</option>
+        <option value="EN_PREPARACION">En preparación</option>
+        <option value="ENVIADO">Enviado</option>
+        <option value="ENTREGADO">Entregado</option>
+        <option value="CANCELADO">Cancelado</option>
+      </select>
+    </div>
+
+    <div class="filter-wrap filter-wrap--right">
+      <span class="calendar-icon">📅</span>
+      <select class="filter-select" [(ngModel)]="periodoFiltro">
+        <option value="1m">Último mes</option>
+        <option value="3m">Últimos 3 meses</option>
+        <option value="6m">Últimos 6 meses</option>
+        <option value="1y">Último año</option>
+        <option value="todos">Todos</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- LISTA DE PEDIDOS -->
+  @if (pedidosFiltrados().length > 0) {
+    <div class="orders-list">
+      @for (pedido of pedidosFiltrados(); track pedido.id) {
+        <article class="order-card">
+
+          <!-- Sección izquierda: icono + número + fecha + link -->
+          <div class="order-main">
+            <div class="order-icon order-icon--{{ pedido.estado }}">📦</div>
+            <div class="order-main-info">
+              <h3>{{ pedido.numeroPedido }}</h3>
+              <p class="order-store">🏪 {{ pedido.tiendaNombre }}</p>
+              <p class="order-date">{{ pedido.fechaPedido | date:'d MMM, y h:mm:ss a' }}</p>
+              <a [routerLink]="['/cliente/pedidos', pedido.id]" class="order-link">
+                Ver detalle <span>›</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Sección central: metadatos -->
+          <div class="order-meta">
+            <div class="meta-col">
+              <p class="meta-label">Método de pago</p>
+              <p class="meta-val">💳 {{ pedido.metodoPago }}</p>
+            </div>
+            <div class="meta-col">
+              <p class="meta-label">Método de envío</p>
+              <p class="meta-val">🚚 {{ pedido.metodoEnvio }}</p>
+            </div>
+            <div class="meta-col">
+              <p class="meta-label">Total</p>
+              <p class="meta-val meta-val--total">{{ pedido.total | currency:'EUR' }}</p>
+            </div>
+          </div>
+
+          <!-- Sección derecha: estado + descripción + botón -->
+          <div class="order-status">
+            <span class="status-badge status-badge--{{ pedido.estado }}">
+              {{ estadoLabel(pedido.estado) }}
+            </span>
+            <p class="status-desc">{{ estadoDescripcion(pedido) }}</p>
+            <a
+              [routerLink]="['/cliente/pedidos', pedido.id]"
+              class="btn-action btn-action--{{ pedido.estado }}">
+              {{ botonLabel(pedido.estado) }} <span>›</span>
+            </a>
+          </div>
+
+          <!-- Tres puntos -->
+          <button type="button" class="btn-more" aria-label="Más opciones">⋮</button>
+
+        </article>
+      }
+    </div>
+  } @else {
+    <div class="empty-box">
+      @if (textoBusqueda() || estadoFiltro()) {
+        <p>No se encontraron pedidos con los filtros aplicados.</p>
+        <button type="button" class="btn-clear" (click)="textoBusqueda.set(''); estadoFiltro.set('')">
+          Limpiar filtros
+        </button>
+      } @else {
+        <p>No tienes pedidos registrados todavía.</p>
+      }
+    </div>
+  }
+
+</section>

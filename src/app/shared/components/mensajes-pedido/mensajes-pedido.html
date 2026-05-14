@@ -1,0 +1,45 @@
+<section class="msg-widget">
+  <div class="msg-header">
+    <span class="msg-header-icon">💬</span>
+    <h3>Mensajes con {{ miTipo === 'CLIENTE' ? 'la tienda' : 'el cliente' }}</h3>
+  </div>
+
+  <div class="msg-list" #listaMensajes>
+    @if (mensajes().length === 0) {
+      <p class="msg-empty">No hay mensajes aún. Sé el primero en escribir.</p>
+    }
+
+    @for (m of mensajes(); track m.id) {
+      <div class="msg-bubble" [class.msg-bubble-mio]="esMio(m)" [class.msg-bubble-otro]="!esMio(m)">
+        <p class="msg-texto">{{ m.contenido }}</p>
+        <span class="msg-meta">
+          {{ esMio(m) ? 'Tú' : (miTipo === 'CLIENTE' ? 'Tienda' : 'Cliente') }}
+          · {{ m.fechaEnvio | date:'d MMM, HH:mm' }}
+        </span>
+      </div>
+    }
+  </div>
+
+  <div class="msg-form">
+    @if (error()) {
+      <p class="msg-error">{{ error() }}</p>
+    }
+    <div class="msg-input-row">
+      <textarea
+        class="msg-input"
+        placeholder="Escribe un mensaje… (Enter para enviar)"
+        rows="2"
+        [(ngModel)]="texto"
+        (keydown)="onEnter($event)"
+        [disabled]="enviando()">
+      </textarea>
+      <button
+        type="button"
+        class="msg-send-btn"
+        (click)="enviar()"
+        [disabled]="!texto.trim() || enviando()">
+        {{ enviando() ? '…' : 'Enviar' }}
+      </button>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,292 @@
+<section class="orders-admin-page">
+  <section class="orders-hero">
+    <div>
+      <span class="hero-badge">Supervisión de pedidos</span>
+      <h1>Pedidos</h1>
+      <p>Consulta, filtra y revisa todos los pedidos realizados en las tiendas Latinas.</p>
+    </div>
+  </section>
+
+  <section class="orders-kpis">
+    <article class="kpi-card">
+      <span>Todos los pedidos</span>
+      <strong>{{ totalPedidos() }}</strong>
+    </article>
+
+    <article class="kpi-card">
+      <span>Pendientes</span>
+      <strong>{{ pedidosPendientes() }}</strong>
+    </article>
+
+    <article class="kpi-card">
+      <span>Enviados</span>
+      <strong>{{ pedidosEnviados() }}</strong>
+    </article>
+
+    <article class="kpi-card">
+      <span>Entregados</span>
+      <strong>{{ pedidosEntregados() }}</strong>
+    </article>
+
+    <article class="kpi-card">
+      <span>Cancelados</span>
+      <strong>{{ pedidosCancelados() }}</strong>
+    </article>
+  </section>
+
+  <section class="orders-toolbar pro-toolbar">
+    <div class="search-box">
+      <span>🔍</span>
+
+      <input
+        type="search"
+        placeholder="Buscar pedido, cliente, tienda o producto..."
+        [value]="textoBusqueda()"
+        (input)="textoBusqueda.set($any($event.target).value)"
+        (keyup.enter)="actualizarBusqueda(textoBusqueda())"
+      />
+    </div>
+
+    <button type="button" class="search-btn" (click)="actualizarBusqueda(textoBusqueda())">
+      Buscar
+    </button>
+
+    <select [value]="tiendaSeleccionada()" (change)="cambiarTienda($any($event.target).value)">
+      <option value="TODAS">Todas las tiendas</option>
+
+      @for (tienda of tiendasDisponibles(); track tienda.id) {
+        <option [value]="tienda.id">
+          {{ tienda.nombreNegocio }}
+        </option>
+      }
+    </select>
+
+    <select [value]="filtroEstado()" (change)="cambiarFiltro($any($event.target).value)">
+      <option value="TODOS">Todos los estados</option>
+      <option value="PENDIENTE">Pendiente</option>
+      <option value="EN_PREPARACION">En preparación</option>
+      <option value="ENVIADO">Enviado</option>
+      <option value="ENTREGADO">Entregado</option>
+      <option value="CANCELADO">Cancelado</option>
+    </select>
+
+    <input
+      type="date"
+      [value]="fechaSeleccionada()"
+      (input)="actualizarFecha($any($event.target).value)"
+    />
+
+    <button type="button" class="clear-all-btn" (click)="limpiarTodo()">Limpiar todo</button>
+  </section>
+
+  <section class="orders-table-card">
+    @if (pedidosFiltrados().length > 0) {
+      <table>
+        <thead>
+          <tr>
+            <th>ID Pedido</th>
+            <th>Fecha</th>
+            <th>Cliente</th>
+            <th>Tienda</th>
+            <th>Estado</th>
+            <th>Total</th>
+            <th>Método pago</th>
+            <th>Envío</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (pedido of pedidosPaginados(); track pedido.id) {
+            <tr>
+              <td>
+                <strong>{{ pedido.numeroPedido }}</strong>
+              </td>
+
+              <td>{{ pedido.fechaPedido | date: 'dd/MM/yyyy, HH:mm' }}</td>
+              <td>{{ pedido.clienteEmail }}</td>
+              <td>{{ pedido.nombreTienda }}</td>
+
+              <td>
+                <span
+                  class="status-pill"
+                  [class.pendiente]="pedido.estado === 'PENDIENTE'"
+                  [class.preparacion]="pedido.estado === 'EN_PREPARACION'"
+                  [class.enviado]="pedido.estado === 'ENVIADO'"
+                  [class.entregado]="pedido.estado === 'ENTREGADO'"
+                  [class.cancelado]="pedido.estado === 'CANCELADO'"
+                  [title]="tooltipEstado(pedido.estado)"
+                >
+                  {{ pedido.estado }}
+                </span>
+              </td>
+
+              <td>{{ pedido.total | currency: 'EUR' }}</td>
+              <td>{{ pedido.metodoPago }}</td>
+              <td>{{ pedido.ciudadEnvio }}</td>
+
+              <td>
+                <div class="order-actions-clean">
+                  <select
+                    [value]="obtenerEstadoTemporal(pedido.id, pedido.estado)"
+                    (change)="seleccionarEstadoTemporal(pedido.id, $any($event.target).value)"
+                  >
+                    <option value="PENDIENTE">Pendiente</option>
+                    <option value="EN_PREPARACION">En preparación</option>
+                    <option value="ENVIADO">Enviado</option>
+                    <option value="ENTREGADO">Entregado</option>
+                    <option value="CANCELADO">Cancelado</option>
+                  </select>
+
+                  <button
+                    type="button"
+                    class="update-status-btn"
+                    (click)="abrirConfirmacionEstado(pedido)"
+                  >
+                    Actualizar
+                  </button>
+
+                  <button type="button" class="detail-btn" (click)="abrirDetallePedido(pedido)">
+                    Ver detalle
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <div class="pagination">
+        <span>
+          Mostrando {{ pedidosPaginados().length }} de {{ pedidosFiltrados().length }} pedidos
+        </span>
+
+        <div class="pagination-actions">
+          <button type="button" (click)="paginaAnterior()" [disabled]="paginaActual() === 1">
+            Anterior
+          </button>
+
+          <span class="page-number">Página {{ paginaActual() }} de {{ totalPaginas() }}</span>
+
+          <button
+            type="button"
+            (click)="paginaSiguiente()"
+            [disabled]="paginaActual() === totalPaginas()"
+          >
+            Siguiente
+          </button>
+        </div>
+      </div>
+    } @else {
+      <div class="empty-orders">No hay pedidos para mostrar.</div>
+    }
+  </section>
+
+  @if (modalPedidoAbierto() && pedidoDetalle()) {
+    <app-admin-modal
+      title="Detalle del pedido"
+      description="Información completa del pedido supervisado."
+      cancelText="Cerrar"
+      [showConfirm]="false"
+      (close)="cerrarDetallePedido()"
+    >
+      <div class="order-detail-pro">
+        <section class="order-modal-hero">
+          <div>
+            <span class="modal-label">Pedido</span>
+            <h3>{{ pedidoDetalle()?.numeroPedido }}</h3>
+            <p>{{ pedidoDetalle()?.fechaPedido | date: 'dd/MM/yyyy, HH:mm' }}</p>
+          </div>
+
+          <span
+            class="status-pill"
+            [class.pendiente]="pedidoDetalle()?.estado === 'PENDIENTE'"
+            [class.preparacion]="pedidoDetalle()?.estado === 'EN_PREPARACION'"
+            [class.enviado]="pedidoDetalle()?.estado === 'ENVIADO'"
+            [class.entregado]="pedidoDetalle()?.estado === 'ENTREGADO'"
+            [class.cancelado]="pedidoDetalle()?.estado === 'CANCELADO'"
+          >
+            {{ pedidoDetalle()?.estado }}
+          </span>
+        </section>
+
+        <section class="order-modal-grid">
+          <article class="order-info-box">
+            <small>Cliente</small>
+            <strong>{{ pedidoDetalle()?.clienteEmail }}</strong>
+          </article>
+
+          <article class="order-info-box">
+            <small>Tienda</small>
+            <strong>{{ pedidoDetalle()?.nombreTienda }}</strong>
+          </article>
+
+          <article class="order-info-box">
+            <small>Método de pago</small>
+            <strong>{{ pedidoDetalle()?.metodoPago }}</strong>
+          </article>
+
+          <article class="order-info-box">
+            <small>Total</small>
+            <strong>{{ pedidoDetalle()?.total | currency: 'EUR' }}</strong>
+          </article>
+        </section>
+
+        <section class="order-address-box">
+          <small>Dirección de envío</small>
+          <p>
+            {{ pedidoDetalle()?.direccionEnvio }}, {{ pedidoDetalle()?.ciudadEnvio }},
+            {{ pedidoDetalle()?.codigoPostalEnvio }}
+          </p>
+        </section>
+
+        <section class="order-products-box">
+          <div class="products-title">
+            <h3>Productos</h3>
+            @if (!cargandoDetalle()) {
+              <span>{{ itemsPedidoDetalle().length }} productos</span>
+            }
+          </div>
+
+          @if (cargandoDetalle()) {
+            <p style="text-align:center;padding:1rem;color:#888;">Cargando productos...</p>
+          } @else {
+            <div class="products-scroll">
+              @for (item of itemsPedidoDetalle(); track item.productoId) {
+                <div class="order-product-item">
+                  <div>
+                    <strong>{{ item.nombreProducto }}</strong>
+                    <span>Cantidad: {{ item.cantidad }}</span>
+                  </div>
+
+                  <div class="product-price-box">
+                    <span>{{ item.precioUnitario | currency: 'EUR' }}</span>
+                    <strong>{{ item.subtotal | currency: 'EUR' }}</strong>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </section>
+      </div>
+    </app-admin-modal>
+  }
+
+  @if (modalConfirmarEstado() && pedidoEstadoSeleccionado()) {
+    <app-admin-modal
+      title="Confirmar cambio de estado"
+      description="Esta acción actualizará el estado del pedido. ¿Seguro que deseas continuar?"
+      confirmText="Sí, actualizar"
+      cancelText="Cancelar"
+      [danger]="true"
+      (close)="cerrarConfirmacionEstado()"
+      (confirm)="confirmarCambioEstado()"
+    >
+      <div class="confirm-status-box">
+        <p><strong>Pedido:</strong> {{ pedidoEstadoSeleccionado()?.numeroPedido }}</p>
+        <p><strong>Estado actual:</strong> {{ pedidoEstadoSeleccionado()?.estado }}</p>
+        <p><strong>Nuevo estado:</strong> {{ nuevoEstadoSeleccionado() }}</p>
+      </div>
+    </app-admin-modal>
+  }
+</section>

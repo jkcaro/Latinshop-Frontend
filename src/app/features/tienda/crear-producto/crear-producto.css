@@ -1,0 +1,280 @@
+:host {
+  display: block;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 22px 28px;
+}
+
+.crear-producto {
+  display: grid;
+  gap: 20px;
+}
+
+/* HEADER */
+.page-header {
+  background: #f8fafc;
+  border-radius: 24px;
+  padding: 26px 28px;
+  margin-bottom: 18px;
+}
+
+.page-header h1 {
+  font-size: clamp(1.7rem, 2.2vw, 2.2rem);
+  margin: 0;
+  color: #111827;
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+.page-header p {
+  color: #6b7280;
+  margin: 8px 0 0;
+  font-size: 0.95rem;
+}
+
+.badge {
+  background: #dcfce7;
+  color: #15803d !important;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.72rem !important;
+  font-weight: 900 !important;
+}
+
+/* LAYOUT */
+.layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 22px;
+}
+
+/* CARD */
+.form-card,
+.tips-card {
+  background: white;
+  padding: 22px;
+  border-radius: 18px;
+  border: 1px solid #eef0f3;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.06);
+}
+
+.form-card h3,
+.tips-card h4 {
+  margin: 0 0 16px;
+  color: #111827;
+  font-size: 1.1rem;
+}
+
+/* FORM */
+form {
+  display: grid;
+  gap: 15px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field.full {
+  grid-column: span 2;
+}
+
+label {
+  font-size: 13px;
+  margin-bottom: 5px;
+  color: #666;
+  font-weight: 600;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-family: inherit;
+  background: #fff;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.checkbox-row {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox-row input {
+  width: auto;
+}
+
+/* IMAGE */
+.image-upload {
+  margin-top: 15px;
+}
+
+.image-upload > label {
+  display: block;
+}
+
+.upload-box {
+  position: relative;
+  border: 2px dashed #ddd;
+  padding: 15px;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #666;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.upload-box input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.preview img {
+  margin-top: 10px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+/* BUTTON */
+.actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+/* TIPS */
+.tips-card ul {
+  padding-left: 18px;
+  margin: 0;
+}
+
+.tips-card li {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.msg-box {
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: grid;
+  gap: 4px;
+}
+
+.msg-box strong {
+  font-size: 0.95rem;
+}
+
+.msg-box p {
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.msg-success {
+  background: #dcfce7;
+  border: 1px solid #86efac;
+  color: #15803d;
+}
+
+.msg-error {
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+}
+
+/* ── SUCCESS TOAST ── */
+.success-toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #fff;
+  border: 1.5px solid var(--accent-soft, #e5e7eb);
+  border-left: 4px solid var(--accent);
+  border-radius: 14px;
+  padding: 14px 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
+  z-index: 1000;
+  min-width: 280px;
+  max-width: 400px;
+  animation: toastSlideUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.success-toast-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.success-toast-body {
+  flex: 1;
+  display: grid;
+  gap: 2px;
+}
+
+.success-toast-title {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.success-toast-msg {
+  margin: 0;
+  font-size: 0.80rem;
+  color: #374151;
+  line-height: 1.4;
+}
+
+@keyframes toastSlideUp {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@media (max-width: 950px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .field.full {
+    grid-column: auto;
+  }
+}

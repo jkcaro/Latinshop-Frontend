@@ -1,0 +1,71 @@
+<section class="public-page">
+  <div class="public-container">
+    <div class="content-card">
+      <div class="section-head">
+        <div>
+          <h2>🏷️ Ofertas y descuentos</h2>
+          <p>{{ ofertas().length }} productos en oferta ahora mismo</p>
+        </div>
+      </div>
+
+      @if (loginRequerido()) {
+        <div class="auth-warning-box">
+          <p>🔒 Para agregar al carrito debes iniciar sesión como cliente.</p>
+          <div class="auth-actions">
+            <a routerLink="/login">Iniciar sesión</a>
+            <span>·</span>
+            <a routerLink="/registro-cliente">Crear cuenta gratis</a>
+          </div>
+        </div>
+      }
+
+      @if (ofertas().length === 0) {
+        <p class="empty">No hay productos en oferta en este momento.</p>
+      } @else {
+        <div class="products-grid">
+          @for (p of ofertasPaginadas(); track p.id) {
+            <article class="product-card">
+              <a [routerLink]="['/cliente/productos', p.id]" class="product-img-link">
+                @if (p.imagenUrl) {
+                  <img [src]="p.imagenUrl" [alt]="p.nombre" class="product-img" />
+                } @else {
+                  <div class="product-img-placeholder">{{ p.nombre.charAt(0) }}</div>
+                }
+                <span class="badge-oferta">-{{ descuento(p.precio, p.precioOferta!) }}%</span>
+              </a>
+              <div class="product-body">
+                <span class="category">{{ p.categoria }}</span>
+                <h3><a [routerLink]="['/cliente/productos', p.id]">{{ p.nombre }}</a></h3>
+                <p class="brand">{{ p.marca }}</p>
+                <div class="price-wrap">
+                  <span class="price-original">{{ p.precio | currency:'EUR' }}</span>
+                  <strong class="price-oferta">{{ p.precioOferta | currency:'EUR' }}</strong>
+                </div>
+                <div class="card-actions">
+                  <a [routerLink]="['/cliente/productos', p.id]" class="btn-view">Ver producto</a>
+                  <button
+                    type="button"
+                    class="btn-cart"
+                    [class.btn-cart-ok]="productoAgregadoId() === p.id"
+                    (click)="agregarAlCarrito(p.id)">
+                    {{ productoAgregadoId() === p.id ? '✓' : '🛒' }}
+                  </button>
+                </div>
+              </div>
+            </article>
+          }
+        </div>
+
+        @if (totalPaginas() > 1) {
+          <div class="pagination">
+            <span>Página {{ paginaActual() }} de {{ totalPaginas() }}</span>
+            <div>
+              <button type="button" (click)="paginaAnterior()" [disabled]="paginaActual() === 1">Anterior</button>
+              <button type="button" (click)="paginaSiguiente()" [disabled]="paginaActual() === totalPaginas()">Siguiente</button>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+</section>

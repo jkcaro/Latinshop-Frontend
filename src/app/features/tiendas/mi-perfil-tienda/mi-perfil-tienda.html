@@ -1,0 +1,285 @@
+<section class="profile-page">
+
+  <!-- HERO -->
+  <div class="profile-hero">
+    <div class="hero-left">
+      <span class="hero-badge">Perfil de tienda</span>
+      <h1>Información del negocio</h1>
+      <p>Actualiza los datos principales de tu tienda y configura tus opciones de entrega.</p>
+    </div>
+    <div class="hero-deco" aria-hidden="true">
+      <span class="deco-store">🏪</span>
+      <span class="deco-tag">🏷️</span>
+    </div>
+  </div>
+
+  @if (tienda()) {
+    <div class="profile-layout">
+
+      <!-- LEFT: SUMMARY CARD -->
+      <aside class="profile-summary">
+        <div class="avatar-wrap">
+          @if (previewImagen()) {
+            <img [src]="previewImagen()" alt="Logo tienda" class="avatar-img" />
+          } @else {
+            <div class="avatar-placeholder">{{ nombreNegocio().charAt(0) || 'T' }}</div>
+          }
+          <label class="avatar-camera" title="Cambiar imagen">
+            📷
+            <input type="file" accept="image/*" (change)="onFileSelected($event)" />
+          </label>
+        </div>
+
+        @if (imagenPendiente()) {
+          <div class="avatar-pending">✓ Imagen lista — guarda para aplicar</div>
+        }
+
+        <h2 class="summary-name">{{ nombreNegocio() }}</h2>
+        <p class="summary-email">{{ ciudades().find(c => c.id === ciudadId())?.nombre ?? tienda()?.ciudad }}</p>
+        <span class="summary-role-badge">Tienda</span>
+
+        <hr class="summary-divider" />
+
+        <div class="summary-info-list">
+          <div class="summary-info-row">
+            <span class="summary-info-icon">👤</span>
+            <div>
+              <p class="summary-info-label">Propietario</p>
+              <p class="summary-info-value">{{ nombrePropietario() }} {{ apellidosPropietario() }}</p>
+            </div>
+          </div>
+          <div class="summary-info-row">
+            <span class="summary-info-icon">🛡️</span>
+            <div>
+              <p class="summary-info-label">Estado</p>
+              <p class="summary-info-value summary-verified">Verificada ✓</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- RIGHT: FORM CARD -->
+      <section class="profile-form-card">
+        <div class="form-card-header">
+          <div class="form-header-icon">🏪</div>
+          <div>
+            <h2>Información del negocio</h2>
+            <p>Actualiza los datos de tu tienda y configuración de entregas.</p>
+          </div>
+        </div>
+
+        <form (ngSubmit)="guardarCambios()">
+
+          <div class="section-label">Datos del negocio</div>
+          <div class="form-grid">
+            <label class="form-field">
+              <span>Nombre del negocio</span>
+              <input type="text" [ngModel]="nombreNegocio()" (ngModelChange)="nombreNegocio.set($event)" name="nombreNegocio" placeholder="Nombre de tu tienda" />
+            </label>
+            <label class="form-field">
+              <span>Correo electrónico</span>
+              <input type="email" [ngModel]="email()" (ngModelChange)="email.set($event)" name="email" placeholder="correo@tienda.com" />
+            </label>
+            <label class="form-field">
+              <span>Nombre del propietario</span>
+              <input type="text" [ngModel]="nombrePropietario()" (ngModelChange)="nombrePropietario.set($event)" name="nombrePropietario" placeholder="Nombre" />
+            </label>
+            <label class="form-field">
+              <span>Apellidos del propietario</span>
+              <input type="text" [ngModel]="apellidosPropietario()" (ngModelChange)="apellidosPropietario.set($event)" name="apellidosPropietario" placeholder="Apellidos" />
+            </label>
+          </div>
+
+          <div class="section-label">Datos de contacto</div>
+          <div class="form-grid">
+            <label class="form-field">
+              <span>Teléfono</span>
+              <input type="text" [ngModel]="telefono()" (ngModelChange)="telefono.set($event)" name="telefono" placeholder="+34 000 000 000" />
+            </label>
+            <label class="form-field">
+              <span>Ciudad</span>
+              <select [ngModel]="ciudadId()" (ngModelChange)="ciudadId.set(+$event)" name="ciudad">
+                <option [value]="0" disabled>Selecciona una ciudad</option>
+                @for (c of ciudades(); track c.id) {
+                  <option [value]="c.id">{{ c.nombre }}</option>
+                }
+              </select>
+            </label>
+            <label class="form-field form-field--full">
+              <span>Dirección</span>
+              <input type="text" [ngModel]="direccion()" (ngModelChange)="direccion.set($event)" name="direccion" placeholder="Calle, número, local..." />
+            </label>
+            <label class="form-field form-field--full">
+              <span>Descripción</span>
+              <textarea rows="3" [ngModel]="descripcion()" (ngModelChange)="descripcion.set($event)" name="descripcion" placeholder="Describe tu tienda..."></textarea>
+            </label>
+          </div>
+
+          <div class="section-label">Entrega</div>
+          <div class="form-grid">
+            <label class="form-field">
+              <span>Radio de entrega (km)</span>
+              <input type="number" min="0" max="200" [ngModel]="radioEntrega()" (ngModelChange)="radioEntrega.set(+$event)" name="radioEntrega" placeholder="0" />
+              <span class="radio-hint">
+                @if (radioEntrega() === 0) { Sin límite — toda España } @else { Hasta {{ radioEntrega() }} km de tu tienda }
+              </span>
+            </label>
+          </div>
+
+          <!-- ENVÍO GRATUITO -->
+          <div class="envio-gratis-section">
+            <div class="envio-gratis-head">
+              <div>
+                <h3>Envío gratuito</h3>
+                <p class="section-hint">Ofrece envío gratis cuando el pedido supere un importe mínimo.</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox"
+                  [checked]="envioGratisActivo()"
+                  (change)="envioGratisActivo.set($any($event.target).checked)" />
+                <span class="toggle-track"></span>
+              </label>
+            </div>
+
+            @if (envioGratisActivo()) {
+              <div class="envio-gratis-config">
+                <div class="envio-gratis-umbral-wrap">
+                  <label class="umbral-label">
+                    Importe mínimo para envío gratis
+                    <div class="umbral-input-wrap">
+                      <span class="umbral-prefix">€</span>
+                      <input type="number" min="1" max="500" step="0.5"
+                        [ngModel]="umbralEnvioGratis()" (ngModelChange)="umbralEnvioGratis.set(+$event)"
+                        name="umbralEnvioGratis" class="umbral-input" />
+                    </div>
+                  </label>
+                  <p class="umbral-hint">Los clientes obtendrán envío estándar gratis al superar <strong>€{{ umbralEnvioGratis() }}</strong> en su pedido.</p>
+                </div>
+                <div class="envio-gratis-preview">
+                  <div class="preview-bar-label">Vista previa del cliente</div>
+                  <div class="preview-widget">
+                    <div class="preview-top">
+                      <span>🚚</span>
+                      <p>Te faltan <strong>€{{ umbralEnvioGratis() }}</strong> para obtener envío gratis en tu pedido.</p>
+                    </div>
+                    <div class="preview-track"><div class="preview-fill" style="width: 0%"></div></div>
+                    <div class="preview-labels"><span>€0</span><span>€{{ umbralEnvioGratis() }}</span></div>
+                  </div>
+                </div>
+              </div>
+            } @else {
+              <div class="envio-gratis-off">
+                <span>🚫</span>
+                <p>El envío gratuito está desactivado. Los clientes pagarán el coste de envío estándar.</p>
+              </div>
+            }
+          </div>
+
+          @if (error()) {
+            <div class="form-error">{{ error() }}</div>
+          }
+          @if (success()) {
+            <div class="form-success">{{ success() }}</div>
+          }
+
+          <div class="form-actions">
+            <button type="submit" class="btn-save">💾 Guardar cambios</button>
+          </div>
+        </form>
+
+        <!-- HORARIOS -->
+        <div class="horarios-trigger-section">
+          <div>
+            <h3>Horarios de atención</h3>
+            <p class="section-hint">Configura los horarios de apertura y cierre de tu tienda.</p>
+          </div>
+          <button type="button" class="btn-horarios" (click)="mostrarModalHorarios.set(true)">
+            🕐 Configurar horarios
+          </button>
+        </div>
+
+        <!-- THEME PICKER -->
+        <div class="theme-section">
+          <h3>Tema de color</h3>
+          <p class="section-hint">Personaliza la apariencia del panel</p>
+          <div class="theme-picker">
+            <button type="button" class="theme-pill ocean"
+              [class.active]="themeService.tiendaTheme() === 'ocean'"
+              (click)="setTheme('ocean')">
+              @if (themeService.tiendaTheme() === 'ocean') { <span class="pill-check">✓</span> }
+              🌊 Océano
+            </button>
+            <button type="button" class="theme-pill sunset"
+              [class.active]="themeService.tiendaTheme() === 'sunset'"
+              (click)="setTheme('sunset')">
+              @if (themeService.tiendaTheme() === 'sunset') { <span class="pill-check">✓</span> }
+              🌇 Atardecer
+            </button>
+            <button type="button" class="theme-pill forest"
+              [class.active]="themeService.tiendaTheme() === 'forest'"
+              (click)="setTheme('forest')">
+              @if (themeService.tiendaTheme() === 'forest') { <span class="pill-check">✓</span> }
+              🌲 Bosque
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  } @else {
+    <div class="empty-box">
+      <p>No se encontró la tienda.</p>
+    </div>
+  }
+
+</section>
+
+@if (mostrarModalHorarios()) {
+  <app-admin-modal
+    title="Horarios de atención"
+    description="Define los horarios de apertura y cierre de tu tienda para cada día de la semana."
+    confirmText="Guardar horarios"
+    cancelText="Cancelar"
+    (close)="mostrarModalHorarios.set(false); errorHorarios.set('')"
+    (confirm)="guardarHorarios()"
+  >
+    <div class="horarios-grid">
+      @for (h of horarios(); track h.dia_semana) {
+        <div class="horario-row" [class.cerrado]="h.cerrado">
+          <span class="dia-nombre">{{ diasNombres[h.dia_semana] }}</span>
+
+          <label class="cerrado-toggle">
+            <input type="checkbox" [checked]="h.cerrado"
+              (change)="setHorarioCerrado(h.dia_semana, $any($event.target).checked)" />
+            Cerrado
+          </label>
+
+          @if (!h.cerrado) {
+            <div class="horas-wrap">
+              <label>
+                Apertura
+                <input type="time" [value]="h.hora_apertura ?? '09:00'"
+                  (change)="setHoraApertura(h.dia_semana, $any($event.target).value)" />
+              </label>
+              <span class="horas-sep">—</span>
+              <label>
+                Cierre
+                <input type="time" [value]="h.hora_cierre ?? '20:00'"
+                  (change)="setHoraCierre(h.dia_semana, $any($event.target).value)" />
+              </label>
+            </div>
+          } @else {
+            <span class="cerrado-label">Cerrado este día</span>
+          }
+        </div>
+      }
+    </div>
+
+    @if (successHorarios()) {
+      <p class="form-success" style="margin-top:12px">{{ successHorarios() }}</p>
+    }
+    @if (errorHorarios()) {
+      <p class="form-error" style="margin-top:12px">{{ errorHorarios() }}</p>
+    }
+  </app-admin-modal>
+}

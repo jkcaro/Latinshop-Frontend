@@ -1,0 +1,138 @@
+<div class="layout" [attr.data-theme]="themeService.tiendaTheme()">
+  <button class="mobile-menu-btn" type="button" (click)="toggleSidebar()">☰</button>
+
+  @if (sidebarOpen()) {
+    <div class="sidebar-backdrop" (click)="cerrarSidebar()"></div>
+  }
+
+  <aside class="sidebar" [class.open]="sidebarOpen()">
+    <div class="sidebar-header">
+      <h2>LatinShop</h2>
+      <span>Panel de tienda</span>
+    </div>
+
+    <nav class="sidebar-menu">
+      <a routerLink="/tienda/panel" routerLinkActive="active" (click)="cerrarSidebar()">
+        <lucide-angular [img]="HomeIcon" class="nav-icon"></lucide-angular>
+        Inicio
+      </a>
+
+      <div class="menu-group">
+        <span>Productos</span>
+
+        <a routerLink="/tienda/productos" routerLinkActive="active" (click)="cerrarSidebar()">
+          <lucide-angular [img]="ProductosIcon" class="nav-icon"></lucide-angular>
+          Mis productos
+        </a>
+
+        <a routerLink="/tienda/productos/crear" routerLinkActive="active" (click)="cerrarSidebar()">
+          <lucide-angular [img]="CrearIcon" class="nav-icon"></lucide-angular>
+          Crear producto
+        </a>
+      </div>
+
+      <div class="menu-group">
+        <span>Pedidos</span>
+
+        <a routerLink="/tienda/pedidos" routerLinkActive="active" (click)="cerrarSidebar()">
+          <lucide-angular [img]="PedidosIcon" class="nav-icon"></lucide-angular>
+          Todos los pedidos
+        </a>
+      </div>
+
+      <a routerLink="/tienda/perfil" routerLinkActive="active" (click)="cerrarSidebar()">
+        <lucide-angular [img]="PerfilIcon" class="nav-icon"></lucide-angular>
+        Perfil tienda
+      </a>
+    </nav>
+
+    <!-- SOPORTE -->
+    <div class="soporte-card">
+      <div class="soporte-card-top">
+        <div>
+          <p class="soporte-title">¿Necesitas ayuda?</p>
+          <p class="soporte-sub">Nuestro equipo está para apoyarte</p>
+        </div>
+        <lucide-angular [img]="HeadphonesIcon" class="soporte-icon"></lucide-angular>
+      </div>
+      <button type="button" class="soporte-btn" (click)="modalSoporte.set(true)">
+        Contactar soporte <span>›</span>
+      </button>
+    </div>
+
+    <button class="logout-btn" type="button" (click)="logout()">
+      <lucide-angular [img]="LogOutIcon" class="nav-icon"></lucide-angular>
+      Salir
+    </button>
+  </aside>
+
+  <!-- MODAL SOPORTE -->
+  @if (modalSoporte()) {
+    <div class="soporte-backdrop" (click)="modalSoporte.set(false)">
+      <div class="soporte-modal" (click)="$event.stopPropagation()">
+        <div class="soporte-modal-header">
+          <div class="soporte-modal-title-wrap">
+            <lucide-angular [img]="HeadphonesIcon" class="soporte-modal-icon"></lucide-angular>
+            <h3>Contactar soporte</h3>
+          </div>
+          <button type="button" class="soporte-modal-close" (click)="modalSoporte.set(false)">
+            <lucide-angular [img]="CloseIcon" [size]="18"></lucide-angular>
+          </button>
+        </div>
+        <p class="soporte-modal-desc">Estamos disponibles para ayudarte con cualquier consulta sobre productos, pedidos o tu tienda.</p>
+        <div class="soporte-modal-options">
+          <a href="mailto:soporte@latinshop.es" class="soporte-option">
+            <lucide-angular [img]="MailIcon" [size]="20" class="soporte-option-icon"></lucide-angular>
+            <div>
+              <p class="soporte-option-title">Correo electrónico</p>
+              <p class="soporte-option-val">soporte&#64;latinshop.es</p>
+            </div>
+          </a>
+          <a href="tel:+34900123456" class="soporte-option">
+            <lucide-angular [img]="PhoneIcon" [size]="20" class="soporte-option-icon"></lucide-angular>
+            <div>
+              <p class="soporte-option-title">Teléfono</p>
+              <p class="soporte-option-val">+34 900 123 456</p>
+            </div>
+          </a>
+          <a href="https://wa.me/34900123456" target="_blank" rel="noopener" class="soporte-option soporte-option-wa">
+            <lucide-angular [img]="WhatsAppIcon" [size]="20" class="soporte-option-icon"></lucide-angular>
+            <div>
+              <p class="soporte-option-title">WhatsApp</p>
+              <p class="soporte-option-val">Escríbenos ahora</p>
+            </div>
+          </a>
+        </div>
+        <p class="soporte-modal-horario">⏰ Horario: Lunes a Viernes, 9:00 – 20:00 h</p>
+      </div>
+    </div>
+  }
+
+  <div class="content">
+    <header class="topbar">
+      <div>
+        <h1>Panel de tienda</h1>
+        <span>Gestión de productos y pedidos</span>
+      </div>
+
+      <div class="user">
+        {{ nombreTienda() }}
+      </div>
+    </header>
+
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+
+    <footer class="client-footer">
+      <nav class="footer-legal">
+        <a routerLink="/aviso-legal">Aviso legal</a>
+        <a routerLink="/politica-privacidad">Política de privacidad</a>
+        <a routerLink="/condiciones-uso">Condiciones de uso</a>
+        <a routerLink="/politica-cookies">Política de cookies</a>
+        <a routerLink="/condiciones-compra">Condiciones de compra</a>
+      </nav>
+      <p class="footer-copy">© 2026 LatinShop España</p>
+    </footer>
+  </div>
+</div>

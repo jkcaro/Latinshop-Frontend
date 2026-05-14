@@ -1,0 +1,217 @@
+<section class="order-detail-page">
+
+  @if (pedido(); as p) {
+
+    <!-- HERO + STEPPER -->
+    <div class="hero-card">
+      <div class="hero-left">
+        <div class="hero-icon">📋</div>
+        <div>
+          <span class="estado-badge estado-badge--{{ p.estado }}">{{ estadoLabel(p.estado) }}</span>
+          <h1>{{ p.numeroPedido }}</h1>
+          <p class="hero-date">Realizado el {{ p.fechaPedido | date:"d MMM, y 'a las' HH:mm" }}</p>
+          <p class="hero-desc">Consulta el estado actual de tu pedido, la información de entrega y los productos incluidos en la compra.</p>
+        </div>
+      </div>
+
+      @if (p.estado !== 'CANCELADO') {
+        <div class="stepper">
+          @for (paso of PASOS_STEPPER; track paso.estado) {
+            <div class="stepper-step" [class.stepper-step--done]="pasoCompletado(paso.estado)">
+              <div class="stepper-circle">
+                @if (pasoCompletado(paso.estado)) { ✓ } @else { {{ $index + 1 }} }
+              </div>
+              <span class="stepper-label">{{ paso.label }}</span>
+              @if (fechaPaso(paso.estado)) {
+                <span class="stepper-date">{{ fechaPaso(paso.estado) | date:'d MMM, HH:mm' }}</span>
+              }
+            </div>
+            @if (!$last) {
+              <div class="stepper-line" [class.stepper-line--done]="pasoCompletado(paso.estado)"></div>
+            }
+          }
+        </div>
+      }
+    </div>
+
+    <!-- INFO GRID -->
+    <div class="detail-grid">
+
+      <div class="detail-card">
+        <h2>Información general</h2>
+        <div class="info-row">
+          <span class="info-icon info-icon--amber">🏪</span>
+          <div>
+            <p class="info-label">Tienda</p>
+            <p class="info-val">{{ p.tiendaNombre }}</p>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon info-icon--green">✓</span>
+          <div>
+            <p class="info-label">Estado del pedido</p>
+            <span class="estado-badge estado-badge--{{ p.estado }}">{{ estadoLabel(p.estado) }}</span>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon info-icon--blue">📅</span>
+          <div>
+            <p class="info-label">Fecha del pedido</p>
+            <p class="info-val">{{ p.fechaPedido | date:"d MMM, y - HH:mm:ss" }}</p>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon info-icon--purple">💳</span>
+          <div>
+            <p class="info-label">Método de pago</p>
+            <p class="info-val">{{ metodoPagoLabel(p.metodoPago) }}</p>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon info-icon--amber">🚚</span>
+          <div>
+            <p class="info-label">Método de envío</p>
+            <p class="info-val">{{ metodoEnvioLabel(p.metodoEnvio) }}</p>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon info-icon--green">€</span>
+          <div>
+            <p class="info-label">Total del pedido</p>
+            <p class="info-val info-val--total">{{ p.total | currency:'EUR' }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <h2>Datos de entrega</h2>
+        <div class="info-row">
+          <span class="info-icon info-icon--green">📍</span>
+          <div>
+            <p class="info-label">Dirección</p>
+            <p class="info-val">{{ p.direccionEnvio }}</p>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon info-icon--green">📍</span>
+          <div>
+            <p class="info-label">Ciudad</p>
+            <p class="info-val">{{ p.ciudadEnvio }}</p>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon info-icon--green">📍</span>
+          <div>
+            <p class="info-label">Código postal</p>
+            <p class="info-val">{{ p.codigoPostalEnvio }}</p>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon info-icon--green">📍</span>
+          <div>
+            <p class="info-label">País</p>
+            <p class="info-val">España</p>
+          </div>
+        </div>
+        <a [href]="mapUrl()" target="_blank" rel="noopener" class="btn-map">
+          📍 Ver en el mapa
+        </a>
+      </div>
+
+    </div>
+
+    <!-- PRODUCTOS -->
+    <div class="detail-card">
+      <h2>Productos del pedido</h2>
+
+      <table class="products-table">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Precio unitario</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of p.items; track item.productoId) {
+            <tr>
+              <td>
+                <div class="product-row">
+                  @if (item.imagenUrl) {
+                    <img [src]="item.imagenUrl" [alt]="item.nombreProducto" class="product-img" />
+                  } @else {
+                    <div class="product-avatar">{{ item.nombreProducto.charAt(0) }}</div>
+                  }
+                  <span class="product-name">{{ item.nombreProducto }}</span>
+                </div>
+              </td>
+              <td>{{ item.precioUnitario | currency:'EUR' }}</td>
+              <td>{{ item.cantidad }}</td>
+              <td>{{ item.subtotal | currency:'EUR' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <div class="order-summary">
+        <div class="summary-row"><span>Subtotal</span><span>{{ p.subtotal | currency:'EUR' }}</span></div>
+        <div class="summary-row"><span>Envío</span><span>{{ p.costoEnvio | currency:'EUR' }}</span></div>
+        <div class="summary-row"><span>IVA (21%)</span><span>{{ p.iva | currency:'EUR' }}</span></div>
+        <div class="summary-row summary-row--total"><span>Total</span><span>{{ p.total | currency:'EUR' }}</span></div>
+      </div>
+
+      <a routerLink="/cliente/pedidos" class="btn-back">← Volver a mis pedidos</a>
+    </div>
+
+    <!-- MENSAJES + TARJETAS DE ACCIÓN -->
+    <div class="detail-bottom">
+      <app-mensajes-pedido [pedidoId]="pedidoId" miTipo="CLIENTE" />
+
+      <div class="side-cards">
+        <div class="side-card side-card--green">
+          <div class="side-card-head">
+            <span class="side-card-icon">⭐</span>
+            <div>
+              <p class="side-card-title">¿Te gustó tu compra?</p>
+              <p class="side-card-sub">Tu opinión nos ayuda a mejorar</p>
+            </div>
+          </div>
+          <a routerLink="/cliente/mis-resenas" class="side-card-btn">
+            ⭐ Dejar una reseña
+          </a>
+        </div>
+
+        <div class="side-card side-card--amber">
+          <div class="side-card-head">
+            <span class="side-card-icon">🎧</span>
+            <div>
+              <p class="side-card-title">¿Necesitas ayuda?</p>
+              <p class="side-card-sub">Tu equipo está listo para ayudarte con tu pedido.</p>
+            </div>
+          </div>
+          <a href="mailto:soporte@latinshop.es" class="side-card-btn">
+            🎧 Contactar soporte
+          </a>
+        </div>
+
+        <div class="side-card side-card--blue">
+          <div class="side-card-head">
+            <span class="side-card-icon">🛡</span>
+            <div>
+              <p class="side-card-title">Protegemos tu compra</p>
+              <p class="side-card-sub">Compras seguras y protegidas en LatinShop.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  } @else {
+    <div class="empty-box">
+      <p>Pedido no encontrado.</p>
+      <a routerLink="/cliente/pedidos" class="btn-back">← Volver a mis pedidos</a>
+    </div>
+  }
+
+</section>

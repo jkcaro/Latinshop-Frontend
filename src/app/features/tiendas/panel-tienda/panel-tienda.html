@@ -1,0 +1,112 @@
+<section class="store-dashboard">
+  @if (error()) {
+    <div class="error-box">
+      <p>{{ error() }}</p>
+    </div>
+  } @else if (tienda()) {
+    <section class="store-page-header">
+      <div>
+        <div class="store-title-row">
+          <h1>{{ tienda()?.nombreNegocio }}</h1>
+          <span class="status-pill">{{ tienda()?.estado }}</span>
+        </div>
+
+        <p>{{ tienda()?.descripcion }}</p>
+      </div>
+    </section>
+
+    <section class="store-kpis">
+      <article class="store-kpi products">
+        <div>
+          <span>Productos</span>
+          <strong>{{ productos().length }}</strong>
+          <p>Registrados en tu tienda</p>
+        </div>
+
+        <div class="kpi-icon">📦</div>
+      </article>
+
+      <article class="store-kpi orders">
+        <div>
+          <span>Pedidos</span>
+          <strong>{{ pedidos().length }}</strong>
+          <p>Total recibidos</p>
+        </div>
+
+        <div class="kpi-icon">🧾</div>
+      </article>
+
+      <article class="store-kpi pending">
+        <div>
+          <span>Pendientes</span>
+          <strong>{{ pedidosPendientes().length }}</strong>
+          <p>Requieren atención</p>
+        </div>
+
+        <div class="kpi-icon">⏱️</div>
+      </article>
+
+      <article class="store-kpi sales">
+        <div>
+          <span>Ventas totales</span>
+          <strong>{{ ventasTotales() | currency: 'EUR' }}</strong>
+          <p>Total acumulado</p>
+        </div>
+
+        <div class="kpi-icon">€</div>
+      </article>
+    </section>
+
+    <section class="store-bottom">
+      <article class="store-info-card">
+        <h3>Información de la tienda</h3>
+
+        <div class="info-row">
+          <span>👤 Propietario</span>
+          <p>{{ tienda()?.nombrePropietario }} {{ tienda()?.apellidosPropietario }}</p>
+        </div>
+
+        <div class="info-row">
+          <span>✉️ Correo</span>
+          <p>{{ tienda()?.email }}</p>
+        </div>
+
+        <div class="info-row">
+          <span>📞 Teléfono</span>
+          <p>{{ tienda()?.telefono }}</p>
+        </div>
+
+        <div class="info-row">
+          <span>📍 Ubicación</span>
+          <p>{{ tienda()?.ciudad }}</p>
+        </div>
+
+        <div class="info-row">
+          <span>Estado</span>
+          <p class="badge-approved">{{ tienda()?.estado }}</p>
+        </div>
+      </article>
+
+      <article class="store-activity-card">
+        <h3>Actividad reciente</h3>
+
+        @for (item of actividad(); track item.texto) {
+          <div class="activity-item">
+            <span class="icon" [class]="item.color">
+              {{ item.icono }}
+            </span>
+
+            <div>
+              <p>{{ item.texto }}</p>
+              <small>{{ item.tiempo }}</small>
+            </div>
+          </div>
+        }
+
+        <button type="button" class="link-btn" routerLink="/tienda/pedidos">
+          Ver todos los pedidos →
+        </button>
+      </article>
+    </section>
+  }
+</section>

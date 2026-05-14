@@ -1,5 +1,27 @@
 # LatinshopFrontend
 
+Usuario Email Contraseña Rol
+
+Admin LatinShop admin@latinshop.com admin123 ADMIN
+María Gómez maria@latinshop.com hash_demo_123 CLIENTE
+Carlos Pérez carlos@latinshop.com
+
+hash_demo_456 TIENDA
+
+Terminal 1 — Backend:
+cd c:\Trabajo-Grado\latinshop-backend
+node src/index.js
+
+Debe mostrar: Servidor corriendo en http://localhost:3000
+
+Terminal 2 — Frontend:
+
+cd c:\Trabajo-Grado\latinshop-frontend
+ng serve
+Debe mostrar: Application bundle generation complete. Server is listening on localhost:4200
+
+Luego abre el navegador en http://localhost:4200
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.3.
 
 ## Development server

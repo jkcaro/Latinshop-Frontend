@@ -1,0 +1,321 @@
+<section class="store-page">
+  @if (tienda()) {
+    <!-- ── HERO ── -->
+    <section class="store-hero">
+      <div class="store-hero-content">
+        <div class="store-hero-top">
+          <div class="store-logo-wrap">
+            @if (tienda()?.imagenUrl) {
+              <img [src]="tienda()!.imagenUrl" [alt]="tienda()!.nombreNegocio" class="store-logo-img" />
+            } @else {
+              <div class="store-logo-placeholder">{{ tienda()!.nombreNegocio.charAt(0) }}</div>
+            }
+          </div>
+
+          <div class="store-hero-info">
+            <div class="store-badges-row">
+              <span class="store-city-badge">📍 {{ tienda()?.ciudad }}</span>
+              <span class="store-verified-badge">🛡️ Tienda verificada</span>
+            </div>
+            <h1>{{ tienda()?.nombreNegocio }}</h1>
+          </div>
+
+          <div class="hero-deco" aria-hidden="true">🛒</div>
+        </div>
+
+        <p class="store-description">{{ tienda()?.descripcion }}</p>
+
+        <div class="store-meta">
+          <div class="meta-icon-card">
+            <div class="meta-icon-wrap">📍</div>
+            <div>
+              <span class="meta-label">Dirección</span>
+              <p>{{ tienda()?.direccion }}</p>
+            </div>
+          </div>
+
+          <div class="meta-icon-card">
+            <div class="meta-icon-wrap">📞</div>
+            <div>
+              <span class="meta-label">Teléfono</span>
+              <p>{{ tienda()?.telefono }}</p>
+            </div>
+          </div>
+        </div>
+
+        @if (categorias().length > 0) {
+          <div class="store-cats">
+            <span class="cats-label">📦 Categorías que ofrece</span>
+            <div class="cats-chips">
+              @for (cat of categorias(); track cat) {
+                <button type="button"
+                  class="cat-chip"
+                  [class.active]="categoriaFiltro() === cat"
+                  (click)="filtrarCategoria(cat)">
+                  <span class="cat-chip-icon">{{ categoriaEmoji(cat) }}</span>{{ cat }}
+                </button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- ── SIDE CARD ── -->
+      <div class="store-side-card">
+        <div class="side-header">
+          <span class="side-header-icon">🛒</span>
+          <div>
+            <h3>Compra en esta tienda</h3>
+            <p>Añade productos al carrito y realiza tu pedido fácilmente.</p>
+          </div>
+        </div>
+
+        <a routerLink="/cliente/carrito" class="go-cart-btn">🛒 Ir al carrito</a>
+
+        <button type="button" class="horario-btn" (click)="abrirHorario()">
+          🕐 Ver horario de atención
+        </button>
+
+        @if (mapaUrl()) {
+          <div class="side-map-wrap">
+            <div class="map-header-row">
+              <span class="side-map-label">📍 Ubicación</span>
+              <a [href]="mapsLink()" target="_blank" rel="noopener" class="open-maps-link">Abrir en Maps ↗</a>
+            </div>
+            <iframe [src]="mapaUrl()!" class="store-map-side" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+            <p class="map-address-text">{{ tienda()?.direccion }}, {{ tienda()?.ciudad }}</p>
+          </div>
+        }
+      </div>
+    </section>
+
+
+    <!-- ── PRODUCTS ── -->
+    <section class="products-section">
+      <div class="section-heading">
+        <div>
+          <h2>🛍️ Productos de esta tienda</h2>
+          <p>
+            @if (categoriaFiltro()) {
+              Mostrando <strong>{{ categoriaFiltro() }}</strong> · {{ productosFiltrados().length }} producto{{ productosFiltrados().length !== 1 ? 's' : '' }}
+            } @else {
+              Explora el catálogo disponible y añade productos a tu pedido.
+            }
+          </p>
+        </div>
+        @if (categoriaFiltro()) {
+          <button type="button" class="filtro-clear-btn" (click)="filtrarCategoria(categoriaFiltro()!)">
+            ✕ Quitar filtro
+          </button>
+        }
+      </div>
+
+      @if (productos().length > 0) {
+        <div class="products-grid">
+          @for (producto of productosPaginados(); track producto.id) {
+            <article class="product-card">
+              <a [routerLink]="['/cliente/productos', producto.id]"
+               [queryParams]="{ from: 'tienda', tiendaId: tiendaId }"
+               class="product-image-link">
+                @if (producto.imagenUrl) {
+                  <img [src]="producto.imagenUrl" [alt]="producto.nombre" class="product-img-zoom" />
+                } @else {
+                  <div class="product-card-placeholder">{{ producto.nombre.charAt(0) }}</div>
+                }
+              </a>
+
+              <div class="product-info">
+                <div class="product-top">
+                  <a [routerLink]="['/cliente/productos', producto.id]"
+                     [queryParams]="{ from: 'tienda', tiendaId: tiendaId }"
+                     class="product-name-link">{{ producto.nombre }}</a>
+                  <span class="product-category">{{ producto.categoria }}</span>
+                </div>
+
+                <p class="product-description">{{ producto.descripcion }}</p>
+
+                <div class="product-details">
+                  <span><strong>Marca:</strong> {{ producto.marca || 'N/A' }}</span>
+                  <span><strong>País:</strong> {{ producto.paisOrigen || 'N/A' }}</span>
+                  <span><strong>Stock:</strong> {{ producto.stock }}</span>
+                </div>
+
+                <div class="product-bottom">
+                  <strong class="product-price">{{ producto.precio | currency: 'EUR' }}</strong>
+
+                  <div class="btn-carrito-wrap">
+                    <button type="button" (click)="agregarAlCarrito(producto.id)">
+                      + Añadir
+                    </button>
+                    @if (loginRequerido() === producto.id) {
+                      <div class="login-tooltip">
+                        <p>🔒 Inicia sesión para comprar</p>
+                        <div class="tooltip-links">
+                          <a routerLink="/login">Iniciar sesión</a>
+                          <a routerLink="/registro-cliente">Crear cuenta</a>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            </article>
+          }
+        </div>
+
+        @if (totalPaginas() > 1) {
+          <div class="pagination">
+            <span>Página {{ paginaActual() }} de {{ totalPaginas() }}</span>
+            <div>
+              <button type="button" (click)="paginaAnterior()" [disabled]="paginaActual() === 1">Anterior</button>
+              <button type="button" (click)="paginaSiguiente()" [disabled]="paginaActual() === totalPaginas()">Siguiente</button>
+            </div>
+          </div>
+        }
+      } @else {
+        <div class="empty-box">
+          <p>Esta tienda todavía no tiene productos activos disponibles.</p>
+        </div>
+      }
+    </section>
+  } @else {
+    <div class="empty-box">
+      <p>Tienda no encontrada.</p>
+    </div>
+  }
+
+  <!-- ── SECCIÓN DE RESEÑAS ── -->
+  <section class="resenas-section">
+    <div class="resenas-section-head">
+      <h2>Valoraciones de clientes</h2>
+      @if (statsResenas()) {
+        <div class="resenas-promedio">
+          <span class="promedio-num">{{ statsResenas()!.promedio | number:'1.1-1' }}</span>
+          <div class="promedio-stars">
+            @for (s of estrellasPromedio(); track $index) {
+              <span [class.llena]="s === 'full'" [class.media]="s === 'half'">
+                {{ s === 'full' ? '★' : (s === 'half' ? '⯨' : '☆') }}
+              </span>
+            }
+          </div>
+          <span class="promedio-total">({{ statsResenas()!.total }} reseña{{ statsResenas()!.total !== 1 ? 's' : '' }})</span>
+        </div>
+      }
+    </div>
+
+    <!-- Botón abrir modal -->
+    @if (puedeResenar()) {
+      <button type="button" class="btn-abrir-resena" (click)="modalResenaAbierto.set(true)">
+        ⭐ Dejar una valoración
+      </button>
+    }
+
+    @if (resenaExito()) {
+      <div class="resena-exito">✓ ¡Reseña publicada! Gracias por tu valoración.</div>
+    }
+
+    <!-- Modal reseña -->
+    @if (modalResenaAbierto()) {
+      <div class="resena-modal-overlay" (click)="cerrarModalResena()">
+        <div class="resena-modal" (click)="$event.stopPropagation()">
+          <div class="resena-modal-header">
+            <h3>⭐ Dejar una valoración</h3>
+            <button type="button" class="resena-modal-close" (click)="cerrarModalResena()">✕</button>
+          </div>
+          <p class="resena-form-hint">Tienes un pedido entregado en esta tienda. ¡Comparte tu experiencia!</p>
+
+          <div class="star-picker">
+            @for (n of [1,2,3,4,5]; track n) {
+              <button type="button" class="star-btn"
+                [class.seleccionada]="n <= nuevaCalificacion()"
+                (click)="nuevaCalificacion.set(n)"
+                [attr.aria-label]="n + ' estrellas'">★</button>
+            }
+            <span class="star-label">{{ labelCalificacion() }}</span>
+          </div>
+
+          <textarea
+            class="resena-textarea"
+            rows="4"
+            placeholder="Cuéntanos tu experiencia con esta tienda (opcional)..."
+            [value]="nuevoComentario()"
+            (input)="nuevoComentario.set($any($event.target).value)"
+          ></textarea>
+
+          @if (resenaError()) {
+            <p class="resena-error">{{ resenaError() }}</p>
+          }
+
+          <div class="resena-modal-actions">
+            <button type="button" class="btn-cancelar-resena" (click)="cerrarModalResena()">Cancelar</button>
+            <button type="button" class="btn-enviar-resena"
+              [disabled]="nuevaCalificacion() === 0 || enviandoResena()"
+              (click)="enviarResena()">
+              {{ enviandoResena() ? 'Publicando…' : 'Publicar reseña' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Lista de reseñas -->
+    @if (resenas().length > 0) {
+      <div class="resenas-list">
+        @for (r of resenas(); track r.id) {
+          <article class="resena-item">
+            <div class="resena-item-top">
+              <div class="resena-avatar">{{ r.clienteNombre.charAt(0).toUpperCase() }}</div>
+              <div class="resena-item-info">
+                <strong>{{ r.clienteNombre }}</strong>
+                <span class="resena-item-fecha">{{ r.fecha | date:'mediumDate' }}</span>
+              </div>
+              <div class="resena-item-stars">
+                @for (s of estrellas(r.calificacion); track $index) {
+                  <span [class.llena]="s === '★'">{{ s }}</span>
+                }
+              </div>
+            </div>
+            @if (r.comentario) {
+              <p class="resena-item-comentario">"{{ r.comentario }}"</p>
+            }
+          </article>
+        }
+      </div>
+    } @else if (statsResenas()?.total === 0) {
+      <p class="resenas-empty-msg">Esta tienda aún no tiene valoraciones. ¡Sé el primero!</p>
+    }
+  </section>
+
+  <div class="back-wrap">
+    <a routerLink="/cliente" class="btn-back">← Volver a Inicio</a>
+  </div>
+
+
+  @if (modalHorarioAbierto()) {
+    <div class="horario-overlay" (click)="cerrarHorario()">
+      <div class="horario-modal" (click)="$event.stopPropagation()">
+        <div class="horario-modal-header">
+          <h3>🕐 Horario de atención</h3>
+          <button type="button" class="horario-close" (click)="cerrarHorario()">✕</button>
+        </div>
+        @if (horarios().length > 0) {
+          <ul class="horarios-list">
+            @for (h of horarios(); track h.dia_semana) {
+              <li [class.hoy]="h.dia_semana === diaHoy">
+                <span class="dia">{{ diasNombres[h.dia_semana] }}</span>
+                @if (h.cerrado) {
+                  <span class="cerrado-tag">Cerrado</span>
+                } @else {
+                  <span class="hora-rango">{{ formatHora(h.hora_apertura) }} – {{ formatHora(h.hora_cierre) }}</span>
+                }
+              </li>
+            }
+          </ul>
+          <p class="horario-modal-footer">Hoy: <strong>{{ diasNombres[diaHoy] }}</strong></p>
+        } @else {
+          <p class="horario-sin-datos">Esta tienda aún no ha configurado su horario de atención.</p>
+        }
+      </div>
+    </div>
+  }
+</section>

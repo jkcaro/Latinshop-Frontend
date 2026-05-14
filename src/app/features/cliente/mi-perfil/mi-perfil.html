@@ -1,0 +1,185 @@
+<section class="profile-page">
+
+  <!-- HERO -->
+  <div class="profile-hero">
+    <div class="hero-left">
+      <span class="hero-badge">Mi cuenta</span>
+      <h1>Perfil del cliente</h1>
+      <p>Gestiona tus datos personales y mantén actualizada tu información de contacto.</p>
+    </div>
+    <div class="hero-deco" aria-hidden="true">
+      <span class="deco-shield">🛡️</span>
+      <span class="deco-person">👤</span>
+    </div>
+  </div>
+
+  @if (currentUser()?.rol === 'CLIENTE') {
+    <div class="profile-layout">
+
+      <!-- LEFT: SUMMARY CARD -->
+      <aside class="profile-summary">
+        <div class="avatar-wrap">
+          @if (fotoPerfil()) {
+            <img [src]="fotoPerfil()" alt="Foto de perfil" class="avatar-img" />
+          } @else {
+            <div class="avatar-placeholder">{{ nombre().charAt(0) || 'C' }}</div>
+          }
+          <label class="avatar-camera" title="Cambiar foto">
+            📷
+            <input type="file" accept="image/*" (change)="cambiarFoto($event)" />
+          </label>
+        </div>
+
+        <h2 class="summary-name">{{ nombre() }} {{ apellidos() }}</h2>
+        <p class="summary-email">{{ email() }}</p>
+        <span class="summary-role-badge">Cliente</span>
+
+        <hr class="summary-divider" />
+
+        <div class="summary-info-list">
+          <div class="summary-info-row">
+            <span class="summary-info-icon">📅</span>
+            <div>
+              <p class="summary-info-label">Miembro desde</p>
+              <p class="summary-info-value">LatinShop</p>
+            </div>
+          </div>
+          <div class="summary-info-row">
+            <span class="summary-info-icon">🛡️</span>
+            <div>
+              <p class="summary-info-label">Estado de cuenta</p>
+              <p class="summary-info-value summary-verified">Verificado ✓</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- RIGHT: FORM CARD -->
+      <section class="profile-form-card">
+        <div class="form-card-header">
+          <div class="form-header-icon">👤</div>
+          <div>
+            <h2>Información personal</h2>
+            <p>Actualiza tus datos de perfil y contacto.</p>
+          </div>
+        </div>
+
+        <form (ngSubmit)="guardarCambios()">
+
+          <div class="section-label">Datos personales</div>
+          <div class="form-grid">
+            <label class="form-field">
+              <span>Nombre</span>
+              <input type="text" [ngModel]="nombre()" (ngModelChange)="nombre.set($event)" name="nombre" placeholder="Tu nombre" />
+            </label>
+            <label class="form-field">
+              <span>Apellidos</span>
+              <input type="text" [ngModel]="apellidos()" (ngModelChange)="apellidos.set($event)" name="apellidos" placeholder="Tus apellidos" />
+            </label>
+          </div>
+
+          <div class="section-label">Datos de contacto</div>
+          <div class="form-grid">
+            <label class="form-field">
+              <span>Correo electrónico</span>
+              <input type="email" [ngModel]="email()" (ngModelChange)="email.set($event)" name="email" placeholder="correo@ejemplo.com" />
+            </label>
+            <label class="form-field">
+              <span>Número móvil</span>
+              <input type="text" [ngModel]="telefono()" (ngModelChange)="telefono.set($event)" name="telefono" placeholder="+34 000 000 000" />
+            </label>
+            <label class="form-field form-field--full">
+              <span>Dirección</span>
+              <input type="text" [ngModel]="direccion()" (ngModelChange)="direccion.set($event)" name="direccion" placeholder="Calle, número, piso..." />
+            </label>
+            <label class="form-field">
+              <span>Ciudad</span>
+              <select [ngModel]="ciudadId()" (ngModelChange)="ciudadId.set(+$event || null)" name="ciudad">
+                <option [value]="null">Selecciona tu ciudad</option>
+                @for (c of ciudades(); track c.id) {
+                  <option [value]="c.id">{{ c.nombre }}</option>
+                }
+              </select>
+            </label>
+          </div>
+
+          <div class="section-label">Seguridad</div>
+          <div class="form-grid">
+            <label class="form-field">
+              <span>Contraseña</span>
+              <div class="password-wrap">
+                <input
+                  [type]="mostrarPassword() ? 'text' : 'password'"
+                  [ngModel]="password()"
+                  (ngModelChange)="password.set($event)"
+                  name="password"
+                  placeholder="Nueva contraseña"
+                />
+                <button type="button" class="eye-btn" (click)="mostrarPassword.update(v => !v)">
+                  {{ mostrarPassword() ? '🙈' : '👁️' }}
+                </button>
+              </div>
+            </label>
+          </div>
+
+          @if (error()) {
+            <div class="form-error">{{ error() }}</div>
+          }
+
+          <div class="form-actions">
+            <button type="submit" class="btn-save">
+              💾 Guardar cambios
+            </button>
+          </div>
+        </form>
+
+        <!-- THEME PICKER -->
+        <div class="theme-section">
+          <h3>Tema de color</h3>
+          <p class="theme-hint">Personaliza la apariencia del panel</p>
+          <div class="theme-picker">
+            <button
+              type="button"
+              class="theme-pill ocean"
+              [class.active]="themeService.clienteTheme() === 'ocean'"
+              (click)="setTheme('ocean')">
+              @if (themeService.clienteTheme() === 'ocean') { <span class="pill-check">✓</span> }
+              🌊 Océano
+            </button>
+            <button
+              type="button"
+              class="theme-pill sunset"
+              [class.active]="themeService.clienteTheme() === 'sunset'"
+              (click)="setTheme('sunset')">
+              @if (themeService.clienteTheme() === 'sunset') { <span class="pill-check">✓</span> }
+              🌇 Atardecer
+            </button>
+            <button
+              type="button"
+              class="theme-pill forest"
+              [class.active]="themeService.clienteTheme() === 'forest'"
+              (click)="setTheme('forest')">
+              @if (themeService.clienteTheme() === 'forest') { <span class="pill-check">✓</span> }
+              🌲 Bosque
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  } @else {
+    <div class="empty-box">
+      <p>No tienes acceso a esta sección.</p>
+    </div>
+  }
+
+</section>
+
+@if (success()) {
+  <div class="perfil-toast" role="alert">
+    <span class="perfil-toast-icon">✓</span>
+    <div>
+      <p class="perfil-toast-title">{{ success() }}</p>
+    </div>
+  </div>
+}

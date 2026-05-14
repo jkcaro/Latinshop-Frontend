@@ -1,0 +1,158 @@
+<section class="admin-dashboard">
+  <section class="admin-hero">
+    <div class="admin-hero-content">
+      <h1>Bienvenido, {{ currentUser()?.nombre }}</h1>
+      <p>
+        Gestiona la plataforma, controla tiendas y usuarios, y consulta el estado general del
+        marketplace desde un solo lugar.
+      </p>
+    </div>
+  </section>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-icon green">
+        <lucide-angular [img]="CheckCircleIcon"></lucide-angular>
+      </div>
+
+      <p class="kpi-label">Tiendas</p>
+      <p class="kpi-value">{{ totalTiendas() }}</p>
+      <p class="kpi-sub">Total registradas</p>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon blue">
+        <lucide-angular [img]="ShoppingBagIcon"></lucide-angular>
+      </div>
+
+      <p class="kpi-label">Pendientes</p>
+      <p class="kpi-value">{{ tiendasPendientes() }}</p>
+      <p class="kpi-sub">Por revisar</p>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon orange">
+        <lucide-angular [img]="ClockIcon"></lucide-angular>
+      </div>
+
+      <p class="kpi-label">Productos</p>
+      <p class="kpi-value">{{ totalProductos() }}</p>
+      <p class="kpi-sub">En plataforma</p>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon purple">
+        <lucide-angular [img]="UserRoundIcon"></lucide-angular>
+      </div>
+
+      <p class="kpi-label">Pedidos</p>
+      <p class="kpi-value">{{ totalPedidos() }}</p>
+      <p class="kpi-sub">Registrados</p>
+    </div>
+  </div>
+
+  <section class="dashboard-grid">
+    <section class="summary-chart-card">
+      <div class="summary-chart-header">
+        <div>
+          <h2>Resumen general</h2>
+          <p>Actividad de la plataforma en los últimos 7 días</p>
+        </div>
+
+        <span class="period-pill">Últimos 7 días</span>
+      </div>
+
+      <div class="summary-chart-body">
+        <div class="summary-metrics">
+          <div>
+            <span>Ventas totales</span>
+            <strong>{{ resumenUltimos7Dias().ventas | currency: 'EUR' }}</strong>
+          </div>
+
+          <div>
+            <span>Pedidos</span>
+            <strong>{{ resumenUltimos7Dias().pedidos }}</strong>
+          </div>
+
+          <div>
+            <span>Clientes nuevos</span>
+            <strong>{{ resumenUltimos7Dias().clientesNuevos }}</strong>
+          </div>
+
+          <div>
+            <span>Ticket promedio</span>
+            <strong>{{ resumenUltimos7Dias().ticketPromedio | currency: 'EUR' }}</strong>
+          </div>
+        </div>
+
+        <div class="chart-box">
+          <canvas #ventasChart></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="activity-card">
+      <h3>Actividad reciente</h3>
+
+      <div class="activity-list">
+        @for (item of actividadReciente(); track item.texto) {
+          <div class="activity-item">
+            <div class="activity-icon" [class]="item.tipo">
+              @if (item.tipo === 'pedido') {
+                <lucide-angular [img]="PackageCheckIcon"></lucide-angular>
+              }
+
+              @if (item.tipo === 'tienda') {
+                <lucide-angular [img]="StoreIcon"></lucide-angular>
+              }
+
+              @if (item.tipo === 'usuario') {
+                <lucide-angular [img]="UserPlusIcon"></lucide-angular>
+              }
+            </div>
+
+            <div>
+              <p>{{ item.texto }}</p>
+              <span>{{ item.fecha | date: 'dd/MM/yyyy, HH:mm' }}</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      <button type="button" class="activity-link" routerLink="/admin/pedidos">
+        <span>Ver toda la actividad</span>
+        <span class="activity-link-icon">›</span>
+      </button>
+    </section>
+  </section>
+
+  <section class="quick-actions">
+    <article class="quick-card tiendas">
+      <div>
+        <h3>Gestionar tiendas</h3>
+        <p>Aprobar, rechazar o supervisar tiendas registradas.</p>
+
+        <button type="button" routerLink="/admin/tiendas">Ir a tiendas </button>
+      </div>
+    </article>
+
+    <article class="quick-card usuarios">
+      <div>
+        <h3>Gestionar usuarios</h3>
+        <p>Consulta clientes y controla su estado de acceso.</p>
+
+        <button type="button" routerLink="/admin/usuarios">Ir a usuarios </button>
+      </div>
+    </article>
+
+    <article class="quick-card informes">
+      <div>
+        <h3>Informes y reportes</h3>
+        <p>Consulta métricas generales del marketplace.</p>
+
+        <button type="button" routerLink="/admin/reportes">Ver reportes </button>
+      </div>
+    </article>
+  </section>
+
+</section>

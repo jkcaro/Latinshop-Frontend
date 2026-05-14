@@ -1,0 +1,145 @@
+.resenas-page {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.resenas-header {
+  margin-bottom: 24px;
+}
+
+.resenas-header h1 {
+  margin: 0 0 6px;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.resenas-header p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.resenas-msg {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #15803d;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.resenas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.resena-card {
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 18px 20px;
+}
+
+.resena-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.tienda-label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #111827;
+  margin-bottom: 2px;
+}
+
+.resena-fecha {
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+
+.resena-stars span {
+  font-size: 1.2rem;
+  color: #d1d5db;
+}
+
+.resena-stars span.llena {
+  color: #f59e0b;
+}
+
+.resena-comentario {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+  color: #374151;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.resena-sin-comentario {
+  margin: 0 0 14px;
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.resena-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.resena-estado {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.resena-estado.visible {
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.resena-estado.oculta {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.btn-eliminar {
+  border: 1.5px solid #fecaca;
+  background: transparent;
+  color: #dc2626;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-eliminar:hover {
+  background: #fef2f2;
+}
+
+.btn-eliminar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.resenas-empty {
+  text-align: center;
+  padding: 48px 24px;
+  color: #6b7280;
+}
+
+.resenas-empty p {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+}

@@ -1,0 +1,161 @@
+.order-detail-page {
+  display: grid;
+  gap: 24px;
+}
+
+.order-detail-page h1 {
+  margin: 0;
+  color: #111827;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.detail-card {
+  background: white;
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+  display: grid;
+  gap: 12px;
+}
+
+.detail-card h2 {
+  margin: 0 0 6px;
+  color: #111827;
+}
+
+.detail-card p {
+  margin: 0;
+  color: #374151;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-item h3 {
+  margin: 0 0 8px;
+  color: #111827;
+}
+
+.detail-item p {
+  margin: 0;
+  color: #4b5563;
+}
+
+.detail-item-prices {
+  display: grid;
+  gap: 8px;
+  text-align: right;
+}
+
+.order-state-card {
+  background: white;
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.order-state-card h3 {
+  margin: 0;
+  color: #111827;
+}
+
+.order-state-card p {
+  margin: 6px 0 0;
+  color: #6b7280;
+}
+
+.state-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.state-actions button {
+  border: none;
+  border-radius: 10px;
+  padding: 9px 12px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.confirm-status-box {
+  display: grid;
+  gap: 8px;
+  background: #f9fafb;
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.confirm-status-box p {
+  margin: 0;
+  color: #374151;
+}
+
+button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: white;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+button.danger {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+}
+
+.success {
+  color: #15803d;
+  margin-top: 12px;
+  font-weight: 700;
+}
+
+.error-msg {
+  color: #991b1b;
+  margin-top: 12px;
+  font-weight: 700;
+}
+
+.empty-box {
+  background: white;
+  border-radius: 18px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+  color: #6b7280;
+}
+
+@media (max-width: 900px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-item {
+    flex-direction: column;
+  }
+
+  .detail-item-prices {
+    text-align: left;
+  }
+}

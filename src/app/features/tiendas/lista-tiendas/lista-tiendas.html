@@ -1,0 +1,166 @@
+<section class="stores-page">
+
+  <!-- HERO -->
+  <div class="stores-hero">
+    <div class="hero-title-block">
+      <div class="hero-icon-wrap">🏪</div>
+      <div>
+        <h1>Tiendas disponibles</h1>
+        <p>Selecciona una tienda para ver sus productos y comprar.</p>
+      </div>
+    </div>
+
+    <div class="hero-features">
+      <div class="feature-item">
+        <span class="feature-icon">🏷</span>
+        <div>
+          <p class="feature-title">Productos auténticos</p>
+          <p class="feature-desc">Seleccionados especialmente para ti</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🛡</span>
+        <div>
+          <p class="feature-title">Tiendas verificadas</p>
+          <p class="feature-desc">Comercios de confianza y calidad garantizada</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🚚</span>
+        <div>
+          <p class="feature-title">Envíos seguros</p>
+          <p class="feature-desc">Entrega rápida y seguimiento en tiempo real</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🎧</span>
+        <div>
+          <p class="feature-title">Soporte dedicado</p>
+          <p class="feature-desc">Estamos para ayudarte en cada paso</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BARRA DE BÚSQUEDA Y FILTROS -->
+  <div class="filters-bar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Buscar tienda (ej. Tienda Latina, Mexicana...)"
+        [(ngModel)]="textoBusqueda"
+        (ngModelChange)="onFiltroChange()" />
+    </div>
+
+    <div class="filter-wrap">
+      <span class="filter-prefix-icon">📍</span>
+      <select class="filter-select" [(ngModel)]="ciudadFiltro" (ngModelChange)="onFiltroChange()">
+        <option value="">Todas las ubicaciones</option>
+        @for (ciudad of ciudades(); track ciudad) {
+          <option [value]="ciudad">{{ ciudad }}</option>
+        }
+      </select>
+      <span class="select-arrow">▾</span>
+    </div>
+
+    <div class="filter-wrap">
+      <span class="filter-prefix-icon">⭐</span>
+      <select class="filter-select" [(ngModel)]="ordenFiltro" (ngModelChange)="onFiltroChange()">
+        <option value="popular">Más populares</option>
+        <option value="az">A – Z</option>
+        <option value="za">Z – A</option>
+      </select>
+      <span class="select-arrow">▾</span>
+    </div>
+  </div>
+
+  <!-- GRID DE TIENDAS -->
+  @if (tiendasFiltradas().length > 0) {
+    <div class="stores-grid">
+      @for (tienda of tiendasPaginadas(); track tienda.id) {
+        <article class="store-card">
+
+          <!-- Imagen -->
+          <a [routerLink]="['/cliente/tiendas', tienda.id]" class="store-img-wrap">
+            @if (tienda.imagenUrl) {
+              <img [src]="tienda.imagenUrl" [alt]="tienda.nombreNegocio" class="store-img" />
+            } @else {
+              <div class="store-img-placeholder">{{ tienda.nombreNegocio.charAt(0) }}</div>
+            }
+
+            <span class="city-badge">
+              📍 {{ tienda.ciudad }}
+            </span>
+
+            @if (getRating(tienda.id); as r) {
+              <span class="rating-badge">
+                ⭐ {{ r.promedio | number:'1.1-1' }}
+                <span class="rating-count">({{ r.total }} reseñas)</span>
+              </span>
+            }
+          </a>
+
+          <!-- Cuerpo -->
+          <div class="store-body">
+            <h3>
+              <a [routerLink]="['/cliente/tiendas', tienda.id]">{{ tienda.nombreNegocio }}</a>
+            </h3>
+            <p class="store-desc">{{ tienda.descripcion }}</p>
+
+            <div class="store-meta">
+              <span class="meta-item">
+                <span class="meta-icon">📍</span>
+                {{ tienda.direccion }}
+              </span>
+              <span class="meta-item">
+                <span class="meta-icon">📞</span>
+                {{ tienda.telefono }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="store-footer">
+            <a [routerLink]="['/cliente/tiendas', tienda.id]" class="btn-products">
+              Ver productos <span class="btn-arrow">→</span>
+            </a>
+            <button
+              type="button"
+              class="btn-fav"
+              [class.btn-fav--active]="esFavorita(tienda.id)"
+              (click)="toggleFavorita(tienda.id)"
+              aria-label="Añadir a favoritas">
+              {{ esFavorita(tienda.id) ? '❤' : '🤍' }}
+            </button>
+          </div>
+
+        </article>
+      }
+    </div>
+
+    @if (totalPaginas() > 1) {
+      <div class="pagination">
+        <span>Página {{ paginaActual() }} de {{ totalPaginas() }}</span>
+        <div class="pagination-btns">
+          <button type="button" (click)="paginaAnterior()" [disabled]="paginaActual() === 1">Anterior</button>
+          <button type="button" (click)="paginaSiguiente()" [disabled]="paginaActual() === totalPaginas()">Siguiente</button>
+        </div>
+      </div>
+    }
+
+  } @else {
+    <div class="empty-box">
+      @if (textoBusqueda() || ciudadFiltro()) {
+        <p>No se encontraron tiendas con los filtros aplicados.</p>
+        <button type="button" class="btn-clear" (click)="textoBusqueda.set(''); ciudadFiltro.set(''); onFiltroChange()">
+          Limpiar filtros
+        </button>
+      } @else {
+        <p>No hay tiendas disponibles en este momento.</p>
+      }
+    </div>
+  }
+
+</section>

@@ -1,0 +1,444 @@
+<section class="admin-store-detail">
+  <!-- HEADER PRO -->
+  <section class="store-detail-hero">
+    <div class="store-hero-info">
+      <div class="store-hero-avatar">
+        {{ tienda()?.nombreNegocio?.charAt(0) }}
+      </div>
+
+      <div>
+        <span
+          class="status-badge"
+          [class.aprobada]="tienda()?.estado === 'APROBADA'"
+          [class.pendiente]="tienda()?.estado === 'PENDIENTE'"
+          [class.bloqueada]="tienda()?.estado === 'BLOQUEADA'"
+          [class.rechazada]="tienda()?.estado === 'RECHAZADA'"
+        >
+          {{ tienda()?.estado }}
+        </span>
+
+        <h1>{{ tienda()?.nombreNegocio }}</h1>
+        <p>{{ tienda()?.descripcion || 'Esta tienda aún no tiene descripción registrada.' }}</p>
+      </div>
+    </div>
+
+    <div class="store-admin-actions">
+      <h3>Acciones administrativas</h3>
+
+      @if (tienda()?.estado === 'PENDIENTE') {
+        <button type="button" class="btn approve" (click)="aprobar()">Aprobar tienda</button>
+        <button type="button" class="btn danger" (click)="abrirModalRechazo()">
+          Rechazar tienda
+        </button>
+      }
+
+      @if (tienda()?.estado === 'APROBADA') {
+        <button type="button" class="btn danger" (click)="abrirModalBloqueo()">
+          Bloquear tienda
+        </button>
+      }
+
+      @if (tienda()?.estado === 'BLOQUEADA') {
+        <button type="button" class="btn approve" (click)="desbloquear()">
+          Desbloquear tienda
+        </button>
+        <button type="button" class="btn ghost" (click)="pasarAPendiente()">
+          Pasar a pendiente
+        </button>
+      }
+
+      @if (tienda()?.estado === 'RECHAZADA') {
+        <button type="button" class="btn approve" (click)="aprobar()">Aprobar tienda</button>
+        <button type="button" class="btn ghost" (click)="pasarAPendiente()">
+          Pasar a pendiente
+        </button>
+      }
+    </div>
+  </section>
+
+  @if (success()) {
+    <div class="success-message">{{ success() }}</div>
+  }
+
+  <!-- KPIs PRO -->
+  <section class="store-kpi-grid">
+    <article
+      class="store-kpi-card products clickable"
+      [class.active]="seccionActiva() === 'PRODUCTOS'"
+      (click)="cambiarSeccion('PRODUCTOS')"
+    >
+      <div class="kpi-icon">📦</div>
+      <div>
+        <span>Productos</span>
+        <strong>{{ productos().length }}</strong>
+        <p>Productos registrados</p>
+      </div>
+    </article>
+
+    <article
+      class="store-kpi-card orders clickable"
+      [class.active]="seccionActiva() === 'PEDIDOS'"
+      (click)="cambiarSeccion('PEDIDOS')"
+    >
+      <div class="kpi-icon">🧾</div>
+      <div>
+        <span>Pedidos</span>
+        <strong>{{ pedidos().length }}</strong>
+        <p>Pedidos recibidos</p>
+      </div>
+    </article>
+
+    <article
+      class="store-kpi-card sales clickable"
+      [class.active]="seccionActiva() === 'VENTAS'"
+      (click)="cambiarSeccion('VENTAS')"
+    >
+      <div class="kpi-icon">€</div>
+      <div>
+        <span>Ventas</span>
+        <strong>{{ ventasTotales() | currency: 'EUR' }}</strong>
+        <p>Total acumulado</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- INFO -->
+  <section class="store-info-grid">
+    <article class="store-info-card">
+      <h3>Datos del negocio</h3>
+
+      <div class="info-row">
+        <span>Nombre</span>
+        <strong>{{ tienda()?.nombreNegocio }}</strong>
+      </div>
+
+      <div class="info-row">
+        <span>NIF/CIF</span>
+        <strong>{{ tienda()?.nifCif }}</strong>
+      </div>
+
+      <div class="info-row">
+        <span>Ciudad</span>
+        <strong>{{ tienda()?.ciudad }}</strong>
+      </div>
+
+      <div class="info-row">
+        <span>Dirección</span>
+        <strong>{{ tienda()?.direccion }}</strong>
+      </div>
+
+      <div class="info-row">
+        <span>Teléfono</span>
+        <strong>{{ tienda()?.telefono }}</strong>
+      </div>
+
+      <div class="info-row">
+        <span>Email</span>
+        <strong>{{ tienda()?.email }}</strong>
+      </div>
+    </article>
+
+    <article class="store-info-card">
+      <h3>Propietario</h3>
+
+      <div class="info-row">
+        <span>Nombre</span>
+        <strong>{{ tienda()?.nombrePropietario }}</strong>
+      </div>
+
+      <div class="info-row">
+        <span>Apellidos</span>
+        <strong>{{ tienda()?.apellidosPropietario }}</strong>
+      </div>
+
+      <div class="info-row">
+        <span>Estado</span>
+        <strong
+          class="badge"
+          [class.ok]="tienda()?.estado === 'APROBADA'"
+          [class.warn]="tienda()?.estado === 'PENDIENTE'"
+          [class.danger]="tienda()?.estado === 'BLOQUEADA' || tienda()?.estado === 'RECHAZADA'"
+        >
+          {{ tienda()?.estado }}
+        </strong>
+      </div>
+
+      <div class="info-row">
+        <span>Activa</span>
+        <strong>{{ tienda()?.estado === 'APROBADA' ? 'Sí' : 'No' }}</strong>
+      </div>
+    </article>
+  </section>
+
+  @if (seccionActiva() === 'PRODUCTOS') {
+    <section class="detail-section">
+      <h2>Productos de la tienda</h2>
+
+      @if (productos().length > 0) {
+        <div class="products-list">
+          @for (producto of productosPaginados(); track producto.id) {
+            <div class="product-row">
+              @if (producto.imagenUrl) {
+                <img class="product-thumb" [src]="producto.imagenUrl" [alt]="producto.nombre" />
+              } @else {
+                <div class="product-thumb product-thumb-placeholder">{{ producto.nombre.charAt(0) }}</div>
+              }
+
+              <div class="product-info">
+                <strong>{{ producto.nombre }}</strong>
+                <span>{{ producto.categoria }}</span>
+              </div>
+
+              <div class="product-price">
+                {{ producto.precio | currency: 'EUR' }}
+              </div>
+
+              <span class="product-status activo">Activo</span>
+            </div>
+          }
+        </div>
+
+        @if (productos().length > itemsPorPagina()) {
+          <div class="section-pagination">
+            <span> Página {{ paginaProductos() }} de {{ totalPaginasProductos() }} </span>
+
+            <div>
+              <button
+                type="button"
+                (click)="paginaAnteriorProductos()"
+                [disabled]="paginaProductos() === 1"
+              >
+                Anterior
+              </button>
+
+              <button
+                type="button"
+                (click)="paginaSiguienteProductos()"
+                [disabled]="paginaProductos() === totalPaginasProductos()"
+              >
+                Siguiente
+              </button>
+            </div>
+          </div>
+        }
+      } @else {
+        <div class="empty-box pro-empty">Esta tienda todavía no tiene productos registrados.</div>
+      }
+    </section>
+  }
+
+  @if (seccionActiva() === 'PEDIDOS') {
+    <section class="detail-section">
+      <h2>Pedidos de la tienda</h2>
+
+      @if (pedidos().length > 0) {
+        <div class="orders-list">
+          @for (pedido of pedidosPaginados(); track pedido.id) {
+            <div class="order-row">
+              <div>
+                <strong>{{ pedido.numeroPedido }}</strong>
+                <span>{{ pedido.clienteEmail }}</span>
+              </div>
+
+              <span>{{ pedido.total | currency: 'EUR' }}</span>
+              <span class="status-badge aprobada">{{ pedido.estado }}</span>
+
+              <button type="button" class="small-dark" (click)="abrirDetallePedido(pedido)">
+                Ver pedido
+              </button>
+            </div>
+          }
+        </div>
+
+        @if (pedidos().length > itemsPorPagina()) {
+          <div class="section-pagination">
+            <span> Página {{ paginaPedidos() }} de {{ totalPaginasPedidos() }} </span>
+
+            <div>
+              <button
+                type="button"
+                (click)="paginaAnteriorPedidos()"
+                [disabled]="paginaPedidos() === 1"
+              >
+                Anterior
+              </button>
+
+              <button
+                type="button"
+                (click)="paginaSiguientePedidos()"
+                [disabled]="paginaPedidos() === totalPaginasPedidos()"
+              >
+                Siguiente
+              </button>
+            </div>
+          </div>
+        }
+      } @else {
+        <div class="empty-box pro-empty">Esta tienda todavía no tiene pedidos.</div>
+      }
+    </section>
+  }
+
+  @if (seccionActiva() === 'VENTAS') {
+    <section class="detail-section">
+      <h2>Resumen de ventas</h2>
+
+      <div class="sales-summary-card">
+        <span>Total vendido</span>
+        <strong>{{ ventasTotales() | currency: 'EUR' }}</strong>
+        <p>Ventas acumuladas por pedidos registrados en esta tienda.</p>
+      </div>
+    </section>
+  }
+
+  <!-- NOTA ADMIN -->
+  <section class="admin-note">
+    <h3>Nota interna del administrador</h3>
+
+    <textarea
+      placeholder="Escribe una nota..."
+      [value]="notaInterna()"
+      (input)="notaInterna.set($any($event.target).value)"
+    ></textarea>
+
+    <button type="button" class="btn primary" (click)="guardarNota()">Guardar nota</button>
+  </section>
+</section>
+
+@if (modalBloquearAbierto()) {
+  <app-admin-modal
+    title="Bloquear tienda"
+    description="Indica el motivo del bloqueo"
+    confirmText="Bloquear"
+    cancelText="Cerrar"
+    [danger]="true"
+    (close)="cerrarModalBloqueo()"
+    (confirm)="confirmarBloqueo()"
+  >
+    <textarea
+      class="modal-textarea"
+      placeholder="Escribe el motivo del bloqueo..."
+      [value]="motivoBloqueo()"
+      (input)="motivoBloqueo.set($any($event.target).value)"
+    ></textarea>
+  </app-admin-modal>
+}
+
+@if (modalRechazarAbierto()) {
+  <app-admin-modal
+    title="Rechazar tienda"
+    description="Indica el motivo del rechazo"
+    confirmText="Rechazar"
+    cancelText="Cerrar"
+    [danger]="true"
+    (close)="cerrarModalRechazo()"
+    (confirm)="confirmarRechazo()"
+  >
+    <textarea
+      class="modal-textarea"
+      placeholder="Escribe el motivo del rechazo..."
+      [value]="motivoRechazo()"
+      (input)="motivoRechazo.set($any($event.target).value)"
+    ></textarea>
+  </app-admin-modal>
+}
+
+@if (modalPedidoAbierto() && pedidoDetalle()) {
+  <app-admin-modal
+    title="Detalle del pedido"
+    description="Información completa del pedido recibido por la tienda."
+    cancelText="Cerrar"
+    [showConfirm]="false"
+    (close)="cerrarDetallePedido()"
+  >
+    <div class="pedido-modal">
+      <section class="pedido-modal-header">
+        <div>
+          <h3>{{ pedidoDetalle()?.numeroPedido }}</h3>
+          <p>{{ pedidoDetalle()?.fechaPedido | date: 'dd/MM/yyyy, HH:mm' }}</p>
+        </div>
+
+        <span
+          class="pedido-status"
+          [class.pendiente]="pedidoDetalle()?.estado === 'PENDIENTE'"
+          [class.preparacion]="pedidoDetalle()?.estado === 'EN_PREPARACION'"
+          [class.enviado]="pedidoDetalle()?.estado === 'ENVIADO'"
+          [class.entregado]="pedidoDetalle()?.estado === 'ENTREGADO'"
+          [class.cancelado]="pedidoDetalle()?.estado === 'CANCELADO'"
+        >
+          {{ pedidoDetalle()?.estado }}
+        </span>
+      </section>
+
+      <section class="pedido-summary-grid">
+        <div>
+          <small>Cliente</small>
+          <strong>{{ pedidoDetalle()?.clienteEmail }}</strong>
+        </div>
+
+        <div>
+          <small>Método de pago</small>
+          <strong>{{ pedidoDetalle()?.metodoPago }}</strong>
+        </div>
+
+        <div>
+          <small>Estado pago</small>
+          <strong>{{ pedidoDetalle()?.estadoPago }}</strong>
+        </div>
+
+        <div>
+          <small>Total</small>
+          <strong>{{ pedidoDetalle()?.total | currency: 'EUR' }}</strong>
+        </div>
+      </section>
+
+      <section class="pedido-address-box">
+        <small>Dirección de envío</small>
+        <p>
+          {{ pedidoDetalle()?.direccionEnvio }}, {{ pedidoDetalle()?.ciudadEnvio }},
+          {{ pedidoDetalle()?.codigoPostalEnvio }}
+        </p>
+      </section>
+
+      <section class="pedido-products-box">
+        <h3>Productos del pedido</h3>
+
+        @for (item of itemsPedidoDetalle(); track item.productoId) {
+          <div class="pedido-product-row">
+            <div>
+              <strong>{{ item.nombreProducto }}</strong>
+              <span>Cantidad: {{ item.cantidad }}</span>
+            </div>
+
+            <div>
+              <span>{{ item.precioUnitario | currency: 'EUR' }}</span>
+              <strong>{{ item.subtotal | currency: 'EUR' }}</strong>
+            </div>
+          </div>
+        }
+      </section>
+
+      <section class="pedido-totals">
+        <div>
+          <span>Subtotal</span>
+          <strong>{{ pedidoDetalle()?.subtotal | currency: 'EUR' }}</strong>
+        </div>
+
+        <div>
+          <span>Envío</span>
+          <strong>{{ pedidoDetalle()?.costoEnvio | currency: 'EUR' }}</strong>
+        </div>
+
+        <div>
+          <span>IVA</span>
+          <strong>{{ pedidoDetalle()?.iva | currency: 'EUR' }}</strong>
+        </div>
+
+        <div class="total-final">
+          <span>Total</span>
+          <strong>{{ pedidoDetalle()?.total | currency: 'EUR' }}</strong>
+        </div>
+      </section>
+    </div>
+  </app-admin-modal>
+}

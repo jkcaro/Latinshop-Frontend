@@ -1,0 +1,90 @@
+<section class="order-detail-page">
+  <h1>Detalle del pedido</h1>
+
+  @if (pedido()) {
+    <div class="detail-grid">
+      <section class="detail-card">
+        <h2>Información general</h2>
+        <p><strong>Número:</strong> {{ pedido()?.numeroPedido }}</p>
+        <p><strong>Cliente:</strong> {{ pedido()?.clienteEmail }}</p>
+        <p><strong>Fecha:</strong> {{ pedido()?.fechaPedido | date:'medium' }}</p>
+        <p><strong>Estado actual:</strong> {{ pedido()?.estado }}</p>
+        <p><strong>Método de pago:</strong> {{ pedido()?.metodoPago }}</p>
+        <p><strong>Estado del pago:</strong> {{ pedido()?.estadoPago }}</p>
+        <p><strong>Método de envío:</strong> {{ pedido()?.metodoEnvio }}</p>
+        <p><strong>Total:</strong> {{ pedido()?.total | currency:'EUR' }}</p>
+      </section>
+
+      <section class="detail-card">
+        <h2>Entrega</h2>
+        <p><strong>Dirección:</strong> {{ pedido()?.direccionEnvio }}</p>
+        <p><strong>Ciudad:</strong> {{ pedido()?.ciudadEnvio }}</p>
+        <p><strong>Código postal:</strong> {{ pedido()?.codigoPostalEnvio }}</p>
+      </section>
+    </div>
+
+    <section class="detail-card">
+      <h2>Productos del pedido</h2>
+
+      @for (item of pedido()?.items ?? []; track item.productoId) {
+        <div class="detail-item">
+          <div>
+            <h3>{{ item.nombreProducto }}</h3>
+            <p>Cantidad: {{ item.cantidad }}</p>
+          </div>
+
+          <div class="detail-item-prices">
+            <p>Precio unitario: {{ item.precioUnitario | currency:'EUR' }}</p>
+            <p><strong>Subtotal: {{ item.subtotal | currency:'EUR' }}</strong></p>
+          </div>
+        </div>
+      }
+    </section>
+
+    <app-mensajes-pedido [pedidoId]="pedidoId" miTipo="TIENDA" />
+
+    <section class="order-state-card">
+      <div>
+        <h3>Actualizar estado del pedido</h3>
+        <p>Selecciona el siguiente estado para informar al cliente.</p>
+      </div>
+
+      <div class="state-actions">
+        <button type="button" (click)="abrirModalEstado('PENDIENTE')">Pendiente</button>
+        <button type="button" (click)="abrirModalEstado('EN_PREPARACION')">En preparación</button>
+        <button type="button" (click)="abrirModalEstado('ENVIADO')">Enviado</button>
+        <button type="button" (click)="abrirModalEstado('ENTREGADO')">Entregado</button>
+        <button type="button" (click)="abrirModalEstado('CANCELADO')">Cancelado</button>
+      </div>
+
+      @if (success()) {
+        <p class="success">✓ {{ success() }}</p>
+      }
+      @if (error()) {
+        <p class="error-msg">✗ {{ error() }}</p>
+      }
+    </section>
+  } @else {
+    <div class="empty-box">
+      <p>Pedido no encontrado.</p>
+    </div>
+  }
+</section>
+
+@if (modalEstadoAbierto()) {
+  <app-admin-modal
+    title="Confirmar cambio de estado"
+    description="Esta acción actualizará el estado del pedido."
+    confirmText="Sí, actualizar"
+    cancelText="Cancelar"
+    [danger]="nuevoEstado() === 'CANCELADO'"
+    (close)="cerrarModalEstado()"
+    (confirm)="confirmarEstado()"
+  >
+    <div class="confirm-status-box">
+      <p><strong>Pedido:</strong> {{ pedido()?.numeroPedido }}</p>
+      <p><strong>Estado actual:</strong> {{ pedido()?.estado }}</p>
+      <p><strong>Nuevo estado:</strong> {{ nuevoEstado() }}</p>
+    </div>
+  </app-admin-modal>
+}

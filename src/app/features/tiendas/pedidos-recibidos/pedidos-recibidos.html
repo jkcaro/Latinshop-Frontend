@@ -1,0 +1,101 @@
+<section class="orders-page">
+  <div class="orders-header">
+    <div>
+      <h1>Pedidos recibidos</h1>
+      <p>Gestiona los pedidos de tu tienda</p>
+    </div>
+    @if (pedidosPendientes().length > 0) {
+      <span class="pending-badge">{{ pedidosPendientes().length }} pendientes de atender</span>
+    }
+  </div>
+
+  <div class="orders-toolbar">
+    <input
+      type="search"
+      placeholder="Buscar por código o cliente..."
+      [value]="busqueda()"
+      (input)="actualizarBusqueda($any($event.target).value)"
+    />
+
+    <select
+      [value]="estadoFiltro()"
+      (change)="cambiarEstado($any($event.target).value)"
+    >
+      @for (e of estados; track e.valor) {
+        <option [value]="e.valor">{{ e.label }}</option>
+      }
+    </select>
+  </div>
+
+  @if (pedidosPaginados().length > 0) {
+    <div class="orders-list">
+      @for (p of pedidosPaginados(); track p.id) {
+        <div class="order-row">
+          <div class="order-main">
+            <h3>{{ p.numeroPedido }}</h3>
+            <span>{{ p.clienteEmail }}</span>
+          </div>
+
+          <div class="order-price">
+            {{ p.total | currency:'EUR' }}
+          </div>
+
+          <div class="order-status">
+            <span
+              class="status"
+              [class.pendiente]="p.estado === 'PENDIENTE'"
+              [class.en_preparacion]="p.estado === 'EN_PREPARACION'"
+              [class.enviado]="p.estado === 'ENVIADO'"
+              [class.entregado]="p.estado === 'ENTREGADO'"
+              [class.cancelado]="p.estado === 'CANCELADO'"
+            >
+              {{ estadoLabel(p.estado) }}
+            </span>
+          </div>
+
+          <div class="order-actions">
+            <a [routerLink]="['/tienda/pedidos', p.id]" class="btn-view">
+              Ver detalle
+            </a>
+            <button type="button" class="btn-state" (click)="abrirCambioEstado(p)">
+              Cambiar estado
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="empty-state">
+      <h3>No hay pedidos</h3>
+      <p>{{ busqueda() || estadoFiltro() !== 'TODOS' ? 'Sin resultados para tu búsqueda.' : 'Aún no has recibido pedidos.' }}</p>
+    </div>
+  }
+
+  @if (pedidosFiltrados().length > porPagina()) {
+    <div class="section-pagination">
+      <span>Página {{ paginaActual() }} de {{ totalPaginas() }} — {{ pedidosFiltrados().length }} pedidos</span>
+      <div>
+        <button type="button" (click)="paginaAnterior()" [disabled]="paginaActual() === 1">← Anterior</button>
+        <button type="button" (click)="paginaSiguiente()" [disabled]="paginaActual() === totalPaginas()">Siguiente →</button>
+      </div>
+    </div>
+  }
+</section>
+
+@if (modalEstadoAbierto() && pedidoSeleccionado()) {
+  <app-admin-modal
+    title="Cambiar estado del pedido"
+    [description]="'Pedido: ' + pedidoSeleccionado()?.numeroPedido"
+    confirmText="Confirmar"
+    cancelText="Cancelar"
+    (close)="cerrarCambioEstado()"
+  >
+    <div class="estado-opciones">
+      <button type="button" class="estado-btn pendiente-btn"      (click)="confirmarCambioEstado('PENDIENTE')">Pendiente</button>
+      <button type="button" class="estado-btn preparacion-btn"    (click)="confirmarCambioEstado('EN_PREPARACION')">En preparación</button>
+      <button type="button" class="estado-btn enviado-btn"        (click)="confirmarCambioEstado('ENVIADO')">Enviado</button>
+      <button type="button" class="estado-btn entregado-btn"      (click)="confirmarCambioEstado('ENTREGADO')">Entregado</button>
+      <button type="button" class="estado-btn cancelado-btn"      (click)="confirmarCambioEstado('CANCELADO')">Cancelado</button>
+    </div>
+  </app-admin-modal>
+}

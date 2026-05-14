@@ -1,0 +1,55 @@
+<section class="resenas-page">
+  <div class="resenas-header">
+    <h1>Mis reseñas</h1>
+    <p>Aquí puedes ver y gestionar las reseñas que has dejado en las tiendas.</p>
+  </div>
+
+  @if (mensaje()) {
+    <div class="resenas-msg">{{ mensaje() }}</div>
+  }
+
+  @if (resenas().length > 0) {
+    <div class="resenas-list">
+      @for (r of resenas(); track r.id) {
+        <article class="resena-card">
+          <div class="resena-top">
+            <div class="resena-tienda">
+              <span class="tienda-label">{{ r.tiendasNombre }}</span>
+              <span class="resena-fecha">{{ r.fecha | date:'mediumDate' }}</span>
+            </div>
+            <div class="resena-stars">
+              @for (s of estrellas(r.calificacion); track $index) {
+                <span [class.llena]="s === '★'">{{ s }}</span>
+              }
+            </div>
+          </div>
+
+          @if (r.comentario) {
+            <p class="resena-comentario">"{{ r.comentario }}"</p>
+          } @else {
+            <p class="resena-sin-comentario">Sin comentario adicional.</p>
+          }
+
+          <div class="resena-footer">
+            <span class="resena-estado" [class.visible]="r.estado === 'VISIBLE'" [class.oculta]="r.estado === 'OCULTA'">
+              {{ r.estado === 'VISIBLE' ? '✓ Publicada' : '⊘ Oculta por admin' }}
+            </span>
+            <button
+              type="button"
+              class="btn-eliminar"
+              (click)="eliminar(r.id)"
+              [disabled]="eliminando() === r.id"
+            >
+              {{ eliminando() === r.id ? 'Eliminando…' : 'Eliminar' }}
+            </button>
+          </div>
+        </article>
+      }
+    </div>
+  } @else {
+    <div class="resenas-empty">
+      <p>⭐ Aún no has dejado ninguna reseña.</p>
+      <p>Cuando un pedido sea entregado, podrás valorar la tienda desde la ficha de la tienda.</p>
+    </div>
+  }
+</section>

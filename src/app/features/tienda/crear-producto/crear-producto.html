@@ -1,0 +1,119 @@
+<div class="crear-producto">
+  <div class="page-header">
+    <span class="badge">Nuevo producto</span>
+    <h1>Crear producto</h1>
+    <p>Añade un producto a tu catálogo.</p>
+  </div>
+
+  <div class="layout">
+    <div class="form-card">
+      <h3>Información del producto</h3>
+
+      <form (ngSubmit)="crearProducto()">
+        <div class="form-grid">
+          <div class="field">
+            <label for="nombre">Nombre</label>
+            <input id="nombre" type="text" [ngModel]="nombre()" (ngModelChange)="nombre.set($event)" name="nombre" required />
+          </div>
+
+          <div class="field">
+            <label for="marca">Marca</label>
+            <input id="marca" type="text" [ngModel]="marca()" (ngModelChange)="marca.set($event)" name="marca" />
+          </div>
+
+          <div class="field">
+            <label for="categoria">Categoría</label>
+            <select id="categoria" [ngModel]="categoriaId()" (ngModelChange)="categoriaId.set(+$event)" name="categoria" required>
+              <option [value]="0" disabled>Selecciona una categoría</option>
+              @for (cat of categorias(); track cat.id) {
+                <option [value]="cat.id">{{ cat.nombre }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="paisOrigen">País de origen</label>
+            <input id="paisOrigen" type="text" [ngModel]="paisOrigen()" (ngModelChange)="paisOrigen.set($event)" name="paisOrigen" />
+          </div>
+
+          <div class="field">
+            <label for="precio">Precio (€)</label>
+            <input id="precio" type="number" min="0.01" step="0.01" [ngModel]="precio()" (ngModelChange)="precio.set(+$event)" name="precio" required />
+          </div>
+
+          <div class="field">
+            <label for="precioOferta">Precio oferta (€) <span class="field-hint">Opcional — debe ser menor al precio</span></label>
+            <input id="precioOferta" type="number" min="0.01" step="0.01" placeholder="Ej: 2.50"
+              [(ngModel)]="precioOfertaVal"
+              name="precioOferta" />
+          </div>
+
+          <div class="field">
+            <label for="stock">Stock</label>
+            <input id="stock" type="number" [ngModel]="stock()" (ngModelChange)="stock.set(+$event)" name="stock" required />
+          </div>
+        </div>
+
+        <div class="field full">
+          <label for="descripcion">Descripción</label>
+          <textarea id="descripcion" rows="4" [ngModel]="descripcion()" (ngModelChange)="descripcion.set($event)" name="descripcion"></textarea>
+        </div>
+
+        <div class="image-upload">
+          <label for="imagenArchivo">Imagen del producto</label>
+
+          <div class="upload-box">
+            <input
+              id="imagenArchivo"
+              type="file"
+              accept="image/*"
+              (change)="onFileSelected($event)"
+            />
+            <span>Seleccionar imagen</span>
+          </div>
+
+          @if (previewImagen()) {
+            <div class="preview">
+              <img [src]="previewImagen()" alt="Vista previa del producto" />
+            </div>
+          }
+        </div>
+
+        <div class="field full checkbox-row">
+          <label for="destacado">Producto destacado</label>
+          <input id="destacado" type="checkbox" [ngModel]="destacado()" (ngModelChange)="destacado.set($event)" name="destacado" />
+        </div>
+
+        @if (error()) {
+          <div class="msg-box msg-error">
+            <strong>⚠ No se pudo guardar</strong>
+            <p>{{ error() }}</p>
+          </div>
+        }
+
+        <div class="actions">
+          <button type="submit" class="btn-primary">Guardar producto</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="tips-card">
+      <h4>Consejos</h4>
+      <ul>
+        <li>Usa un nombre claro</li>
+        <li>Sube una imagen de calidad</li>
+        <li>Describe bien el producto</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+@if (success()) {
+  <div class="success-toast" role="alert">
+    <div class="success-toast-icon">✅</div>
+    <div class="success-toast-body">
+      <p class="success-toast-title">Producto guardado</p>
+      <p class="success-toast-msg">{{ success() }}</p>
+    </div>
+  </div>
+}

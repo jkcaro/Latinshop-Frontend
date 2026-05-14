@@ -1,0 +1,297 @@
+<section class="admin-stores-page">
+  <section class="stores-hero">
+    <div>
+      <span class="hero-badge">Administración de tiendas</span>
+      <h1>Gestión de tiendas</h1>
+      <p>
+        Revisa solicitudes, aprueba tiendas, bloquea negocios y supervisa el estado general de los
+        vendedores registrados.
+      </p>
+    </div>
+
+    <div class="hero-illustration">🏪</div>
+  </section>
+
+  <section class="store-section">
+    <div class="section-title pending-title">
+      <h2>Tiendas pendientes</h2>
+      <span>{{ tiendasPendientes().length }} por revisar</span>
+    </div>
+
+    @if (tiendasPendientes().length > 0) {
+      <div class="stores-list">
+        @for (tienda of pendientesPaginadas(); track tienda.id) {
+          <article class="store-row">
+            <div class="store-avatar">{{ tienda.nombreNegocio.charAt(0) }}</div>
+            <div class="store-main-info">
+              <h3>{{ tienda.nombreNegocio }}</h3>
+              <p>{{ tienda.email }}</p>
+            </div>
+            <div class="store-meta">
+              <div><small>Propietario</small><strong>{{ tienda.nombrePropietario }} {{ tienda.apellidosPropietario }}</strong></div>
+              <div><small>Ciudad</small><strong>{{ tienda.ciudad }}</strong></div>
+              <div><small>Teléfono</small><strong>{{ tienda.telefono }}</strong></div>
+            </div>
+            <span class="status-badge pendiente">{{ tienda.estado }}</span>
+            <div class="store-actions">
+              <button type="button" class="approve" (click)="aprobar(tienda.id)">Aprobar</button>
+              <button type="button" class="danger" (click)="abrirRechazo(tienda.id)">Rechazar</button>
+              <button type="button" class="dark" (click)="abrirDetalle(tienda)">Ver detalle</button>
+            </div>
+          </article>
+        }
+      </div>
+      @if (totalPaginasPendientes() > 1) {
+        <div class="section-pagination">
+          <span>Página {{ paginaPendientes() }} de {{ totalPaginasPendientes() }}</span>
+          <div>
+            <button type="button" (click)="irPagina(paginaPendientes, paginaPendientes() - 1, totalPaginasPendientes())" [disabled]="paginaPendientes() === 1">Anterior</button>
+            <button type="button" (click)="irPagina(paginaPendientes, paginaPendientes() + 1, totalPaginasPendientes())" [disabled]="paginaPendientes() === totalPaginasPendientes()">Siguiente</button>
+          </div>
+        </div>
+      }
+    } @else {
+      <div class="empty-state pending-empty">No hay tiendas pendientes.</div>
+    }
+  </section>
+
+  <section class="store-section">
+    <div class="section-title approved-title">
+      <h2>Tiendas aprobadas</h2>
+      <span>{{ tiendasAprobadas().length }} activas</span>
+    </div>
+
+    @if (tiendasAprobadas().length > 0) {
+      <div class="stores-list">
+        @for (tienda of aprobadasPaginadas(); track tienda.id) {
+          <article class="store-row">
+            <div class="store-avatar">{{ tienda.nombreNegocio.charAt(0) }}</div>
+            <div class="store-main-info">
+              <h3>{{ tienda.nombreNegocio }}</h3>
+              <p>{{ tienda.email }}</p>
+            </div>
+            <div class="store-meta">
+              <div><small>Propietario</small><strong>{{ tienda.nombrePropietario }} {{ tienda.apellidosPropietario }}</strong></div>
+              <div><small>Ciudad</small><strong>{{ tienda.ciudad }}</strong></div>
+              <div><small>Teléfono</small><strong>{{ tienda.telefono }}</strong></div>
+            </div>
+            <span class="status-badge aprobada">{{ tienda.estado }}</span>
+            <div class="store-actions">
+              <button type="button" class="danger" (click)="abrirBloqueo(tienda.id)">Bloquear</button>
+              <button type="button" class="dark" (click)="abrirDetalle(tienda)">Ver detalle</button>
+            </div>
+          </article>
+        }
+      </div>
+      @if (totalPaginasAprobadas() > 1) {
+        <div class="section-pagination">
+          <span>Página {{ paginaAprobadas() }} de {{ totalPaginasAprobadas() }}</span>
+          <div>
+            <button type="button" (click)="irPagina(paginaAprobadas, paginaAprobadas() - 1, totalPaginasAprobadas())" [disabled]="paginaAprobadas() === 1">Anterior</button>
+            <button type="button" (click)="irPagina(paginaAprobadas, paginaAprobadas() + 1, totalPaginasAprobadas())" [disabled]="paginaAprobadas() === totalPaginasAprobadas()">Siguiente</button>
+          </div>
+        </div>
+      }
+    } @else {
+      <div class="empty-state">No hay tiendas aprobadas.</div>
+    }
+  </section>
+
+  <section class="store-section">
+    <div class="section-title blocked-title">
+      <h2>Tiendas bloqueadas</h2>
+      <span>{{ tiendasBloqueadas().length }} bloqueadas</span>
+    </div>
+
+    @if (tiendasBloqueadas().length > 0) {
+      <div class="stores-list">
+        @for (tienda of bloqueadasPaginadas(); track tienda.id) {
+          <article class="store-row">
+            <div class="store-avatar">{{ tienda.nombreNegocio.charAt(0) }}</div>
+            <div class="store-main-info">
+              <h3>{{ tienda.nombreNegocio }}</h3>
+              <p>{{ tienda.email }}</p>
+            </div>
+            <div class="store-meta">
+              <div><small>Propietario</small><strong>{{ tienda.nombrePropietario }} {{ tienda.apellidosPropietario }}</strong></div>
+              <div><small>Ciudad</small><strong>{{ tienda.ciudad }}</strong></div>
+              <div><small>Teléfono</small><strong>{{ tienda.telefono }}</strong></div>
+            </div>
+            <span class="status-badge bloqueada">{{ tienda.estado }}</span>
+            <div class="store-actions">
+              <button type="button" class="approve" (click)="desbloquear(tienda.id)">Desbloquear</button>
+              <button type="button" class="dark" (click)="abrirDetalle(tienda)">Ver detalle</button>
+            </div>
+          </article>
+        }
+      </div>
+      @if (totalPaginasBloqueadas() > 1) {
+        <div class="section-pagination">
+          <span>Página {{ paginaBloqueadas() }} de {{ totalPaginasBloqueadas() }}</span>
+          <div>
+            <button type="button" (click)="irPagina(paginaBloqueadas, paginaBloqueadas() - 1, totalPaginasBloqueadas())" [disabled]="paginaBloqueadas() === 1">Anterior</button>
+            <button type="button" (click)="irPagina(paginaBloqueadas, paginaBloqueadas() + 1, totalPaginasBloqueadas())" [disabled]="paginaBloqueadas() === totalPaginasBloqueadas()">Siguiente</button>
+          </div>
+        </div>
+      }
+    } @else {
+      <div class="empty-state blocked-empty">No hay tiendas bloqueadas.</div>
+    }
+  </section>
+
+  <section class="store-section">
+    <div class="section-title rejected-title">
+      <h2>Tiendas rechazadas</h2>
+      <span>{{ tiendasRechazadas().length }} rechazadas</span>
+    </div>
+
+    @if (tiendasRechazadas().length > 0) {
+      <div class="stores-list">
+        @for (tienda of rechazadasPaginadas(); track tienda.id) {
+          <article class="store-row">
+            <div class="store-avatar">{{ tienda.nombreNegocio.charAt(0) }}</div>
+            <div class="store-main-info">
+              <h3>{{ tienda.nombreNegocio }}</h3>
+              <p>{{ tienda.email }}</p>
+            </div>
+            <div class="store-meta">
+              <div><small>Propietario</small><strong>{{ tienda.nombrePropietario }} {{ tienda.apellidosPropietario }}</strong></div>
+              <div><small>Ciudad</small><strong>{{ tienda.ciudad }}</strong></div>
+              <div><small>Teléfono</small><strong>{{ tienda.telefono }}</strong></div>
+            </div>
+            <span class="status-badge rechazada">{{ tienda.estado }}</span>
+            <div class="store-actions">
+              <button type="button" (click)="pasarAPendiente(tienda.id)">Pasar a pendiente</button>
+              <button type="button" class="dark" (click)="abrirDetalle(tienda)">Ver detalle</button>
+            </div>
+          </article>
+        }
+      </div>
+      @if (totalPaginasRechazadas() > 1) {
+        <div class="section-pagination">
+          <span>Página {{ paginaRechazadas() }} de {{ totalPaginasRechazadas() }}</span>
+          <div>
+            <button type="button" (click)="irPagina(paginaRechazadas, paginaRechazadas() - 1, totalPaginasRechazadas())" [disabled]="paginaRechazadas() === 1">Anterior</button>
+            <button type="button" (click)="irPagina(paginaRechazadas, paginaRechazadas() + 1, totalPaginasRechazadas())" [disabled]="paginaRechazadas() === totalPaginasRechazadas()">Siguiente</button>
+          </div>
+        </div>
+      }
+    } @else {
+      <div class="empty-state rejected-empty">No hay tiendas rechazadas.</div>
+    }
+  </section>
+
+  @if (modalBloquearAbierto()) {
+    <app-admin-modal
+      title="Bloquear tienda"
+      description="Indica el motivo del bloqueo"
+      confirmText="Bloquear"
+      cancelText="Cerrar"
+      [danger]="true"
+      (close)="cerrarBloqueo()"
+      (confirm)="confirmarBloqueo()"
+    >
+      <textarea
+        placeholder="Escribe el motivo..."
+        [value]="motivo()"
+        (input)="motivo.set($any($event.target).value)"
+        class="modal-textarea"
+      ></textarea>
+    </app-admin-modal>
+  }
+
+  @if (modalRechazarAbierto()) {
+    <app-admin-modal
+      title="Rechazar tienda"
+      description="Indica el motivo del rechazo."
+      confirmText="Rechazar"
+      cancelText="Cerrar"
+      [danger]="true"
+      (close)="cerrarRechazo()"
+      (confirm)="confirmarRechazo()"
+    >
+      <textarea
+        class="modal-textarea"
+        placeholder="Escribe el motivo del rechazo..."
+        [value]="motivoRechazo()"
+        (input)="motivoRechazo.set($any($event.target).value)"
+      ></textarea>
+    </app-admin-modal>
+  }
+
+  @if (modalDetalleAbierto() && tiendaDetalle()) {
+    <app-admin-modal
+      title="Detalle de tienda"
+      description="Información general del negocio"
+      confirmText="Ver ficha completa"
+      cancelText="Cerrar"
+      (close)="cerrarDetalle()"
+      (confirm)="irADetalleCompleto()"
+    >
+      <div class="store-detail-modal">
+        <section class="store-modal-header">
+          <div class="store-modal-avatar">
+            {{ tiendaDetalle()!.nombreNegocio.charAt(0) }}
+          </div>
+
+          <div>
+            <h3>{{ tiendaDetalle()!.nombreNegocio }}</h3>
+            <p>{{ tiendaDetalle()!.email }}</p>
+
+            <span
+              class="store-modal-status"
+              [class.aprobada]="tiendaDetalle()!.estado === 'APROBADA'"
+              [class.pendiente]="tiendaDetalle()!.estado === 'PENDIENTE'"
+              [class.bloqueada]="tiendaDetalle()!.estado === 'BLOQUEADA'"
+              [class.rechazada]="tiendaDetalle()!.estado === 'RECHAZADA'"
+            >
+              {{ tiendaDetalle()!.estado }}
+            </span>
+          </div>
+        </section>
+
+        <section class="store-modal-grid">
+          <div>
+            <small>Propietario</small>
+            <strong
+              >{{ tiendaDetalle()!.nombrePropietario }}
+              {{ tiendaDetalle()!.apellidosPropietario }}</strong
+            >
+          </div>
+
+          <div>
+            <small>Ciudad</small>
+            <strong>{{ tiendaDetalle()!.ciudad }}</strong>
+          </div>
+
+          <div>
+            <small>Teléfono</small>
+            <strong>{{ tiendaDetalle()!.telefono }}</strong>
+          </div>
+
+          <div>
+            <small>NIF/CIF</small>
+            <strong>{{ tiendaDetalle()!.nifCif }}</strong>
+          </div>
+        </section>
+
+        <section class="store-address-box">
+          <small>Dirección</small>
+          <p>{{ tiendaDetalle()!.direccion }}</p>
+        </section>
+
+        <section class="store-address-box">
+          <small>Descripción</small>
+          <p>{{ tiendaDetalle()!.descripcion }}</p>
+        </section>
+
+        @if (tiendaDetalle()!.motivoAdmin) {
+          <section class="store-admin-note">
+            <small>Motivo administrativo</small>
+            <p>{{ tiendaDetalle()!.motivoAdmin }}</p>
+          </section>
+        }
+      </div>
+    </app-admin-modal>
+  }
+</section>

@@ -1,0 +1,111 @@
+<section class="product-page">
+  <section class="product-hero">
+    <div class="product-hero-content">
+      <span class="product-badge">Edición de producto</span>
+      <h1>Editar producto</h1>
+      <p>
+        Actualiza la información del producto, mejora su presentación y mantén
+        tu catálogo al día para los clientes.
+      </p>
+    </div>
+  </section>
+
+  <section class="product-layout">
+    <aside class="product-side-card">
+      <h2>Qué puedes actualizar</h2>
+      <ul>
+        <li>Nombre y descripción del producto.</li>
+        <li>Precio y stock disponible.</li>
+        <li>Categoría, marca y país de origen.</li>
+        <li>URL de imagen y si será destacado.</li>
+      </ul>
+    </aside>
+
+    <section class="product-form-card">
+      <h2>Datos del producto</h2>
+
+      <form class="product-form" (ngSubmit)="guardarCambios()">
+        <div class="form-grid">
+          <div>
+            <label for="nombre">Nombre</label>
+            <input id="nombre" type="text" [ngModel]="nombre()" (ngModelChange)="nombre.set($event)" name="nombre" required />
+          </div>
+
+          <div>
+            <label for="marca">Marca</label>
+            <input id="marca" type="text" [ngModel]="marca()" (ngModelChange)="marca.set($event)" name="marca" />
+          </div>
+
+          <div>
+            <label for="categoria">Categoría</label>
+            <select id="categoria" [ngModel]="categoriaId()" (ngModelChange)="categoriaId.set(+$event)" name="categoria" required>
+              <option [value]="0" disabled>Selecciona una categoría</option>
+              @for (cat of categorias(); track cat.id) {
+                <option [value]="cat.id">{{ cat.nombre }}</option>
+              }
+            </select>
+          </div>
+
+          <div>
+            <label for="paisOrigen">País de origen</label>
+            <input id="paisOrigen" type="text" [ngModel]="paisOrigen()" (ngModelChange)="paisOrigen.set($event)" name="paisOrigen" />
+          </div>
+
+          <div>
+            <label for="precio">Precio (€)</label>
+            <input id="precio" type="number" min="0.01" step="0.01" [ngModel]="precio()" (ngModelChange)="precio.set(+$event)" name="precio" required />
+          </div>
+
+          <div>
+            <label for="precioOferta">Precio oferta (€) <small>Opcional — dejar vacío para quitar</small></label>
+            <input id="precioOferta" type="number" min="0.01" step="0.01" placeholder="Ej: 2.50"
+              [(ngModel)]="precioOfertaVal"
+              name="precioOferta" />
+          </div>
+
+          <div>
+            <label for="stock">Stock</label>
+            <input id="stock" type="number" [ngModel]="stock()" (ngModelChange)="stock.set(+$event)" name="stock" required />
+          </div>
+
+          <div class="full-width">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" [ngModel]="descripcion()" (ngModelChange)="descripcion.set($event)" name="descripcion"></textarea>
+          </div>
+
+          <div class="full-width">
+            <label for="imagenArchivo">Imagen del producto</label>
+            <input
+              id="imagenArchivo"
+              type="file"
+              accept="image/*"
+              (change)="onFileSelected($event)"
+            />
+          </div>
+
+          @if (previewImagen()) {
+            <div class="full-width image-preview-box">
+              <span>Vista previa</span>
+              <img [src]="previewImagen()" alt="Vista previa del producto" />
+            </div>
+          }
+
+          <div class="checkbox-row full-width">
+            <label for="destacado">Producto destacado</label>
+            <input id="destacado" type="checkbox" [ngModel]="destacado()" (ngModelChange)="destacado.set($event)" name="destacado" />
+          </div>
+        </div>
+
+        <button type="submit">Guardar cambios</button>
+      </form>
+
+      @if (success()) {
+        <p class="success">{{ success() }}</p>
+      }
+
+      @if (error()) {
+        <p class="error">{{ error() }}</p>
+      }
+    </section>
+  </section>
+</section>

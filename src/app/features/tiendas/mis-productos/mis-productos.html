@@ -1,0 +1,126 @@
+<section class="products-page">
+  <div class="products-header">
+    <div>
+      <h1>Mis productos</h1>
+      <p>Gestiona los productos de tu tienda</p>
+    </div>
+
+    <a routerLink="/tienda/productos/crear" class="btn-primary"> + Crear producto </a>
+  </div>
+
+  <section class="products-toolbar">
+    <input
+      type="search"
+      placeholder="Buscar producto o categoría..."
+      [value]="busqueda()"
+      (input)="actualizarBusqueda($any($event.target).value)"
+    />
+
+    <select [value]="categoriaFiltro()" (change)="cambiarCategoria($any($event.target).value)">
+      <option value="TODAS">Todas las categorías</option>
+
+      @for (categoria of categorias(); track categoria) {
+        <option [value]="categoria">{{ categoria }}</option>
+      }
+    </select>
+  </section>
+
+  @if (misProductos().length > 0) {
+    <div class="products-list">
+      @for (p of productosPaginados(); track p.id) {
+        <div class="product-row">
+          <div class="product-img">
+            @if (p.imagenUrl) {
+              <img [src]="p.imagenUrl" [alt]="p.nombre" />
+            } @else {
+              <span class="product-img-initial">{{ p.nombre.charAt(0) }}</span>
+            }
+          </div>
+
+          <div class="product-info">
+            <h3>{{ p.nombre }}</h3>
+            <span class="category">{{ p.categoria }}</span>
+          </div>
+
+          <div class="product-price">
+            <span>{{ p.precio | currency: 'EUR' }}</span>
+            @if (p.precioOferta) {
+              <span class="oferta-badge">Oferta: {{ p.precioOferta | currency:'EUR' }}</span>
+            }
+          </div>
+
+          <div class="product-status">
+            <span class="status" [class.inactive]="!p.activo">
+              {{ p.activo ? 'Activo' : 'Inactivo' }}
+            </span>
+          </div>
+
+          <div class="product-actions">
+            <a [routerLink]="['/tienda/productos/editar', p.id]" class="btn-edit"> Editar </a>
+            <button type="button" class="btn-delete" (click)="abrirModalEliminar(p.id)">Eliminar</button>
+          </div>
+
+          <div class="oferta-row">
+            <label class="oferta-label">🏷️ Precio oferta (€)</label>
+            <input
+              type="number"
+              min="0.01"
+              step="0.01"
+              [placeholder]="p.precioOferta ? p.precioOferta.toString() : 'Ej: 5.00'"
+              [(ngModel)]="ofertaInputs[p.id]"
+              [name]="'oferta_' + p.id"
+              class="oferta-input"
+            />
+            <button type="button" class="btn-oferta-apply" (click)="aplicarOferta(p.id)">Aplicar</button>
+            @if (p.precioOferta) {
+              <button type="button" class="btn-oferta-remove" (click)="quitarOferta(p.id)">Quitar oferta</button>
+            }
+            @if (ofertaMensajes[p.id]) {
+              <span class="oferta-msg" [class.error]="ofertaMensajes[p.id].startsWith('Error')">{{ ofertaMensajes[p.id] }}</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    @if (productosFiltrados().length > productosPorPagina()) {
+      <div class="section-pagination">
+        <span> Página {{ paginaActual() }} de {{ totalPaginas() }} </span>
+
+        <div>
+          <button type="button" (click)="paginaAnterior()" [disabled]="paginaActual() === 1">
+            Anterior
+          </button>
+
+          <button
+            type="button"
+            (click)="paginaSiguiente()"
+            [disabled]="paginaActual() === totalPaginas()"
+          >
+            Siguiente
+          </button>
+        </div>
+      </div>
+    }
+  } @else {
+    <div class="empty-state">
+      <div class="empty-icon">📦</div>
+      <h3>No tienes productos</h3>
+      <p>Empieza creando tu primer producto</p>
+
+      <a routerLink="/tienda/productos/crear" class="btn-primary"> Crear producto </a>
+    </div>
+  }
+</section>
+
+@if (modalEliminarAbierto()) {
+  <app-admin-modal
+    title="Eliminar producto"
+    description="¿Estás seguro de que quieres eliminar este producto? Esta acción no se puede deshacer."
+    confirmText="Eliminar"
+    cancelText="Cancelar"
+    [danger]="true"
+    (close)="cerrarModalEliminar()"
+    (confirm)="confirmarEliminar()"
+  />
+}

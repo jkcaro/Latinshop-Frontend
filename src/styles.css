@@ -1,1 +1,82 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* ── Variables base (fallback: océano) ── */
+:root {
+  --accent:        #3b82f6;
+  --accent-2:      #2563eb;
+  --accent-bg:     #eff6ff;
+  --accent-border: #bfdbfe;
+  --accent-text:   #1d4ed8;
+  --accent-hover:  rgba(59, 130, 246, 0.12);
+  --sidebar-from:  #1e3a8a;
+  --sidebar-to:    #111827;
+  --logo-color:    #93c5fd;
+}
+
+/* ── Tema Océano (Azul) ── */
+[data-theme='ocean'] {
+  --accent:        #3b82f6;
+  --accent-2:      #2563eb;
+  --accent-bg:     #eff6ff;
+  --accent-border: #bfdbfe;
+  --accent-text:   #1d4ed8;
+  --accent-hover:  rgba(59, 130, 246, 0.12);
+  --sidebar-from:  #1e3a8a;
+  --sidebar-to:    #111827;
+  --logo-color:    #93c5fd;
+}
+
+/* ── Tema Atardecer (Naranja/Rojo) ── */
+[data-theme='sunset'] {
+  --accent:        #f2994a;
+  --accent-2:      #eb5757;
+  --accent-bg:     #fff7ed;
+  --accent-border: #fed7aa;
+  --accent-text:   #c2410c;
+  --accent-hover:  rgba(242, 153, 74, 0.12);
+  --sidebar-from:  #7f1d1d;
+  --sidebar-to:    #111827;
+  --logo-color:    #fca5a5;
+}
+
+/* ── Tema Bosque (Verde) ── */
+[data-theme='forest'] {
+  --accent:        #22c55e;
+  --accent-2:      #16a34a;
+  --accent-bg:     #f0fdf4;
+  --accent-border: #bbf7d0;
+  --accent-text:   #15803d;
+  --accent-hover:  rgba(34, 197, 94, 0.12);
+  --sidebar-from:  #14532d;
+  --sidebar-to:    #111827;
+  --logo-color:    #86efac;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}

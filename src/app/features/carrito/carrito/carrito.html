@@ -1,0 +1,324 @@
+<div class="carrito-page">
+
+  <!-- HEADER -->
+  <div class="carrito-header">
+    <div class="carrito-header-left">
+      <lucide-icon [img]="ShoppingCart" [size]="24" class="cart-icon"></lucide-icon>
+      <h1>Carrito de compra</h1>
+    </div>
+    @if (tiendaIdActual()) {
+      <div class="carrito-header-right">
+        <span class="header-tienda-label">{{ nombreTiendaSeleccionada() }}</span>
+        <a [routerLink]="['/cliente/tiendas', tiendaIdActual()]" class="btn-cambiar-tienda">Ir a tienda</a>
+      </div>
+    }
+  </div>
+
+  @if (error()) {
+    <div class="msg-error">{{ error() }}</div>
+  }
+  @if (success()) {
+    <div class="msg-success">{{ success() }}</div>
+  }
+
+  @if (items().length > 0) {
+    <div class="content-grid">
+
+      <!-- PANEL IZQUIERDO: productos -->
+      <section class="cart-panel">
+        <h2 class="panel-title">Productos seleccionados</h2>
+
+        @for (item of items(); track item.producto.id) {
+          <article class="cart-item">
+            @if (item.producto.imagenUrl) {
+              <img class="item-thumb" [src]="item.producto.imagenUrl" [alt]="item.producto.nombre" />
+            } @else {
+              <div class="item-thumb-placeholder"></div>
+            }
+
+            <div class="item-info">
+              <p class="item-name">{{ item.producto.nombre }}</p>
+              <p class="item-desc">{{ item.producto.descripcion }}</p>
+              <div class="item-price">
+                @if (item.producto.precioOferta) {
+                  <span class="precio-tachado">{{ item.producto.precio | currency:'EUR' }}</span>
+                  <span class="precio-oferta">{{ item.producto.precioOferta | currency:'EUR' }}</span>
+                } @else {
+                  <span class="precio-normal">{{ item.producto.precio | currency:'EUR' }}</span>
+                }
+              </div>
+            </div>
+
+            <div class="item-controls">
+              <div class="qty-wrap">
+                <button type="button" class="qty-btn" (click)="disminuir(item.producto.id)">−</button>
+                <span class="qty-val">{{ item.cantidad }}</span>
+                <button type="button" class="qty-btn" (click)="aumentar(item.producto.id)">+</button>
+              </div>
+              <span class="item-subtotal">{{ item.subtotal | currency:'EUR' }}</span>
+              <button type="button" class="btn-trash" (click)="eliminar(item.producto.id)" title="Eliminar">
+                <lucide-icon [img]="Trash2" [size]="16"></lucide-icon>
+              </button>
+            </div>
+          </article>
+        }
+
+        <div class="cart-footer">
+          <a routerLink="/cliente" class="link-seguir">← Seguir comprando</a>
+        </div>
+      </section>
+
+      <!-- PANEL DERECHO: resumen -->
+      <aside class="checkout-panel">
+
+        <!-- Título con icono -->
+        <div class="checkout-panel-title">
+          <lucide-icon [img]="ClipboardList" [size]="22" class="checkout-panel-icon"></lucide-icon>
+          <h2>Resumen del pedido</h2>
+        </div>
+
+        <!-- Widget envío gratis -->
+        @if (metodoEnvio() === 'ESTANDAR' && envioGratisActivo()) {
+          <div class="envio-gratis-widget" [class.envio-gratis-ok]="envioGratis()">
+            <div class="envio-gratis-top">
+              <span class="envio-gratis-truck">🚚</span>
+              @if (envioGratis()) {
+                <p class="envio-gratis-msg">¡<strong>Envío gratis</strong> disponible!</p>
+              } @else {
+                <p class="envio-gratis-msg">Te faltan <strong>{{ faltaParaEnvioGratis() | currency:'EUR' }}</strong> para obtener envío gratis en tu pedido.</p>
+              }
+            </div>
+            <div class="envio-gratis-track">
+              <div class="envio-gratis-fill" [style.width.%]="progresoEnvioGratis()"></div>
+            </div>
+            <div class="envio-gratis-labels">
+              <span>€0</span>
+              <span>€{{ subtotal().toFixed(2) }}</span>
+              <span>€{{ ENVIO_GRATIS_UMBRAL() }}</span>
+            </div>
+          </div>
+        }
+
+        <!-- Líneas de resumen -->
+        <div class="summary-lines">
+          <div class="summary-line">
+            <span>Productos ({{ totalItems() }})</span>
+            <span>{{ subtotal() | currency:'EUR' }}</span>
+          </div>
+          <div class="summary-line">
+            <span>Envío</span>
+            @if (envioGratis() && metodoEnvio() === 'ESTANDAR') {
+              <span class="envio-gratis-tag">Gratis 🎉</span>
+            } @else {
+              <span>{{ costoEnvio() | currency:'EUR' }}</span>
+            }
+          </div>
+          <div class="summary-line">
+            <span>IVA (21%)</span>
+            <span>{{ iva() | currency:'EUR' }}</span>
+          </div>
+          <div class="summary-total">
+            <strong>Total</strong>
+            <strong class="total-val">{{ totalCompra() | currency:'EUR' }}</strong>
+          </div>
+        </div>
+
+        <!-- Forma de pago -->
+        <div class="panel-section">
+          <div class="panel-section-header">
+            <lucide-icon [img]="CreditCard" [size]="18" class="section-icon"></lucide-icon>
+            <h3 class="section-label">Forma de pago</h3>
+          </div>
+          <label class="select-label">Método de pago</label>
+          <select name="metodoPago" [ngModel]="metodoPago()" (ngModelChange)="metodoPago.set($event)">
+            <option value="TARJETA">Tarjeta</option>
+            <option value="PAYPAL">PayPal</option>
+            <option value="TRANSFERENCIA">Transferencia</option>
+            <option value="CONTRA_ENTREGA">Contra entrega</option>
+          </select>
+        </div>
+
+        <!-- Forma de envío -->
+        <div class="panel-section">
+          <div class="panel-section-header">
+            <lucide-icon [img]="Truck" [size]="18" class="section-icon"></lucide-icon>
+            <h3 class="section-label">Forma de envío</h3>
+          </div>
+          <label class="select-label">Método de envío</label>
+          <select name="metodoEnvio" [ngModel]="metodoEnvio()" (ngModelChange)="onMetodoEnvioChange($event)">
+            <option value="ESTANDAR">Estándar — ~1 h (2,50 €)</option>
+            <option value="EXPRESS">Express — ~30 min (5,50 €)</option>
+            <option value="RECOGIDA_TIENDA">Recogida en tienda (Gratis)</option>
+          </select>
+        </div>
+
+        @if (metodoEnvio() !== 'RECOGIDA_TIENDA') {
+          <div class="panel-section envio-resumen">
+            <button type="button" class="btn-envio-modal" (click)="modalEnvio.set(true)">
+              <lucide-icon [img]="MapPin" [size]="15"></lucide-icon>
+              @if (direccionEnvio()) {
+                {{ direccionEnvio() }}, {{ ciudadEnvio() }} {{ codigoPostalEnvio() }}
+              } @else {
+                Añadir dirección de envío
+              }
+              <span class="btn-envio-edit">Editar</span>
+            </button>
+          </div>
+        } @else {
+          <div class="pickup-note">
+            <lucide-icon [img]="MapPin" [size]="16" class="pickup-icon"></lucide-icon>
+            <div>
+              <p class="pickup-title">Recogida en tienda</p>
+              <p class="pickup-desc">Pasa a recoger tu pedido directamente en <strong>{{ nombreTiendaSeleccionada() }}</strong>. No necesitas indicar dirección.</p>
+            </div>
+          </div>
+        }
+
+        <!-- Legal -->
+        <div class="legal-check">
+          <label class="legal-check-label">
+            <input type="checkbox" [ngModel]="aceptaLegal()" (ngModelChange)="aceptaLegal.set($event)" />
+            He leído y acepto la
+            <a routerLink="/politica-privacidad" target="_blank">política de privacidad</a>
+            y las
+            <a routerLink="/condiciones-compra" target="_blank">condiciones de compra</a>
+            <span class="required-mark">*</span>
+          </label>
+        </div>
+
+        <!-- SSL box -->
+        <div class="ssl-box">
+          <lucide-icon [img]="ShieldCheck" [size]="22" class="ssl-box-icon"></lucide-icon>
+          <div>
+            <p class="ssl-box-title">Pagos 100% seguros</p>
+            <p class="ssl-box-desc">Tu información y pagos están protegidos con encriptación SSL.</p>
+          </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <button type="button" class="btn-confirmar"
+          [disabled]="!aceptaLegal() || loading()"
+          (click)="confirmarPedido()">
+          <lucide-icon [img]="Lock" [size]="16"></lucide-icon>
+          @if (loading()) { Procesando… } @else { Confirmar pedido }
+        </button>
+
+        <button type="button" class="btn-vaciar-full" (click)="vaciar()">
+          <lucide-icon [img]="Trash2" [size]="16"></lucide-icon>
+          Vaciar carrito
+        </button>
+
+      </aside>
+    </div>
+
+  } @else {
+    <div class="empty-state">
+      <p class="empty-text">Tu carrito está vacío.</p>
+      <a routerLink="/cliente" class="link-seguir">← Seguir comprando</a>
+    </div>
+  }
+
+</div>
+
+<!-- ── TRUST BAR ── -->
+<div class="trust-bar">
+  <div class="trust-item">
+    <lucide-icon [img]="ShieldCheck" class="trust-icon" aria-hidden="true"></lucide-icon>
+    <div>
+      <strong>Pago 100% seguro</strong>
+      <span>Tus datos protegidos</span>
+    </div>
+  </div>
+  <div class="trust-divider"></div>
+  <div class="trust-item">
+    <lucide-icon [img]="Truck" class="trust-icon" aria-hidden="true"></lucide-icon>
+    <div>
+      <strong>Envíos rápidos</strong>
+      <span>En tu puerta en 1 - 2 h</span>
+    </div>
+  </div>
+  <div class="trust-divider"></div>
+  <div class="trust-item">
+    <lucide-icon [img]="Package" class="trust-icon" aria-hidden="true"></lucide-icon>
+    <div>
+      <strong>Miles de productos</strong>
+      <span>Variedad latina</span>
+    </div>
+  </div>
+  <div class="trust-divider"></div>
+  <div class="trust-item">
+    <lucide-icon [img]="Headphones" class="trust-icon" aria-hidden="true"></lucide-icon>
+    <div>
+      <strong>Soporte al cliente</strong>
+      <span>Siempre para ayudarte</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL DATOS DE ENVÍO ── -->
+@if (modalEnvio()) {
+  <div class="modal-backdrop" (click)="modalEnvio.set(false)">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Datos de envío</h3>
+        <button type="button" class="modal-close" (click)="modalEnvio.set(false)">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="mDireccion">Dirección</label>
+          <input id="mDireccion" type="text" name="direccionEnvio"
+            [ngModel]="direccionEnvio()" (ngModelChange)="direccionEnvio.set($event)"
+            placeholder="Calle, número..." />
+        </div>
+        <div class="form-group">
+          <label for="mCiudad">Ciudad</label>
+          <input id="mCiudad" type="text" name="ciudadEnvio"
+            [ngModel]="ciudadEnvio()" (ngModelChange)="ciudadEnvio.set($event)"
+            placeholder="Ciudad" />
+        </div>
+        <div class="form-group">
+          <label for="mCp">Código postal</label>
+          <input id="mCp" type="text" name="codigoPostalEnvio"
+            [ngModel]="codigoPostalEnvio()" (ngModelChange)="codigoPostalEnvio.set($event)"
+            placeholder="00000" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-modal-save" (click)="modalEnvio.set(false)">Guardar</button>
+      </div>
+    </div>
+  </div>
+}
+
+@if (alertToast()) {
+  <div class="alert-toast" role="alert">
+    <div class="alert-toast-icon">⚠️</div>
+    <div class="alert-toast-body">
+      <p class="alert-toast-title">Atención</p>
+      <p class="alert-toast-msg">{{ alertToast() }}</p>
+    </div>
+    <button type="button" class="alert-toast-close" (click)="cerrarAlertToast()" aria-label="Cerrar">✕</button>
+  </div>
+}
+
+@if (mensaje()) {
+  <div class="tienda-toast" role="alert">
+    <div class="tienda-toast-icon">🛒</div>
+    <div class="tienda-toast-body">
+      <p class="tienda-toast-title">Una sola tienda por pedido</p>
+      <p class="tienda-toast-msg">{{ mensaje() }}</p>
+    </div>
+    <button type="button" class="tienda-toast-close" (click)="cerrarMensaje()" aria-label="Cerrar">✕</button>
+  </div>
+}
+
+@if (ciudadToast()) {
+  <div class="ciudad-toast" role="alert">
+    <div class="ciudad-toast-icon">📍</div>
+    <div class="ciudad-toast-body">
+      <p class="ciudad-toast-title">Tienda fuera de tu ciudad</p>
+      <p class="ciudad-toast-msg">Esta tienda no opera en tu ciudad. Solo puedes comprar en tiendas de tu ciudad de registro.</p>
+    </div>
+    <button type="button" class="ciudad-toast-close" (click)="cerrarToastCiudad()" aria-label="Cerrar">✕</button>
+  </div>
+}

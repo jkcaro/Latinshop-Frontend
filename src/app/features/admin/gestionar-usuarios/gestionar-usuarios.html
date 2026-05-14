@@ -1,0 +1,297 @@
+<section class="admin-users-page">
+  <!-- HEADER -->
+  <section class="users-hero">
+    <div class="hero-icon">👥</div>
+
+    <div class="hero-text">
+      <span>Administración</span>
+      <h1>Gestionar usuarios</h1>
+      <p>
+        Administra las cuentas de cliente registradas en la plataforma y controla su estado de
+        acceso.
+      </p>
+    </div>
+
+    <div class="hero-illustration">🛡️</div>
+  </section>
+
+  <!-- ADMIN PRINCIPAL -->
+  <section class="admin-section">
+    <h3>Cuenta principal del sistema</h3>
+
+    <article class="user-row">
+      <div class="user-profile">
+        <img
+          class="avatar-img admin-avatar-img"
+          [src]="'https://api.dicebear.com/9.x/adventurer/svg?seed=' + admin().nombre"
+          alt="Avatar administrador"
+        />
+
+        <div>
+          <h3>{{ admin().nombre }}</h3>
+          <p>{{ admin().email }}</p>
+          <span>Cuenta principal del sistema</span>
+        </div>
+      </div>
+
+      <div class="user-column">
+        <small>Rol</small>
+        <span class="role-badge admin">ADMIN</span>
+      </div>
+
+      <div class="user-column">
+        <small>Estado</small>
+        <span
+          class="status-badge"
+          [class.aprobada]="admin().estado === 'APROBADA'"
+          [class.bloqueada]="admin().estado === 'BLOQUEADA'"
+        >
+          {{ admin().estado }}
+        </span>
+      </div>
+
+      <div class="user-column">
+        <small>Último acceso</small>
+        <span>Hoy, 10:30 AM</span>
+      </div>
+    </article>
+  </section>
+
+  <!-- CLIENTES -->
+  <section class="clientes-section">
+    <h3>Clientes</h3>
+
+    @for (usuario of clientesPaginados(); track usuario.id) {
+      <article class="user-card">
+        <div class="user-top">
+          <div class="user-info">
+            <img
+              class="avatar-img"
+              [src]="
+                usuario.fotoPerfil ||
+                'https://api.dicebear.com/9.x/adventurer/svg?seed=' +
+                usuario.nombre +
+                '-' +
+                usuario.apellidos
+              "
+              alt="Avatar de {{ usuario.nombre }}"
+            />
+
+            <div>
+              <h3>{{ usuario.nombre }} {{ usuario.apellidos }}</h3>
+              <p>{{ usuario.email }}</p>
+            </div>
+          </div>
+
+          <div class="badges">
+            <span class="role-badge cliente">CLIENTE</span>
+            <span
+              class="status-badge"
+              [class.aprobada]="usuario.estado === 'APROBADA'"
+              [class.bloqueada]="usuario.estado === 'BLOQUEADA'"
+            >
+              {{ usuario.estado }}
+            </span>
+          </div>
+        </div>
+
+        <div class="user-actions">
+          <button type="button" class="btn danger" (click)="abrirConfirmacionBloqueo(usuario)">
+            {{ usuario.estado === 'BLOQUEADA' ? 'Activar' : 'Bloquear' }}
+          </button>
+
+          <div class="menu-wrapper">
+            <button type="button" class="menu-btn" (click)="toggleMenu(usuario.id)">⋮</button>
+
+            @if (menuAbierto() === usuario.id) {
+              <div class="menu-dropdown">
+                <button type="button" (click)="verDetalle(usuario)">Ver detalle</button>
+              </div>
+            }
+          </div>
+        </div>
+      </article>
+    }
+
+    @if (usuarios().length > clientesPorPagina()) {
+      <div class="section-pagination">
+        <span>
+          Página {{ paginaClientes() }} de {{ totalPaginasClientes() }}
+        </span>
+
+        <div>
+          <button type="button" (click)="paginaAnteriorClientes()" [disabled]="paginaClientes() === 1">
+            Anterior
+          </button>
+
+          <button
+            type="button"
+            (click)="paginaSiguienteClientes()"
+            [disabled]="paginaClientes() === totalPaginasClientes()"
+          >
+            Siguiente
+          </button>
+        </div>
+      </div>
+    }
+  </section>
+
+  <!-- MODAL DETALLE -->
+  @if (modalDetalleAbierto() && usuarioDetalle()) {
+    <app-admin-modal
+      title="Detalle del cliente"
+      description="Información completa del usuario"
+      cancelText="Cerrar"
+      [showConfirm]="false"
+      (close)="cerrarModal()"
+    >
+      <div class="cliente-detail-modal">
+        <section class="client-modal-header">
+          <img
+            class="client-modal-avatar"
+            [src]="
+              usuarioDetalle()?.fotoPerfil ||
+              'https://api.dicebear.com/9.x/adventurer/svg?seed=' +
+              usuarioDetalle()?.nombre +
+              '-' +
+              usuarioDetalle()?.apellidos
+            "
+            alt="Avatar cliente"
+          />
+
+          <div>
+            <h3>{{ usuarioDetalle()?.nombre }} {{ usuarioDetalle()?.apellidos }}</h3>
+            <p>{{ usuarioDetalle()?.email }}</p>
+            <span
+              class="modal-status"
+              [class.aprobada]="usuarioDetalle()?.estado === 'APROBADA'"
+              [class.bloqueada]="usuarioDetalle()?.estado === 'BLOQUEADA'"
+            >
+              {{ usuarioDetalle()?.estado }}
+            </span>
+          </div>
+        </section>
+
+        <section class="client-info-grid">
+          <div>
+            <small>Teléfono</small>
+            <strong>{{ usuarioDetalle()?.telefono || 'No registrado' }}</strong>
+          </div>
+
+          <div>
+            <small>Total pedidos</small>
+            <strong>{{ pedidosClienteSeleccionado().length }}</strong>
+          </div>
+        </section>
+
+        <section class="orders-timeline-section">
+          <div class="history-header">
+            <div>
+              <h3>Historial de compras</h3>
+              <p>Pedidos realizados por este cliente</p>
+            </div>
+
+            <div class="month-filter">
+              <label for="mesFiltroCliente">Mes</label>
+              <select
+                id="mesFiltroCliente"
+                [value]="mesFiltro()"
+                (change)="mesFiltro.set($any($event.target).value)"
+              >
+                <option value="TODOS">Todos</option>
+
+                @for (mes of mesesDisponiblesCliente(); track mes) {
+                  <option [value]="mes">{{ mes }}</option>
+                }
+              </select>
+            </div>
+          </div>
+
+          @if (pedidosClienteSeleccionado().length > 0) {
+            <div class="orders-timeline">
+              @for (pedido of pedidosClienteSeleccionado(); track pedido.id) {
+                <article class="timeline-item">
+                  <div class="timeline-dot"></div>
+
+                  <div class="timeline-card">
+                    <div class="timeline-header">
+                      <div>
+                        <strong>{{ pedido.numeroPedido }}</strong>
+                        <span>{{ pedido.fechaPedido | date:'dd/MM/yyyy, HH:mm' }}</span>
+                      </div>
+
+                      <span class="order-status">{{ pedido.estado }}</span>
+                    </div>
+
+                    <div class="timeline-body-grid">
+                      <div>
+                        <small>Método de pago</small>
+                        <strong>{{ pedido.metodoPago }}</strong>
+                      </div>
+
+                      <div>
+                        <small>Total</small>
+                        <strong>{{ pedido.total | currency:'EUR' }}</strong>
+                      </div>
+
+                      <div>
+                        <small>Tienda</small>
+                        <strong>{{ pedido.nombreTienda }}</strong>
+                      </div>
+
+                      <div>
+                        <small>Código postal</small>
+                        <strong>{{ pedido.codigoPostalEnvio }}</strong>
+                      </div>
+                    </div>
+
+                    <div class="delivery-box">
+                      <small>Dirección de envío</small>
+                      <p>{{ pedido.direccionEnvio }}, {{ pedido.ciudadEnvio }}</p>
+                    </div>
+
+                    <div class="timeline-products">
+                      <strong>Productos</strong>
+
+                      <div class="product-chips">
+                        @if (getItemsPedido(pedido.id).length === 0) {
+                          <span style="color:#aaa;font-size:0.8rem;">Cargando...</span>
+                        }
+                        @for (item of getItemsPedido(pedido.id); track item.productoId) {
+                          <span>{{ item.nombreProducto }} ×{{ item.cantidad }}</span>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              }
+            </div>
+          } @else {
+            <p class="sin-pedidos">Este cliente aún no tiene pedidos registrados.</p>
+          }
+        </section>
+      </div>
+    </app-admin-modal>
+  }
+
+  @if (modalBloqueoAbierto() && usuarioBloqueo()) {
+    <app-admin-modal
+      title="Confirmar cambio de estado"
+      description="Esta acción cambiará el estado de acceso del cliente."
+      confirmText="Sí, confirmar"
+      cancelText="Cancelar"
+      [danger]="usuarioBloqueo()?.estado !== 'BLOQUEADA'"
+      (close)="cerrarConfirmacionBloqueo()"
+      (confirm)="confirmarBloqueo()"
+    >
+      <div class="confirm-status-box">
+        <p>
+          ¿Seguro que deseas
+          <strong>{{ usuarioBloqueo()?.estado === 'BLOQUEADA' ? 'activar' : 'bloquear' }}</strong>
+          al cliente
+          <strong>{{ usuarioBloqueo()?.nombre }} {{ usuarioBloqueo()?.apellidos }}</strong>?
+        </p>
+      </div>
+    </app-admin-modal>
+  }
+</section>

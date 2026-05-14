@@ -1,0 +1,267 @@
+<div class="panel-dashboard">
+
+  <!-- ── COLUMNA PRINCIPAL ── -->
+  <div class="panel-main">
+
+    <!-- SALUDO + BUSCADOR + WIDGET -->
+    <section class="greeting-section">
+      <div class="greeting-top">
+        <div class="greeting-text">
+          <h1>¡Hola {{ currentUser()?.nombre }}! 👋</h1>
+          <p>Descubre productos auténticos de tiendas latinas cerca de ti.</p>
+        </div>
+
+        <div class="delivery-widget">
+          <div class="delivery-location">
+            <span class="delivery-label">📍 Ubicación de entrega</span>
+            <strong>{{ ciudadNombre() }}, España</strong>
+            <a routerLink="/cliente/perfil" class="cambiar-link">Cambiar</a>
+          </div>
+          <div class="delivery-express">
+            <span class="moto-icon">🛵</span>
+            <div>
+              <strong>Envíos rápidos</strong>
+              <span>En tu puerta en 1 - 2 h</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="search-bar">
+        <input
+          #searchInput
+          type="text"
+          placeholder="¿Qué producto latino buscas hoy?"
+          class="search-input"
+          (keydown.enter)="buscar(searchInput.value)"
+        />
+        <button type="button" class="search-btn" (click)="buscar(searchInput.value)">🔍</button>
+      </div>
+    </section>
+
+    <!-- CATEGORÍAS -->
+    <div class="categories-row">
+      @for (cat of categorias; track cat.label) {
+        <a routerLink="/cliente/productos" [queryParams]="cat.queryParams" class="cat-pill">
+          <span>{{ cat.icon }}</span>
+          {{ cat.label }}
+        </a>
+      }
+    </div>
+
+    <!-- TIENDAS DESTACADAS -->
+    <section class="panel-section">
+      <div class="section-head">
+        <h2>Tiendas destacadas</h2>
+        <a routerLink="/cliente/tiendas" class="ver-todas">Ver todas </a>
+      </div>
+
+      @if (tiendasDestacadas().length > 0) {
+        <div class="tiendas-grid">
+          @for (tienda of tiendasDestacadas(); track tienda.id) {
+            <a [routerLink]="['/cliente/tiendas', tienda.id]" class="tienda-card">
+              <div class="tienda-img" [style.background]="tienda.imagenUrl ? 'none' : tiendaColor(tienda.id)">
+                @if (tienda.imagenUrl) {
+                  <img [src]="tienda.imagenUrl" [alt]="tienda.nombreNegocio" class="tienda-foto" />
+                } @else {
+                  <span class="tienda-inicial">{{ tienda.nombreNegocio.charAt(0).toUpperCase() }}</span>
+                }
+              </div>
+              <h4>{{ tienda.nombreNegocio }}</h4>
+              <p class="tienda-ciudad">{{ tienda.ciudad }}</p>
+              <span class="envio-badge">Envío rápido</span>
+            </a>
+          }
+        </div>
+      } @else {
+        <p class="empty-text">No hay tiendas disponibles.</p>
+      }
+    </section>
+
+    <!-- PRODUCTOS POPULARES -->
+    <section class="panel-section">
+      <div class="section-head">
+        <h2>Productos populares</h2>
+        <a routerLink="/cliente/productos" class="ver-todas">Ver todos →</a>
+      </div>
+
+      @if (productosPopulares().length > 0) {
+        <div class="productos-grid">
+          @for (producto of productosPopulares(); track producto.id) {
+            <div class="producto-card">
+              <a [routerLink]="['/cliente/productos', producto.id]" class="producto-img-wrap">
+                @if (producto.destacado) {
+                  <span class="popular-badge">Popular</span>
+                }
+                @if (producto.imagenUrl) {
+                  <img [src]="producto.imagenUrl" [alt]="producto.nombre" />
+                } @else {
+                  <div class="producto-img-placeholder">{{ producto.nombre.charAt(0) }}</div>
+                }
+              </a>
+              <div class="producto-body">
+                <a [routerLink]="['/cliente/productos', producto.id]" class="producto-nombre">
+                  {{ producto.nombre }}
+                </a>
+                <strong class="producto-precio">{{ producto.precio | currency: 'EUR' }}</strong>
+                <div class="producto-footer">
+                  <span class="stars">★★★★★</span>
+                  <button type="button" class="btn-carrito" (click)="agregarAlCarrito(producto.id)">🛒</button>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <p class="empty-text">No hay productos disponibles.</p>
+      }
+    </section>
+
+    <!-- FEATURES BAR -->
+    <div class="features-bar">
+      <div class="feature-item">
+        <span class="feature-icon">🚚</span>
+        <div>
+          <strong>Envíos rápidos</strong>
+          <span>En tu puerta en 1 - 2 h</span>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🛡️</span>
+        <div>
+          <strong>Compra segura</strong>
+          <span>Tus datos siempre protegidos</span>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🎧</span>
+        <div>
+          <strong>Atención al cliente</strong>
+          <span>Estamos para ayudarte</span>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">⭐</span>
+        <div>
+          <strong>Productos auténticos</strong>
+          <span>Directo de tiendas latinas</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="panel-sidebar">
+
+    <!-- PEDIDOS RECIENTES -->
+    <div class="sidebar-card">
+      <div class="sidebar-card-head">
+        <h3>Mis pedidos recientes</h3>
+        <a routerLink="/cliente/pedidos" class="ver-todas">Ver todos →</a>
+      </div>
+
+      @if (pedidosRecientes().length > 0) {
+        <div class="pedidos-list">
+          @for (pedido of pedidosRecientes(); track pedido.id) {
+            <div class="pedido-row">
+              <div class="pedido-thumb">📦</div>
+              <div class="pedido-info">
+                <strong>{{ pedido.items[0]?.nombreProducto }}</strong>
+                <span>Pedido {{ pedido.numeroPedido }}</span>
+                <span class="pedido-fecha">{{ tiempoTranscurrido(pedido.fechaPedido) }}</span>
+              </div>
+              <span [class]="'estado-badge ' + estadoClase(pedido.estado)">
+                {{ estadoLabel(pedido.estado) }}
+              </span>
+            </div>
+          }
+        </div>
+        <a routerLink="/cliente/pedidos" class="btn-ver-pedidos">Ver todos mis pedidos</a>
+      } @else {
+        <p class="empty-pedidos">Aún no tienes pedidos realizados.</p>
+        <a routerLink="/cliente/tiendas" class="btn-ver-pedidos">Explorar tiendas</a>
+      }
+    </div>
+
+    <!-- OFERTAS DE LA SEMANA -->
+    <div class="sidebar-card ofertas-sidebar-card">
+      <div class="ofertas-head-new">
+        <h3>Ofertas de la semana 🔥</h3>
+        <a routerLink="/cliente/productos" class="ver-todas-link">Ver todas </a>
+      </div>
+
+      @if (ofertaActiva()) {
+        <a [routerLink]="['/cliente/productos', ofertaActiva()!.id]" class="oferta-producto-row">
+          <div class="oferta-img-box">
+            @if (ofertaActiva()!.imagenUrl) {
+              <img [src]="ofertaActiva()!.imagenUrl" [alt]="ofertaActiva()!.nombre" class="oferta-img" />
+            } @else {
+              <div class="oferta-img-placeholder">{{ ofertaActiva()!.nombre.charAt(0) }}</div>
+            }
+          </div>
+          <div class="oferta-info">
+            <span class="oferta-nombre">{{ ofertaActiva()!.nombre }}</span>
+            <span class="oferta-precio">{{ ofertaActiva()!.precioOferta | currency: 'EUR' }}</span>
+          </div>
+        </a>
+      } @else {
+        <p class="ofertas-empty">No hay ofertas activas en este momento.</p>
+      }
+
+      @if (productosEnOferta().length > 1) {
+        <div class="oferta-dots">
+          @for (o of productosEnOferta(); track o.id; let i = $index) {
+            <span class="dot" [class.active]="i === ofertaActivaIndex()"></span>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- ENVÍO GRATIS -->
+    <div class="sidebar-card envio-gratis-sidebar">
+      <div class="envio-gratis-widget" [class.envio-gratis-ok]="envioGratis()">
+        <div class="envio-gratis-top">
+          <span class="envio-gratis-truck">🚚</span>
+          @if (envioGratis()) {
+            <p class="envio-gratis-msg">¡<strong>Envío gratis</strong> disponible!</p>
+          } @else {
+            <p class="envio-gratis-msg">
+              @if (subtotalCarrito() === 0) {
+                Añade <strong>€{{ ENVIO_GRATIS_UMBRAL }}</strong> al carrito y consigue envío gratis.
+              } @else {
+                Te faltan <strong>{{ faltaParaEnvioGratis() | currency:'EUR' }}</strong> para obtener envío gratis en tu pedido.
+              }
+            </p>
+          }
+        </div>
+        <div class="envio-gratis-track">
+          <div class="envio-gratis-fill" [style.width.%]="progresoEnvioGratis()"></div>
+        </div>
+        <div class="envio-gratis-labels">
+          <span>€0</span>
+          <span class="envio-gratis-actual">€{{ subtotalCarrito().toFixed(2) }}</span>
+          <span>€{{ ENVIO_GRATIS_UMBRAL }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MÉTODOS DE PAGO -->
+    <div class="sidebar-card pagos-card">
+      <p class="pagos-titulo">Métodos de pago aceptados</p>
+      <div class="pagos-grid">
+        <div class="pago-badge visa">VISA</div>
+        <div class="pago-badge mastercard">
+          <span class="mc-left">●</span><span class="mc-right">●</span>
+        </div>
+        <div class="pago-badge amex">AMEX</div>
+        <div class="pago-badge paypal"><span class="pp-p">P</span>ayPal</div>
+        <div class="pago-badge applepay">🍎 Pay</div>
+        <div class="pago-badge googlepay"><span class="gp-g">G</span>Pay</div>
+      </div>
+    </div>
+
+  </aside>
+
+</div>
+

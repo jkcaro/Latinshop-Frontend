@@ -1,0 +1,167 @@
+<div class="layout" [attr.data-theme]="themeService.clienteTheme()">
+  <button class="mobile-menu-btn" type="button" (click)="toggleSidebar()">☰</button>
+
+  @if (sidebarOpen()) {
+    <div class="sidebar-backdrop" (click)="cerrarSidebar()"></div>
+  }
+
+  <aside class="sidebar" [class.open]="sidebarOpen()">
+    <div class="sidebar-header">
+      <img src="assets/logo1.jpeg" alt="LatinShop" class="sidebar-logo" />
+      <h2>LatinShop</h2>
+      <span>Cliente</span>
+    </div>
+
+    <nav class="sidebar-menu">
+      <a routerLink="/cliente/panel" routerLinkActive="active" (click)="cerrarSidebar()">
+        <lucide-angular [img]="HomeIcon" class="nav-icon"></lucide-angular>
+        Inicio
+      </a>
+
+      <a routerLink="/cliente/productos" routerLinkActive="active" (click)="cerrarSidebar()">
+        <lucide-angular [img]="ProductosIcon" class="nav-icon"></lucide-angular>
+        Productos
+      </a>
+
+      <a routerLink="/cliente/tiendas" routerLinkActive="active" (click)="cerrarSidebar()">
+        <lucide-angular [img]="TiendasIcon" class="nav-icon"></lucide-angular>
+        Tiendas
+      </a>
+
+      <a routerLink="/cliente/carrito" routerLinkActive="active" (click)="cerrarSidebar()" class="nav-carrito">
+        <lucide-angular [img]="CarritoIcon" class="nav-icon"></lucide-angular>
+        Carrito
+        @if (totalCarrito() > 0) {
+          <span class="cart-badge" [class.cart-badge-pulse]="cartoPulse()">{{ totalCarrito() }}</span>
+        }
+      </a>
+
+      <a routerLink="/cliente/pedidos" routerLinkActive="active" (click)="cerrarSidebar()">
+        <lucide-angular [img]="PedidosIcon" class="nav-icon"></lucide-angular>
+        Mis pedidos
+      </a>
+
+      <a routerLink="/cliente/mis-resenas" routerLinkActive="active" (click)="cerrarSidebar()">
+        <lucide-angular [img]="ResenasIcon" class="nav-icon"></lucide-angular>
+        Mis reseñas
+      </a>
+
+      <a routerLink="/cliente/perfil" routerLinkActive="active" (click)="cerrarSidebar()">
+        <lucide-angular [img]="PerfilIcon" class="nav-icon"></lucide-angular>
+        Perfil
+      </a>
+    </nav>
+
+    <!-- SOPORTE -->
+    <div class="soporte-card">
+      <div class="soporte-card-top">
+        <div>
+          <p class="soporte-title">¿Necesitas ayuda?</p>
+          <p class="soporte-sub">Nuestro equipo está para apoyarte</p>
+        </div>
+        <lucide-angular [img]="HeadphonesIcon" class="soporte-icon"></lucide-angular>
+      </div>
+      <button type="button" class="soporte-btn" (click)="modalSoporte.set(true)">
+        Contactar soporte <span>›</span>
+      </button>
+    </div>
+
+    <button class="logout-btn" type="button" (click)="logout()">
+      <lucide-angular [img]="LogOutIcon" class="nav-icon"></lucide-angular>
+      Salir
+    </button>
+  </aside>
+
+  <!-- MODAL SOPORTE -->
+  @if (modalSoporte()) {
+    <div class="soporte-backdrop" (click)="modalSoporte.set(false)">
+      <div class="soporte-modal" (click)="$event.stopPropagation()">
+        <div class="soporte-modal-header">
+          <div class="soporte-modal-title-wrap">
+            <lucide-angular [img]="HeadphonesIcon" class="soporte-modal-icon"></lucide-angular>
+            <h3>Contactar soporte</h3>
+          </div>
+          <button type="button" class="soporte-modal-close" (click)="modalSoporte.set(false)">
+            <lucide-angular [img]="CloseIcon" [size]="18"></lucide-angular>
+          </button>
+        </div>
+        <p class="soporte-modal-desc">Estamos disponibles para ayudarte con cualquier consulta sobre tus pedidos, productos o tu cuenta.</p>
+        <div class="soporte-modal-options">
+          <a href="mailto:soporte@latinshop.es" class="soporte-option">
+            <lucide-angular [img]="MailIcon" [size]="20" class="soporte-option-icon"></lucide-angular>
+            <div>
+              <p class="soporte-option-title">Correo electrónico</p>
+              <p class="soporte-option-val">soporte&#64;latinshop.es</p>
+            </div>
+          </a>
+          <a href="tel:+34900123456" class="soporte-option">
+            <lucide-angular [img]="PhoneIcon" [size]="20" class="soporte-option-icon"></lucide-angular>
+            <div>
+              <p class="soporte-option-title">Teléfono</p>
+              <p class="soporte-option-val">+34 900 123 456</p>
+            </div>
+          </a>
+          <a href="https://wa.me/34900123456" target="_blank" rel="noopener" class="soporte-option soporte-option-wa">
+            <lucide-angular [img]="WhatsAppIcon" [size]="20" class="soporte-option-icon"></lucide-angular>
+            <div>
+              <p class="soporte-option-title">WhatsApp</p>
+              <p class="soporte-option-val">Escríbenos ahora</p>
+            </div>
+          </a>
+        </div>
+        <p class="soporte-modal-horario">⏰ Horario: Lunes a Viernes, 9:00 – 20:00 h</p>
+      </div>
+    </div>
+  }
+
+  <!-- TOASTS — fuera de .content para que position:fixed funcione -->
+  @if (mensajeCarrito()) {
+    <div class="layout-toast layout-toast-error" role="alert">
+      <span class="layout-toast-icon">🛒</span>
+      <div class="layout-toast-body">
+        <p class="layout-toast-title">Una sola tienda por pedido</p>
+        <p class="layout-toast-msg">{{ mensajeCarrito() }}</p>
+      </div>
+      <button type="button" class="layout-toast-close" (click)="cerrarMensaje()" aria-label="Cerrar">✕</button>
+    </div>
+  }
+
+  @if (mensajeExito(); as exito) {
+    <div class="layout-toast layout-toast-ok" role="alert">
+      <span class="layout-toast-icon">✓</span>
+      <div class="layout-toast-body">
+        <p class="layout-toast-title">¡Añadido al carrito!</p>
+        <p class="layout-toast-msg">{{ exito.msg }}</p>
+      </div>
+      <button type="button" class="layout-toast-close" (click)="cerrarExito()" aria-label="Cerrar">✕</button>
+    </div>
+  }
+
+  <div class="content">
+    <header class="topbar">
+      <div>
+        <h1>Panel cliente</h1>
+        <span>Explora productos y gestiona tus pedidos</span>
+      </div>
+
+      <div class="user">
+        {{ nombreUsuario() }}
+      </div>
+    </header>
+
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+
+    <footer class="client-footer">
+      <nav class="footer-legal">
+        <a routerLink="/aviso-legal">Aviso legal</a>
+        <a routerLink="/politica-privacidad">Política de privacidad</a>
+        <a routerLink="/condiciones-uso">Condiciones de uso</a>
+        <a routerLink="/politica-cookies">Política de cookies</a>
+        <a routerLink="/condiciones-compra">Condiciones de compra</a>
+      </nav>
+      <p class="footer-copy">© 2026 LatinShop España</p>
+    </footer>
+  </div>
+</div>
