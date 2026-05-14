@@ -1,119 +1,194 @@
-<div class="crear-producto">
-  <div class="page-header">
-    <span class="badge">Nuevo producto</span>
-    <h1>Crear producto</h1>
-    <p>Añade un producto a tu catálogo.</p>
+<div class="cp-page">
+
+  <!-- ── HERO ── -->
+  <div class="cp-hero">
+    <div class="cp-hero-inner">
+      <span class="cp-badge">Nuevo producto</span>
+      <h1>Crear producto</h1>
+      <p class="cp-hero-desc">Añade un nuevo artículo a tu catálogo de productos.</p>
+    </div>
   </div>
 
-  <div class="layout">
-    <div class="form-card">
-      <h3>Información del producto</h3>
+  <!-- ── LAYOUT ── -->
+  <div class="cp-layout">
+
+    <!-- Formulario principal -->
+    <div class="cp-card">
 
       <form (ngSubmit)="crearProducto()">
-        <div class="form-grid">
-          <div class="field">
-            <label for="nombre">Nombre</label>
-            <input id="nombre" type="text" [ngModel]="nombre()" (ngModelChange)="nombre.set($event)" name="nombre" required />
-          </div>
 
-          <div class="field">
-            <label for="marca">Marca</label>
-            <input id="marca" type="text" [ngModel]="marca()" (ngModelChange)="marca.set($event)" name="marca" />
-          </div>
-
-          <div class="field">
-            <label for="categoria">Categoría</label>
-            <select id="categoria" [ngModel]="categoriaId()" (ngModelChange)="categoriaId.set(+$event)" name="categoria" required>
-              <option [value]="0" disabled>Selecciona una categoría</option>
-              @for (cat of categorias(); track cat.id) {
-                <option [value]="cat.id">{{ cat.nombre }}</option>
-              }
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="paisOrigen">País de origen</label>
-            <input id="paisOrigen" type="text" [ngModel]="paisOrigen()" (ngModelChange)="paisOrigen.set($event)" name="paisOrigen" />
-          </div>
-
-          <div class="field">
-            <label for="precio">Precio (€)</label>
-            <input id="precio" type="number" min="0.01" step="0.01" [ngModel]="precio()" (ngModelChange)="precio.set(+$event)" name="precio" required />
-          </div>
-
-          <div class="field">
-            <label for="precioOferta">Precio oferta (€) <span class="field-hint">Opcional — debe ser menor al precio</span></label>
-            <input id="precioOferta" type="number" min="0.01" step="0.01" placeholder="Ej: 2.50"
-              [(ngModel)]="precioOfertaVal"
-              name="precioOferta" />
-          </div>
-
-          <div class="field">
-            <label for="stock">Stock</label>
-            <input id="stock" type="number" [ngModel]="stock()" (ngModelChange)="stock.set(+$event)" name="stock" required />
-          </div>
-        </div>
-
-        <div class="field full">
-          <label for="descripcion">Descripción</label>
-          <textarea id="descripcion" rows="4" [ngModel]="descripcion()" (ngModelChange)="descripcion.set($event)" name="descripcion"></textarea>
-        </div>
-
-        <div class="image-upload">
-          <label for="imagenArchivo">Imagen del producto</label>
-
-          <div class="upload-box">
-            <input
-              id="imagenArchivo"
-              type="file"
-              accept="image/*"
-              (change)="onFileSelected($event)"
-            />
-            <span>Seleccionar imagen</span>
-          </div>
-
-          @if (previewImagen()) {
-            <div class="preview">
-              <img [src]="previewImagen()" alt="Vista previa del producto" />
+        <!-- Sección: Información básica -->
+        <div class="cp-section">
+          <p class="cp-section-label">Información básica</p>
+          <div class="cp-grid">
+            <div class="cp-field">
+              <label for="nombre">Nombre del producto</label>
+              <input id="nombre" type="text"
+                [ngModel]="nombre()" (ngModelChange)="nombre.set($event)"
+                name="nombre" placeholder="Ej: Arepa de choclo" required />
             </div>
-          }
+            <div class="cp-field">
+              <label for="marca">Marca</label>
+              <input id="marca" type="text"
+                [ngModel]="marca()" (ngModelChange)="marca.set($event)"
+                name="marca" placeholder="Ej: La Abuela" />
+            </div>
+            <div class="cp-field">
+              <label for="categoria">Categoría</label>
+              <select id="categoria"
+                [ngModel]="categoriaId()" (ngModelChange)="categoriaId.set(+$event)"
+                name="categoria" required>
+                <option [value]="0" disabled>Selecciona una categoría</option>
+                @for (cat of categorias(); track cat.id) {
+                  <option [value]="cat.id">{{ cat.nombre }}</option>
+                }
+              </select>
+            </div>
+            <div class="cp-field">
+              <label for="paisOrigen">País de origen</label>
+              <input id="paisOrigen" type="text"
+                [ngModel]="paisOrigen()" (ngModelChange)="paisOrigen.set($event)"
+                name="paisOrigen" placeholder="Ej: Colombia" />
+            </div>
+          </div>
         </div>
 
-        <div class="field full checkbox-row">
-          <label for="destacado">Producto destacado</label>
-          <input id="destacado" type="checkbox" [ngModel]="destacado()" (ngModelChange)="destacado.set($event)" name="destacado" />
+        <!-- Sección: Precio y stock -->
+        <div class="cp-section">
+          <p class="cp-section-label">Precio y stock</p>
+          <div class="cp-grid">
+            <div class="cp-field">
+              <label for="precio">Precio (€)</label>
+              <div class="input-prefix-wrap">
+                <span class="input-prefix">€</span>
+                <input id="precio" type="number" min="0.01" step="0.01"
+                  [ngModel]="precio()" (ngModelChange)="precio.set(+$event)"
+                  name="precio" placeholder="0.00" required />
+              </div>
+            </div>
+            <div class="cp-field">
+              <label for="precioOferta">Precio oferta (€) <span class="cp-hint">Opcional</span></label>
+              <div class="input-prefix-wrap">
+                <span class="input-prefix">€</span>
+                <input id="precioOferta" type="number" min="0.01" step="0.01"
+                  [(ngModel)]="precioOfertaVal"
+                  name="precioOferta" placeholder="0.00" />
+              </div>
+            </div>
+            <div class="cp-field">
+              <label for="stock">Stock disponible</label>
+              <input id="stock" type="number"
+                [ngModel]="stock()" (ngModelChange)="stock.set(+$event)"
+                name="stock" placeholder="0" required />
+            </div>
+          </div>
+        </div>
+
+        <!-- Sección: Descripción -->
+        <div class="cp-section">
+          <p class="cp-section-label">Descripción</p>
+          <div class="cp-field">
+            <label for="descripcion">Descripción del producto</label>
+            <textarea id="descripcion" rows="4"
+              [ngModel]="descripcion()" (ngModelChange)="descripcion.set($event)"
+              name="descripcion" placeholder="Describe el producto, sus ingredientes, características..."></textarea>
+          </div>
+        </div>
+
+        <!-- Sección: Imagen -->
+        <div class="cp-section">
+          <p class="cp-section-label">Imagen</p>
+          <div class="cp-field">
+            <label>Imagen del producto</label>
+            <label class="upload-area" for="imagenArchivo">
+              <input id="imagenArchivo" type="file" accept="image/*" (change)="onFileSelected($event)" />
+              @if (!previewImagen()) {
+                <span class="upload-icon">🖼️</span>
+                <span class="upload-text">Haz clic para seleccionar una imagen</span>
+                <span class="upload-hint">JPG, PNG o WEBP — máx. 5 MB</span>
+              } @else {
+                <img [src]="previewImagen()" alt="Vista previa" class="upload-preview" />
+                <span class="upload-change">Haz clic para cambiar</span>
+              }
+            </label>
+          </div>
+        </div>
+
+        <!-- Destacado -->
+        <div class="cp-section">
+          <p class="cp-section-label">Opciones</p>
+          <label class="toggle-row">
+            <input type="checkbox"
+              [ngModel]="destacado()" (ngModelChange)="destacado.set($event)"
+              name="destacado" />
+            <span class="toggle-label">
+              <strong>Producto destacado</strong>
+              <span>Aparecerá resaltado en la tienda</span>
+            </span>
+          </label>
         </div>
 
         @if (error()) {
-          <div class="msg-box msg-error">
-            <strong>⚠ No se pudo guardar</strong>
+          <div class="cp-msg cp-msg-error">
+            <span>⚠</span>
             <p>{{ error() }}</p>
           </div>
         }
 
-        <div class="actions">
-          <button type="submit" class="btn-primary">Guardar producto</button>
+        <div class="cp-actions">
+          <button type="submit" class="btn-guardar">💾 Guardar producto</button>
         </div>
+
       </form>
     </div>
 
-    <div class="tips-card">
-      <h4>Consejos</h4>
-      <ul>
-        <li>Usa un nombre claro</li>
-        <li>Sube una imagen de calidad</li>
-        <li>Describe bien el producto</li>
+    <!-- Sidebar de consejos -->
+    <aside class="cp-tips">
+      <div class="tips-header">
+        <span class="tips-icon">💡</span>
+        <h4>Consejos para vender más</h4>
+      </div>
+      <ul class="tips-list">
+        <li>
+          <span class="tip-num">1</span>
+          <div>
+            <strong>Nombre claro</strong>
+            <p>Usa el nombre que el cliente buscaría en internet.</p>
+          </div>
+        </li>
+        <li>
+          <span class="tip-num">2</span>
+          <div>
+            <strong>Foto de calidad</strong>
+            <p>Una buena imagen puede triplicar las ventas.</p>
+          </div>
+        </li>
+        <li>
+          <span class="tip-num">3</span>
+          <div>
+            <strong>Descripción completa</strong>
+            <p>Incluye ingredientes, peso y características.</p>
+          </div>
+        </li>
+        <li>
+          <span class="tip-num">4</span>
+          <div>
+            <strong>Precio oferta</strong>
+            <p>Los precios rebajados aparecen en la sección de ofertas.</p>
+          </div>
+        </li>
       </ul>
-    </div>
+    </aside>
+
   </div>
 </div>
 
 @if (success()) {
-  <div class="success-toast" role="alert">
-    <div class="success-toast-icon">✅</div>
-    <div class="success-toast-body">
-      <p class="success-toast-title">Producto guardado</p>
-      <p class="success-toast-msg">{{ success() }}</p>
+  <div class="cp-toast">
+    <div class="cp-toast-icon">✅</div>
+    <div>
+      <p class="cp-toast-title">Producto guardado</p>
+      <p class="cp-toast-msg">{{ success() }}</p>
     </div>
   </div>
 }
