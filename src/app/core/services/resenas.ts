@@ -2,11 +2,12 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, of } from 'rxjs';
 import { Resena, EstadisticasResenas } from '../models/resena.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ResenasService {
   private readonly http = inject(HttpClient);
-  private readonly API = 'https://latinshop-backend-production.up.railway.app/api/resenas';
+  private readonly API = `${environment.apiUrl}/resenas`;
 
   private readonly _resenas = signal<Resena[]>([]);
   readonly resenas = this._resenas.asReadonly();

@@ -2,11 +2,12 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, catchError, of } from 'rxjs';
 import { Mensaje } from '../models/mensaje.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class MensajesService {
   private readonly http = inject(HttpClient);
-  private readonly API = 'https://latinshop-backend-production.up.railway.app/api/mensajes';
+  private readonly API = `${environment.apiUrl}/mensajes`;
 
   private mapMensaje(raw: any): Mensaje {
     return {

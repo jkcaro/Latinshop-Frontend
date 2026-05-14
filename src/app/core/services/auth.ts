@@ -2,11 +2,12 @@ import { Injectable, computed, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, of, tap } from 'rxjs';
 import { AuthUser, UserRole } from '../models/auth-user.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly http = inject(HttpClient);
-  private readonly API = 'https://latinshop-backend-production.up.railway.app/api';
+  private readonly API = environment.apiUrl;
   private readonly TOKEN_KEY = 'auth_token';
   private readonly USER_KEY = 'auth_user';
 

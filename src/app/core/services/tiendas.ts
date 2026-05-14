@@ -2,11 +2,12 @@ import { Injectable, computed, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, of } from 'rxjs';
 import { HorarioTienda, Tienda } from '../models/tienda.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class TiendasService {
   private readonly http = inject(HttpClient);
-  private readonly API = 'https://latinshop-backend-production.up.railway.app/api';
+  private readonly API = environment.apiUrl;
 
   private readonly _tiendas = signal<Tienda[]>([]);
 
