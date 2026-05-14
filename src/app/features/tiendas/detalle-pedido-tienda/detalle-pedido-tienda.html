@@ -1,75 +1,133 @@
-<section class="order-detail-page">
-  <h1>Detalle del pedido</h1>
+<div class="dp-page">
 
-  @if (pedido()) {
-    <div class="detail-grid">
-      <section class="detail-card">
-        <h2>Información general</h2>
-        <p><strong>Número:</strong> {{ pedido()?.numeroPedido }}</p>
-        <p><strong>Cliente:</strong> {{ pedido()?.clienteEmail }}</p>
-        <p><strong>Fecha:</strong> {{ pedido()?.fechaPedido | date:'medium' }}</p>
-        <p><strong>Estado actual:</strong> {{ pedido()?.estado }}</p>
-        <p><strong>Método de pago:</strong> {{ pedido()?.metodoPago }}</p>
-        <p><strong>Estado del pago:</strong> {{ pedido()?.estadoPago }}</p>
-        <p><strong>Método de envío:</strong> {{ pedido()?.metodoEnvio }}</p>
-        <p><strong>Total:</strong> {{ pedido()?.total | currency:'EUR' }}</p>
-      </section>
+@if (pedido()) {
 
-      <section class="detail-card">
-        <h2>Entrega</h2>
-        <p><strong>Dirección:</strong> {{ pedido()?.direccionEnvio }}</p>
-        <p><strong>Ciudad:</strong> {{ pedido()?.ciudadEnvio }}</p>
-        <p><strong>Código postal:</strong> {{ pedido()?.codigoPostalEnvio }}</p>
-      </section>
+  <!-- ── HERO ── -->
+  <div class="dp-hero">
+    <div class="dp-hero-left">
+      <span class="dp-badge">Pedido de tienda</span>
+      <h1>{{ pedido()?.numeroPedido }}</h1>
+      <p class="dp-hero-desc">Gestiona este pedido y actualiza su estado para informar al cliente.</p>
+    </div>
+    <div class="dp-estado-pill" [attr.data-estado]="pedido()?.estado">
+      {{ pedido()?.estado }}
+    </div>
+  </div>
+
+  <!-- ── GRID INFO ── -->
+  <div class="dp-grid">
+
+    <!-- Información general -->
+    <div class="dp-card">
+      <p class="dp-section-label">Información general</p>
+      <div class="dp-rows">
+        <div class="dp-row">
+          <span class="dp-row-icon">📋</span>
+          <div><p class="dp-row-label">Número de pedido</p><p class="dp-row-val">{{ pedido()?.numeroPedido }}</p></div>
+        </div>
+        <div class="dp-row">
+          <span class="dp-row-icon">👤</span>
+          <div><p class="dp-row-label">Cliente</p><p class="dp-row-val">{{ pedido()?.clienteEmail }}</p></div>
+        </div>
+        <div class="dp-row">
+          <span class="dp-row-icon">📅</span>
+          <div><p class="dp-row-label">Fecha</p><p class="dp-row-val">{{ pedido()?.fechaPedido | date:'dd/MM/yyyy · HH:mm' }}</p></div>
+        </div>
+        <div class="dp-row">
+          <span class="dp-row-icon">💳</span>
+          <div><p class="dp-row-label">Método de pago</p><p class="dp-row-val">{{ pedido()?.metodoPago }}</p></div>
+        </div>
+        <div class="dp-row">
+          <span class="dp-row-icon">✅</span>
+          <div><p class="dp-row-label">Estado del pago</p><p class="dp-row-val">{{ pedido()?.estadoPago }}</p></div>
+        </div>
+        <div class="dp-row">
+          <span class="dp-row-icon">🚚</span>
+          <div><p class="dp-row-label">Método de envío</p><p class="dp-row-val">{{ pedido()?.metodoEnvio }}</p></div>
+        </div>
+        <div class="dp-row dp-row-total">
+          <span class="dp-row-icon">💰</span>
+          <div><p class="dp-row-label">Total</p><p class="dp-row-val dp-total">{{ pedido()?.total | currency:'EUR' }}</p></div>
+        </div>
+      </div>
     </div>
 
-    <section class="detail-card">
-      <h2>Productos del pedido</h2>
+    <!-- Entrega -->
+    <div class="dp-card">
+      <p class="dp-section-label">Dirección de entrega</p>
+      <div class="dp-rows">
+        <div class="dp-row">
+          <span class="dp-row-icon">🏠</span>
+          <div><p class="dp-row-label">Dirección</p><p class="dp-row-val">{{ pedido()?.direccionEnvio }}</p></div>
+        </div>
+        <div class="dp-row">
+          <span class="dp-row-icon">🏙️</span>
+          <div><p class="dp-row-label">Ciudad</p><p class="dp-row-val">{{ pedido()?.ciudadEnvio }}</p></div>
+        </div>
+        <div class="dp-row">
+          <span class="dp-row-icon">📮</span>
+          <div><p class="dp-row-label">Código postal</p><p class="dp-row-val">{{ pedido()?.codigoPostalEnvio }}</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <!-- ── PRODUCTOS ── -->
+  <div class="dp-card">
+    <p class="dp-section-label">Productos del pedido</p>
+    <div class="dp-items">
       @for (item of pedido()?.items ?? []; track item.productoId) {
-        <div class="detail-item">
-          <div>
-            <h3>{{ item.nombreProducto }}</h3>
-            <p>Cantidad: {{ item.cantidad }}</p>
+        <div class="dp-item">
+          <div class="dp-item-info">
+            <p class="dp-item-name">{{ item.nombreProducto }}</p>
+            <p class="dp-item-qty">Cantidad: {{ item.cantidad }}</p>
           </div>
-
-          <div class="detail-item-prices">
-            <p>Precio unitario: {{ item.precioUnitario | currency:'EUR' }}</p>
-            <p><strong>Subtotal: {{ item.subtotal | currency:'EUR' }}</strong></p>
+          <div class="dp-item-prices">
+            <p class="dp-item-unit">{{ item.precioUnitario | currency:'EUR' }} / ud.</p>
+            <p class="dp-item-sub">{{ item.subtotal | currency:'EUR' }}</p>
           </div>
         </div>
       }
-    </section>
-
-    <app-mensajes-pedido [pedidoId]="pedidoId" miTipo="TIENDA" />
-
-    <section class="order-state-card">
-      <div>
-        <h3>Actualizar estado del pedido</h3>
-        <p>Selecciona el siguiente estado para informar al cliente.</p>
-      </div>
-
-      <div class="state-actions">
-        <button type="button" (click)="abrirModalEstado('PENDIENTE')">Pendiente</button>
-        <button type="button" (click)="abrirModalEstado('EN_PREPARACION')">En preparación</button>
-        <button type="button" (click)="abrirModalEstado('ENVIADO')">Enviado</button>
-        <button type="button" (click)="abrirModalEstado('ENTREGADO')">Entregado</button>
-        <button type="button" (click)="abrirModalEstado('CANCELADO')">Cancelado</button>
-      </div>
-
-      @if (success()) {
-        <p class="success">✓ {{ success() }}</p>
-      }
-      @if (error()) {
-        <p class="error-msg">✗ {{ error() }}</p>
-      }
-    </section>
-  } @else {
-    <div class="empty-box">
-      <p>Pedido no encontrado.</p>
     </div>
-  }
-</section>
+  </div>
+
+  <!-- ── MENSAJES ── -->
+  <div class="dp-card">
+    <p class="dp-section-label">Mensajes con el cliente</p>
+    <app-mensajes-pedido [pedidoId]="pedidoId" miTipo="TIENDA" />
+  </div>
+
+  <!-- ── ACTUALIZAR ESTADO ── -->
+  <div class="dp-card dp-estado-card">
+    <div class="dp-estado-header">
+      <div>
+        <p class="dp-section-label" style="margin-bottom:4px">Actualizar estado</p>
+        <p class="dp-estado-desc">Selecciona el nuevo estado para informar al cliente.</p>
+      </div>
+    </div>
+    <div class="dp-estado-btns">
+      <button type="button" class="btn-estado btn-pendiente"     (click)="abrirModalEstado('PENDIENTE')">⏳ Pendiente</button>
+      <button type="button" class="btn-estado btn-preparacion"   (click)="abrirModalEstado('EN_PREPARACION')">🔧 En preparación</button>
+      <button type="button" class="btn-estado btn-enviado"       (click)="abrirModalEstado('ENVIADO')">📦 Enviado</button>
+      <button type="button" class="btn-estado btn-entregado"     (click)="abrirModalEstado('ENTREGADO')">✅ Entregado</button>
+      <button type="button" class="btn-estado btn-cancelado"     (click)="abrirModalEstado('CANCELADO')">❌ Cancelado</button>
+    </div>
+    @if (success()) {
+      <p class="dp-success">✓ {{ success() }}</p>
+    }
+    @if (error()) {
+      <p class="dp-error">✗ {{ error() }}</p>
+    }
+  </div>
+
+} @else {
+  <div class="dp-empty">
+    <span>📭</span>
+    <p>Pedido no encontrado.</p>
+  </div>
+}
+
+</div>
 
 @if (modalEstadoAbierto()) {
   <app-admin-modal
@@ -81,10 +139,10 @@
     (close)="cerrarModalEstado()"
     (confirm)="confirmarEstado()"
   >
-    <div class="confirm-status-box">
-      <p><strong>Pedido:</strong> {{ pedido()?.numeroPedido }}</p>
-      <p><strong>Estado actual:</strong> {{ pedido()?.estado }}</p>
-      <p><strong>Nuevo estado:</strong> {{ nuevoEstado() }}</p>
+    <div class="confirm-box">
+      <div class="confirm-row"><span class="confirm-label">Pedido</span><span class="confirm-val">{{ pedido()?.numeroPedido }}</span></div>
+      <div class="confirm-row"><span class="confirm-label">Estado actual</span><span class="confirm-val">{{ pedido()?.estado }}</span></div>
+      <div class="confirm-row"><span class="confirm-label">Nuevo estado</span><span class="confirm-val confirm-new">{{ nuevoEstado() }}</span></div>
     </div>
   </app-admin-modal>
 }
