@@ -6,7 +6,7 @@ import { Mensaje } from '../models/mensaje.model';
 @Injectable({ providedIn: 'root' })
 export class MensajesService {
   private readonly http = inject(HttpClient);
-  private readonly API = 'http://localhost:3000/api/mensajes';
+  private readonly API = 'https://latinshop-backend-production.up.railway.app/api/mensajes';
 
   private mapMensaje(raw: any): Mensaje {
     return {

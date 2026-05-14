@@ -6,7 +6,7 @@ import { Producto } from '../models/producto.model';
 @Injectable({ providedIn: 'root' })
 export class ProductosService {
   private readonly http = inject(HttpClient);
-  private readonly API = 'http://localhost:3000/api';
+  private readonly API = 'https://latinshop-backend-production.up.railway.app/api';
 
   private readonly _productos = signal<Producto[]>([]);
   private readonly _categorias = signal<{ id: number; nombre: string }[]>([]);

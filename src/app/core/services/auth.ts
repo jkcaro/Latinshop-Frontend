@@ -6,7 +6,7 @@ import { AuthUser, UserRole } from '../models/auth-user.model';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly http = inject(HttpClient);
-  private readonly API = 'http://localhost:3000/api';
+  private readonly API = 'https://latinshop-backend-production.up.railway.app/api';
   private readonly TOKEN_KEY = 'auth_token';
   private readonly USER_KEY = 'auth_user';
 

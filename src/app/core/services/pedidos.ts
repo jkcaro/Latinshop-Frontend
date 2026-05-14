@@ -7,7 +7,7 @@ import { CarritoItem } from '../models/carrito-item.model';
 @Injectable({ providedIn: 'root' })
 export class PedidosService {
   private readonly http = inject(HttpClient);
-  private readonly API = 'http://localhost:3000/api';
+  private readonly API = 'https://latinshop-backend-production.up.railway.app/api';
 
   private readonly _pedidos = signal<Pedido[]>([]);
 

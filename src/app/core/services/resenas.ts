@@ -6,7 +6,7 @@ import { Resena, EstadisticasResenas } from '../models/resena.model';
 @Injectable({ providedIn: 'root' })
 export class ResenasService {
   private readonly http = inject(HttpClient);
-  private readonly API = 'http://localhost:3000/api/resenas';
+  private readonly API = 'https://latinshop-backend-production.up.railway.app/api/resenas';
 
   private readonly _resenas = signal<Resena[]>([]);
   readonly resenas = this._resenas.asReadonly();
