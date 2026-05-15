@@ -1,3 +1,8 @@
+// ============================================================
+// COMPONENTE: PoliticaPrivacidad
+// Página de contenido estático con la política de privacidad.
+// ============================================================
+
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth';

@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: RegistroCliente
+// Formulario de alta para nuevas cuentas de cliente. Tras el
+// registro llama a loginCliente automáticamente y redirige al
+// panel del comprador.
+// ============================================================
+
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';

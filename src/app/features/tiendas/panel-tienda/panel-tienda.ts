@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: PanelTienda
+// Dashboard principal del propietario de tienda. Muestra KPIs
+// de ventas, pedidos recientes y alertas de stock bajo mediante
+// computed signals derivados de los servicios de pedidos y productos.
+// ============================================================
+
 import { CurrencyPipe } from '@angular/common';
 import { Component, OnInit, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';

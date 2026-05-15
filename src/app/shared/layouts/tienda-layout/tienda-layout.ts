@@ -1,3 +1,10 @@
+// ============================================================
+// LAYOUT: TiendaLayout
+// Shell del panel del propietario de tienda. Gestiona el sidebar
+// con la navegación interna del negocio, el menú móvil y aplica
+// el tema de color de la tienda mediante ThemeService.
+// ============================================================
+
 import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import {

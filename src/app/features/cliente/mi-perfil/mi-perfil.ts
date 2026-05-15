@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: MiPerfil (Cliente)
+// Gestión del perfil del comprador: edición de datos personales,
+// cambio de contraseña, subida de foto de perfil y selección
+// de tema visual (ocean / sunset / forest).
+// ============================================================
+
 import { Component, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth';

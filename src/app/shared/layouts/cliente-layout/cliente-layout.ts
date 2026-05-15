@@ -1,3 +1,10 @@
+// ============================================================
+// LAYOUT: ClienteLayout
+// Shell del panel de cliente. Gestiona el sidebar con el contador
+// de carrito en tiempo real, el menú móvil y aplica el tema de
+// color del cliente mediante ThemeService.
+// ============================================================
+
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import {

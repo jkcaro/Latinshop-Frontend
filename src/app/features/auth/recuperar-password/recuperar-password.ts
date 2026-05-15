@@ -1,3 +1,9 @@
+// ============================================================
+// COMPONENTE: RecuperarPassword
+// Envía la solicitud de restablecimiento al backend; éste genera
+// un token firmado y lo envía por email al usuario.
+// ============================================================
+
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';

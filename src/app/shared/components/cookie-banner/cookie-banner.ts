@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: CookieBanner
+// Banner de consentimiento RGPD con modo básico y modo detallado.
+// Delega la persistencia de preferencias en CookieConsentService
+// y se oculta una vez que el usuario toma una decisión.
+// ============================================================
+
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';

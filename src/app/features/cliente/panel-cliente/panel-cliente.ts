@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: PanelCliente
+// Dashboard principal del comprador. Muestra estadísticas de
+// pedidos, tiendas disponibles en su ciudad, oferta rotativa
+// y accesos directos a las secciones del área de cliente.
+// ============================================================
+
 import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';

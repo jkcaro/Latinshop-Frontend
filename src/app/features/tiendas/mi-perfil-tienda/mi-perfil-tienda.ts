@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: MiPerfilTienda
+// Gestión del perfil del negocio: edición de datos del propietario
+// y de la tienda, cambio de contraseña, subida de imagen de portada
+// y selección de tema visual del panel.
+// ============================================================
+
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth';

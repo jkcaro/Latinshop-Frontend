@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: DetallePedido (Cliente)
+// Carga el pedido por ID de ruta y muestra su estado completo
+// con stepper visual. Incluye formulario de reseña disponible
+// solo cuando el pedido está en estado ENTREGADO.
+// ============================================================
+
 import { Component, computed, inject } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';

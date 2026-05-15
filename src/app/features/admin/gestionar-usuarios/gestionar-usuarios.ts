@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: GestionarUsuarios
+// Panel de gestión de cuentas de cliente: lista paginada,
+// cambio de estado (bloqueo/activación) con confirmación modal
+// y ficha detallada con pedidos, totales y filtro por mes.
+// ============================================================
+
 import { CurrencyPipe, DatePipe, isPlatformBrowser } from '@angular/common';
 import { Component, OnInit, PLATFORM_ID, computed, inject, signal } from '@angular/core';
 

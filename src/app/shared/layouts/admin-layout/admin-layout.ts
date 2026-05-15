@@ -1,3 +1,10 @@
+// ============================================================
+// LAYOUT: AdminLayout
+// Shell de la sección de administración. Gestiona el sidebar
+// colapsable, el menú móvil y aplica el tema de color del admin
+// mediante ThemeService.
+// ============================================================
+
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';

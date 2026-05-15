@@ -1,3 +1,11 @@
+// ============================================================
+// COMPONENTE: Carrito
+// Flujo de checkout de dos pasos: visualización y edición del
+// carrito, luego formulario de dirección y método de pago.
+// Genera el pedido mediante PedidosService y limpia el carrito
+// tras confirmación exitosa.
+// ============================================================
+
 import { Component, computed, inject, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';

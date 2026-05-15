@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: Home
+// Página principal pública del marketplace. Muestra tiendas
+// aprobadas, productos sin duplicar por nombre, carrusel de
+// ofertas rotativo y buscador que redirige a lista-productos.
+// ============================================================
+
 import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';

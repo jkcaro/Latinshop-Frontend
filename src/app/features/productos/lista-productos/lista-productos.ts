@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: ListaProductos
+// Catálogo de productos con deduplicación por nombre normalizado,
+// filtrado combinado (categoría + búsqueda) y límite de 3 productos
+// por tienda en la vista general. Soporta paginación reactiva.
+// ============================================================
+
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CurrencyPipe } from '@angular/common';

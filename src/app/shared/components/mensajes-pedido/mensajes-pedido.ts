@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: MensajesPedido
+// Widget de mensajería para la conversación entre cliente y
+// tienda dentro de un pedido. Hace scroll automático al último
+// mensaje y delega el envío en MensajesService.
+// ============================================================
+
 import {
   Component, Input, OnInit, inject, signal, ElementRef, ViewChild, AfterViewChecked
 } from '@angular/core';

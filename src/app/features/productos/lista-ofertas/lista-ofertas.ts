@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: ListaOfertas
+// Catálogo de productos en oferta filtrado por precio de oferta
+// activo. Calcula el porcentaje de descuento y permite añadir
+// directamente al carrito.
+// ============================================================
+
 import { Component, computed, inject, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';

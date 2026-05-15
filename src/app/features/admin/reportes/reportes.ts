@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: Reportes
+// Agrega métricas de toda la plataforma (productos, tiendas,
+// pedidos, clientes y ventas) mediante computed signals
+// derivados de los servicios de datos del sistema.
+// ============================================================
+
 import { Component, OnInit, PLATFORM_ID, computed, inject } from '@angular/core';
 import { CurrencyPipe, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';

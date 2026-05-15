@@ -1,3 +1,10 @@
+// ============================================================
+// LAYOUT: PublicLayout
+// Shell de las rutas públicas sin autenticación. Gestiona el
+// sidebar colapsable con accesos de sesión, buscador global y
+// menú móvil responsive.
+// ============================================================
+
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import {

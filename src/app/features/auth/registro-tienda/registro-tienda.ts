@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: RegistroTienda
+// Formulario de alta para nuevos negocios. Envía los datos al
+// backend para revisión administrativa; la tienda queda en estado
+// PENDIENTE hasta ser aprobada por el administrador.
+// ============================================================
+
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';

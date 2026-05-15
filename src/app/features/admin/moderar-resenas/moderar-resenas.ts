@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: ModerarResenas
+// Carga todas las reseñas vía ResenasService (endpoint admin)
+// y permite alternar su visibilidad o eliminarlas. Muestra un
+// mensaje de confirmación temporal tras cada acción.
+// ============================================================
+
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ResenasService } from '../../../core/services/resenas';

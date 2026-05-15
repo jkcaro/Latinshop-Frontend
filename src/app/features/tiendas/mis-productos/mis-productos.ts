@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: MisProductos (Tienda)
+// Gestión del catálogo propio: filtra productos de la tienda
+// autenticada, permite activar/desactivar, navegar a edición
+// y eliminar con confirmación.
+// ============================================================
+
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';

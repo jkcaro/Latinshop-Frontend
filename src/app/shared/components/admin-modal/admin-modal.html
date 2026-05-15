@@ -1,3 +1,10 @@
+<!-- ============================================================
+     TEMPLATE: Admin Modal
+     Modal reutilizable del panel de administración: muestra título,
+     descripción, slot de contenido proyectado y botones de
+     cancelar/confirmar configurables por inputs.
+     ============================================================ -->
+
 <div class="modal-backdrop" (click)="close.emit()">
   <section class="modal-card" (click)="$event.stopPropagation()">
     <header class="modal-header">

@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: AdminModal
+// Modal genérico del panel admin. Acepta título, descripción,
+// textos de botones y el flag `danger` para el color de confirmación.
+// Expone los outputs `close` y `confirm` para que el padre reaccione.
+// ============================================================
+
 import { Component, input, output } from '@angular/core';
 
 @Component({

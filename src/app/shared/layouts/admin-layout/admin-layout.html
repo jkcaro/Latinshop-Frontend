@@ -1,8 +1,9 @@
-<!-- ================================================ -->
-<!-- LAYOUT PADRE: Área de administración (AdminLayout) -->
-<!-- Protegido por adminGuard. Panel completo de        -->
-<!-- supervisión: tiendas, pedidos, usuarios, reportes. -->
-<!-- ================================================ -->
+<!-- ============================================================
+     LAYOUT: Admin Layout
+     Shell del área de administración protegida por adminGuard.
+     Incluye sidebar con navegación, topbar responsive y el
+     router-outlet que monta cada sección admin.
+     ============================================================ -->
 <section class="admin-shell" [attr.data-theme]="themeService.adminTheme()">
   <aside class="admin-sidebar" [class.open]="mobileMenuOpen()">
     <div class="admin-brand">

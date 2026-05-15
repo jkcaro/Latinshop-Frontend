@@ -1,3 +1,10 @@
+// ============================================================
+// INTERCEPTOR: authInterceptor
+// Adjunta el token JWT almacenado en localStorage como cabecera
+// Authorization a todas las peticiones HTTP salientes. Compatible
+// con SSR: lee localStorage solo en contexto de navegador.
+// ============================================================
+
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {

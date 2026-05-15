@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: DetalleProductoAdmin
+// Vista de solo lectura de un producto accedida desde el panel
+// admin. Carga el producto por ID de ruta y enriquece los datos
+// con el nombre de la tienda propietaria.
+// ============================================================
+
 import { Component, computed, inject } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';

@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: DetalleTiendaAdmin
+// Vista completa de una tienda desde el panel de administración.
+// Carga la tienda por ID de ruta y permite cambiar su estado,
+// ver sus productos y gestionar los pedidos recibidos.
+// ============================================================
+
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';

@@ -1,3 +1,8 @@
+// ============================================================
+// COMPONENTE: PoliticaCookies
+// Página de contenido estático con la política de cookies.
+// ============================================================
+
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth';

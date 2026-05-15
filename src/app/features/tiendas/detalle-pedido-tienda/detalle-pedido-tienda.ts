@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: DetallePedidoTienda
+// Carga el pedido por ID de ruta (solo si pertenece a la tienda
+// autenticada) y permite cambiar su estado mediante el selector
+// con confirmación. Muestra stepper visual del flujo de envío.
+// ============================================================
+
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';

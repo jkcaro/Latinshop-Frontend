@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: MisResenas (Cliente)
+// Carga y muestra las reseñas del cliente autenticado.
+// Permite editar la calificación/comentario o eliminar
+// una reseña existente con confirmación.
+// ============================================================
+
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ResenasService } from '../../../core/services/resenas';

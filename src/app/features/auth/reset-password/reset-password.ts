@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: ResetPassword
+// Lee el token JWT de los queryParams, valida la nueva contraseña
+// y llama al backend para aplicar el cambio. Redirige a /login
+// tras el éxito.
+// ============================================================
+
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';

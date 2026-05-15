@@ -1,3 +1,8 @@
+// ============================================================
+// COMPONENTE: CondicionesUso
+// Página de contenido estático con las condiciones de uso.
+// ============================================================
+
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth';

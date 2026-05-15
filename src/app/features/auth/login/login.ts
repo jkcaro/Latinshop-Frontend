@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: Login
+// Formulario de autenticación multi-rol. Valida que el rol del
+// token JWT coincida con el tipo de acceso seleccionado y redirige
+// al panel correspondiente (cliente / tienda / admin).
+// ============================================================
+
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';

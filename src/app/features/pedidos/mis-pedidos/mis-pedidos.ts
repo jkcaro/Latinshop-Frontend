@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: MisPedidos (Cliente)
+// Historial de pedidos del comprador. Permite filtrar por estado
+// y mes, muestra el total gastado y enlaza al detalle de cada
+// pedido para ver el seguimiento completo.
+// ============================================================
+
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';

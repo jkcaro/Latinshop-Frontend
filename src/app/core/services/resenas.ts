@@ -1,3 +1,10 @@
+// ============================================================
+// SERVICIO: ResenasService
+// Gestiona las reseñas de clientes sobre tiendas: carga las
+// reseñas visibles por tienda, las del cliente autenticado y
+// el panel de moderación admin para cambiar estado o eliminar.
+// ============================================================
+
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, of } from 'rxjs';

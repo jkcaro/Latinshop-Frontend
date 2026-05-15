@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: CrearProducto
+// Formulario de alta de un nuevo producto vinculado a la tienda
+// del usuario autenticado. Soporta subida de imagen y gestión
+// de campos de oferta y destacado.
+// ============================================================
+
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ProductosService } from '../../../core/services/productos';

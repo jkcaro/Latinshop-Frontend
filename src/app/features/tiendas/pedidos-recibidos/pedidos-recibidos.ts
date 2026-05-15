@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: PedidosRecibidos (Tienda)
+// Gestión de pedidos propios de la tienda: lista filtrable por
+// estado y texto libre, con paginación y acceso al detalle
+// de cada pedido para cambiar su estado.
+// ============================================================
+
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';

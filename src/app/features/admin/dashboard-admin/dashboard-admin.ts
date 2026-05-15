@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: DashboardAdmin
+// Panel central del administrador. Calcula KPIs reactivos con
+// computed signals, genera la gráfica de ventas semanales con
+// Chart.js y construye el feed de actividad reciente.
+// ============================================================
+
 import { CurrencyPipe, DatePipe, isPlatformBrowser } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnInit, PLATFORM_ID, ViewChild, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';

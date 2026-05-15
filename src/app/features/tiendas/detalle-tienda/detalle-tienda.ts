@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: DetalleTienda (Pública)
+// Carga la tienda por ID de ruta y muestra su catálogo de
+// productos activos, reseñas visibles, mapa de Google Maps
+// embebido y formulario de nueva reseña para clientes.
+// ============================================================
+
 import { Component, computed, inject, signal } from '@angular/core';
 import { CurrencyPipe, DecimalPipe, DatePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';

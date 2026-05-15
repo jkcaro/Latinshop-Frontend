@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: ListaTiendas
+// Directorio de tiendas aprobadas con filtro combinado por nombre
+// y ciudad. Si el usuario es cliente se prefiltra por su ciudad.
+// Incluye paginación reactiva.
+// ============================================================
+
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';

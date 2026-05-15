@@ -1,3 +1,11 @@
+// ============================================================
+// COMPONENTE: PedidosAdmin
+// Vista de supervisión de todos los pedidos del marketplace.
+// Permite filtrar por estado, tienda, fecha y texto libre,
+// cambiar el estado del pedido con confirmación modal y ver
+// el detalle completo de cada pedido.
+// ============================================================
+
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';

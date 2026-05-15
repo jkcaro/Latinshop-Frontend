@@ -1,3 +1,10 @@
+// ============================================================
+// SERVICIO: MensajesService
+// Gestiona la mensajería entre cliente y tienda dentro de un
+// pedido: obtiene el historial de mensajes por pedido y envía
+// nuevos mensajes con el rol del remitente (CLIENTE o TIENDA).
+// ============================================================
+
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, catchError, of } from 'rxjs';

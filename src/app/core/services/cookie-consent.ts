@@ -1,3 +1,10 @@
+// ============================================================
+// SERVICIO: CookieConsentService
+// Gestiona el consentimiento de cookies RGPD. Persiste las
+// preferencias (necesarias, analíticas, marketing) en localStorage
+// y expone un signal para controlar la visibilidad del banner.
+// ============================================================
+
 import { Injectable, signal } from '@angular/core';
 
 export interface CookieConsent {

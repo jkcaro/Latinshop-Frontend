@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: EditarProducto
+// Carga el producto por ID de ruta, rellena el formulario con
+// los datos actuales y envía los cambios al backend. Muestra
+// vista previa de imagen y redirige tras guardar.
+// ============================================================
+
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';

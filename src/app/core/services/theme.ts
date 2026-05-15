@@ -1,3 +1,10 @@
+// ============================================================
+// SERVICIO: ThemeService
+// Gestiona el tema visual (ocean / sunset / forest) de forma
+// independiente para cada área (admin, tienda, cliente).
+// Persiste la selección en localStorage por clave de área.
+// ============================================================
+
 import { Injectable, signal } from '@angular/core';
 
 export type Theme = 'ocean' | 'sunset' | 'forest';

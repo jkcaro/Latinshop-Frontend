@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: DetalleProducto
+// Muestra la ficha pública de un producto cargado por ID de ruta.
+// Incluye galería, precio con oferta, botón de carrito y el
+// listado de reseñas visibles de la tienda.
+// ============================================================
+
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';

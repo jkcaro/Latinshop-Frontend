@@ -1,3 +1,10 @@
+// ============================================================
+// COMPONENTE: DetallePedidoAdmin
+// Carga un pedido por ID de ruta y muestra su información
+// completa con datos de cliente, tienda y desglose de items.
+// Solo accesible desde el panel de administración.
+// ============================================================
+
 import { Component, computed, inject } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
