@@ -1,3 +1,10 @@
+// ============================================================
+// MODELO: Producto
+// Representa un artículo del catálogo de una tienda. precioOferta
+// es null cuando no hay descuento activo. activo controla si es
+// visible en el catálogo público; destacado lo marca como featured.
+// ============================================================
+
 export interface Producto {
   id: number;
   nombre: string;

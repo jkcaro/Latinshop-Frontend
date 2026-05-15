@@ -1,3 +1,10 @@
+// ============================================================
+// MODELO: Resena y EstadisticasResenas
+// Resena representa la valoración de un cliente sobre una tienda
+// tras un pedido. EstadisticasResenas agrega el total y el promedio
+// de calificaciones para mostrarlo en la ficha pública de la tienda.
+// ============================================================
+
 export type EstadoResena = 'VISIBLE' | 'OCULTA';
 
 export interface Resena {

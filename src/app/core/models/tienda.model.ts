@@ -1,3 +1,11 @@
+// ============================================================
+// MODELO: Tienda y tipos relacionados
+// Representa un negocio registrado en el marketplace. EstadoTienda
+// controla el ciclo de revisión (PENDIENTE → APROBADA / RECHAZADA,
+// APROBADA → BLOQUEADA). HorarioTienda define la disponibilidad
+// semanal del negocio para mostrarla en su ficha pública.
+// ============================================================
+
 export type EstadoTienda = 'PENDIENTE' | 'APROBADA' | 'RECHAZADA' | 'BLOQUEADA';
 
 export interface HorarioTienda {
