@@ -8,6 +8,7 @@ export type EstadoPedido =
 export type MetodoPago =
   | 'TARJETA'
   | 'PAYPAL'
+  | 'BIZUM'
   | 'TRANSFERENCIA'
   | 'CONTRA_ENTREGA';
 

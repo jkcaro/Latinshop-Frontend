@@ -44,7 +44,7 @@ export class Carrito {
   direccionEnvio = signal('');
   ciudadEnvio = signal('');
   codigoPostalEnvio = signal('');
-  metodoPago = signal<'TARJETA' | 'PAYPAL' | 'TRANSFERENCIA' | 'CONTRA_ENTREGA'>('TARJETA');
+  metodoPago = signal<'TARJETA' | 'PAYPAL' | 'BIZUM' | 'TRANSFERENCIA' | 'CONTRA_ENTREGA'>('TARJETA');
   metodoEnvio = signal<'ESTANDAR' | 'EXPRESS' | 'RECOGIDA_TIENDA'>('ESTANDAR');
 
   aceptaLegal = signal(false);
