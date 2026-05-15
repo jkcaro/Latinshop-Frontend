@@ -62,6 +62,24 @@ export class GestionarUsuarios implements OnInit {
     return this.usuarios().slice(inicio, inicio + this.clientesPorPagina());
   });
 
+  readonly pedidosTotalesCliente = computed(() =>
+    this.pedidosService
+      .pedidos()
+      .filter(p => p.clienteEmail === this.usuarioDetalle()?.email)
+  );
+
+  readonly totalGastadoCliente = computed(() =>
+    this.pedidosTotalesCliente().reduce((acc, p) => acc + p.total, 0)
+  );
+
+  readonly ultimoPedidoCliente = computed(() => {
+    const pedidos = this.pedidosTotalesCliente();
+    if (!pedidos.length) return null;
+    return pedidos.reduce((latest, p) =>
+      new Date(p.fechaPedido) > new Date(latest.fechaPedido) ? p : latest
+    );
+  });
+
   readonly pedidosClienteSeleccionado = computed(() => {
     const usuario = this.usuarioDetalle();
 

@@ -174,13 +174,44 @@
 
         <section class="client-info-grid">
           <div>
+            <small>ID Cliente</small>
+            <strong>#{{ usuarioDetalle()?.clienteId || usuarioDetalle()?.id }}</strong>
+          </div>
+
+          <div>
             <small>Teléfono</small>
             <strong>{{ usuarioDetalle()?.telefono || 'No registrado' }}</strong>
           </div>
 
           <div>
-            <small>Total pedidos</small>
-            <strong>{{ pedidosClienteSeleccionado().length }}</strong>
+            <small>Ciudad</small>
+            <strong>{{ usuarioDetalle()?.ciudadNombre || 'No registrada' }}</strong>
+          </div>
+
+          <div>
+            <small>Dirección</small>
+            <strong>{{ usuarioDetalle()?.direccion || 'No registrada' }}</strong>
+          </div>
+
+          <div>
+            <small>Pedidos realizados</small>
+            <strong>{{ pedidosTotalesCliente().length }}</strong>
+          </div>
+
+          <div>
+            <small>Total gastado</small>
+            <strong>{{ totalGastadoCliente() | currency:'EUR' }}</strong>
+          </div>
+
+          <div>
+            <small>Último pedido</small>
+            <strong>
+              @if (ultimoPedidoCliente()) {
+                {{ ultimoPedidoCliente()!.fechaPedido | date:'dd/MM/yyyy' }}
+              } @else {
+                Sin pedidos
+              }
+            </strong>
           </div>
         </section>
 
