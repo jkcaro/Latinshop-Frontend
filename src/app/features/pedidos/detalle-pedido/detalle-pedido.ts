@@ -56,6 +56,7 @@ export class DetallePedido {
     const labels: Record<MetodoPago, string> = {
       TARJETA:        'Tarjeta',
       PAYPAL:         'PayPal',
+      BIZUM:          'Bizum',
       TRANSFERENCIA:  'Transferencia',
       CONTRA_ENTREGA: 'Contra entrega',
     };
