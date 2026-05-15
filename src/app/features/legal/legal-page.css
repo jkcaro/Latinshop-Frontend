@@ -1,3 +1,11 @@
+/* ============================================================
+   ESTILOS: Legal (Términos, Privacidad, Cookies)
+   Página de contenido legal del marketplace: tipografía de
+   cuerpo de texto, cabeceras de sección y aviso de marcadores
+   de posición pendientes de completar con texto real.
+   ============================================================ */
+
+/* ── CONTENEDOR Y TIPOGRAFÍA ── */
 .legal-page {
   max-width: 860px;
   margin: 0 auto;

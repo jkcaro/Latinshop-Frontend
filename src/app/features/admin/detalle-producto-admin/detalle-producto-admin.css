@@ -1,3 +1,11 @@
+/* ============================================================
+   ESTILOS: Detalle de Producto (Admin)
+   Vista completa de un producto desde el panel de administración.
+   Incluye hero con badge de categoría, grid de tarjetas con
+   información, descripción, imagen del producto y estado.
+   ============================================================ */
+
+/* ── CONTENEDOR PRINCIPAL ── */
 .admin-detail-page {
   display: grid;
   gap: 22px;
@@ -5,6 +13,7 @@
   margin: 0 auto;
 }
 
+/* ── TARJETAS BASE (hero, detalle, vacío) ── */
 .hero-card,
 .detail-card,
 .empty-box {
@@ -14,6 +23,7 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
 }
 
+/* ── HERO ── */
 .hero-card {
   background: linear-gradient(135deg, #fff7ed, #ffffff);
 }

@@ -1,3 +1,11 @@
+/* ============================================================
+   ESTILOS: Lista de Tiendas (Pública)
+   Directorio de tiendas aprobadas del marketplace con hero,
+   barra de búsqueda/filtros por ciudad y categoría, grid de
+   tarjetas de tienda y paginación.
+   ============================================================ */
+
+/* ── CONTENEDOR PRINCIPAL ── */
 .stores-page {
   display: grid;
   gap: 20px;

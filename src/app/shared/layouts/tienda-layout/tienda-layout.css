@@ -1,10 +1,19 @@
+/* ============================================================
+   ESTILOS: Tienda Layout (Layout Padre — Área de Tienda)
+   Estructura principal del panel de propietario de tienda:
+   sidebar fijo con navegación y estado de la tienda, área de
+   contenido principal con scroll. Las páginas de tienda se
+   renderizan dentro del <router-outlet> de este layout.
+   ============================================================ */
+
+/* ── LAYOUT RAÍZ ── */
 .layout {
   display: flex;
   height: 100vh;
   overflow: hidden;
 }
 
-/* SIDEBAR */
+/* ── SIDEBAR ── */
 .sidebar {
   width: 220px;
   flex-shrink: 0;

@@ -1,3 +1,10 @@
+/* ============================================================
+   ESTILOS: Registro de Cliente
+   Formulario de registro para nuevos compradores: layout de dos
+   columnas con panel informativo a la izquierda y formulario
+   con datos personales, ciudad de entrega y contraseña.
+   ============================================================ */
+
 /* ── LAYOUT ── */
 .auth-page {
   display: grid;

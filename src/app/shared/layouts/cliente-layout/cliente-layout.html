@@ -1,3 +1,8 @@
+<!-- ============================================ -->
+<!-- LAYOUT PADRE: Área de cliente (ClienteLayout) -->
+<!-- Protegido por clienteGuard. Incluye sidebar  -->
+<!-- con carrito, toasts globales y footer legal. -->
+<!-- ============================================ -->
 <div class="layout" [attr.data-theme]="themeService.clienteTheme()">
   <button class="mobile-menu-btn" type="button" (click)="toggleSidebar()">☰</button>
 
@@ -150,6 +155,7 @@
     </header>
 
     <main>
+      <!-- CONTENIDO HIJO: aquí se renderizan las páginas del cliente (panel, carrito, pedidos, perfil…) -->
       <router-outlet></router-outlet>
     </main>
 

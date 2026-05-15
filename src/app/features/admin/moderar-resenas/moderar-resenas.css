@@ -1,8 +1,18 @@
+/* ============================================================
+   ESTILOS: Moderación de Reseñas (Admin)
+   Panel de moderación de todas las reseñas del marketplace.
+   Permite al administrador filtrar, ocultar/mostrar y eliminar
+   reseñas. Las tarjetas muestran tienda, cliente, estrellas
+   y comentario con indicador de visibilidad actual.
+   ============================================================ */
+
+/* ── CONTENEDOR PRINCIPAL ── */
 .moderar-page {
   max-width: 900px;
   margin: 0 auto;
 }
 
+/* ── CABECERA ── */
 .moderar-header {
   margin-bottom: 24px;
 }

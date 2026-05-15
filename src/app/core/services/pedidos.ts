@@ -1,3 +1,9 @@
+// ============================================================
+// SERVICIO: PedidosService
+// Centraliza la carga, creación y actualización de pedidos.
+// Un único signal _pedidos sirve a cliente, tienda y admin;
+// cada área filtra por clienteId, tiendaId o sin filtro (todos).
+// ============================================================
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, of } from 'rxjs';

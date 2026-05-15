@@ -48,13 +48,14 @@ export class PedidosAdmin {
   readonly nuevoEstadoSeleccionado = signal('');
 
   readonly paginaActual = signal(1);
-  readonly pedidosPorPagina = signal(8);
+  readonly pedidosPorPagina = signal(5);
 
   readonly modalPedidoAbierto = signal(false);
   readonly pedidoDetalle = signal<any | null>(null);
   readonly cargandoDetalle = signal(false);
 
   constructor() {
+    this.pedidosService.cargarTodosLosPedidos();
     effect(() => {
       this.filtroEstado.set(this._paramEstado());
       this.paginaActual.set(1);
@@ -77,10 +78,11 @@ export class PedidosAdmin {
   readonly totalPedidos = computed(() => this.pedidos().length);
 
   readonly pedidosPendientes = computed(
-    () =>
-      this.pedidos().filter(
-        (pedido) => pedido.estado === 'PENDIENTE' || pedido.estado === 'EN_PREPARACION',
-      ).length,
+    () => this.pedidos().filter((pedido) => pedido.estado === 'PENDIENTE').length,
+  );
+
+  readonly pedidosEnPreparacion = computed(
+    () => this.pedidos().filter((pedido) => pedido.estado === 'EN_PREPARACION').length,
   );
 
   readonly pedidosEnviados = computed(

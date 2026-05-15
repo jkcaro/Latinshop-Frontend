@@ -1,3 +1,11 @@
+/* ============================================================
+   ESTILOS: Panel de Cliente (Dashboard)
+   Dashboard principal del comprador: buscador, categorías,
+   grid de tiendas y productos destacados, features bar de
+   beneficios, sidebar con pedidos recientes, ofertas y métodos
+   de pago aceptados. Layout de dos columnas en escritorio.
+   ============================================================ */
+
 /* ── LAYOUT PRINCIPAL ── */
 .panel-dashboard {
   display: grid;
@@ -743,8 +751,7 @@
 }
 
 .visa        { color: #1a1f71; font-style: italic; font-size: 0.9rem; letter-spacing: -0.01em; }
-.amex        { color: #007bc1; font-size: 0.72rem; }
-.applepay    { color: #111827; font-size: 0.72rem; }
+.bizum       { color: #003087; font-size: 0.72rem; font-weight: 800; }
 
 .mastercard  { gap: 0; }
 .mc-left     { color: #eb001b; font-size: 1.3rem; line-height: 1; }
@@ -752,6 +759,8 @@
 
 .paypal      { color: #003087; font-size: 0.75rem; }
 .pp-p        { color: #009cde; font-weight: 900; }
+
+.applepay    { color: #111827; font-size: 0.72rem; }
 
 .googlepay   { color: #111827; font-size: 0.75rem; }
 .gp-g        { color: #4285f4; font-weight: 900; }

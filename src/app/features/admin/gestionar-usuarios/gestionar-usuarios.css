@@ -1,3 +1,12 @@
+/* ============================================================
+   ESTILOS: Gestión de Usuarios (Admin)
+   Panel de administración de usuarios del marketplace.
+   Muestra admins y clientes en secciones separadas, con menú
+   de acciones por usuario, modal de detalle con historial de
+   pedidos y paginación independiente por sección.
+   ============================================================ */
+
+/* ── CONTENEDOR PRINCIPAL ── */
 .admin-users-page {
   display: grid;
   gap: 22px;
@@ -7,6 +16,7 @@
   box-sizing: border-box;
 }
 
+/* ── HERO ── */
 .users-hero {
   display: grid;
   grid-template-columns: auto 1fr auto;

@@ -1,3 +1,12 @@
+/* ============================================================
+   ESTILOS: Reportes (Admin)
+   Dashboard de métricas y estadísticas del marketplace.
+   Muestra mini-KPIs agrupados por categoría (ventas, tiendas,
+   usuarios, pedidos) y accesos rápidos a las secciones
+   de gestión del sistema.
+   ============================================================ */
+
+/* ── CONTENEDOR PRINCIPAL ── */
 .reports-page {
   display: grid;
   gap: 20px;
@@ -7,6 +16,7 @@
   box-sizing: border-box;
 }
 
+/* ── HERO ── */
 .reports-hero {
   display: flex;
   align-items: center;

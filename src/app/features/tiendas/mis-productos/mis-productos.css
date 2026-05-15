@@ -1,3 +1,11 @@
+/* ============================================================
+   ESTILOS: Mis Productos (Tienda)
+   Gestión del catálogo de la tienda: lista de productos con
+   imagen, precio, estado de oferta y acciones de editar/eliminar.
+   Incluye toolbar de búsqueda/filtro, paginación y estado vacío.
+   ============================================================ */
+
+/* ── CONTENEDOR PRINCIPAL ── */
 .products-page {
   max-width: 1200px;
   margin: 0 auto;
@@ -5,6 +13,7 @@
   gap: 24px;
 }
 
+/* ── CABECERA ── */
 .products-header {
   display: flex;
   justify-content: space-between;

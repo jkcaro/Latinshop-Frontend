@@ -1,3 +1,11 @@
+/* ============================================================
+   ESTILOS: Registro de Tienda
+   Formulario de registro para nuevos propietarios de tienda:
+   layout de dos columnas con beneficios del programa a la
+   izquierda y formulario de alta con datos del negocio y ciudad.
+   ============================================================ */
+
+/* ── LAYOUT ── */
 .auth-page {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 480px;

@@ -1,3 +1,12 @@
+/* ============================================================
+   ESTILOS: Carrito de compra
+   Página de checkout con dos paneles: lista de productos a la
+   izquierda y formulario de pedido (envío, pago, resumen) a la
+   derecha. Incluye widget de envío gratis, modal de dirección
+   y toasts de notificación.
+   ============================================================ */
+
+/* ── HOST / CONTENEDOR ── */
 :host {
   display: flex;
   flex-direction: column;

@@ -1,3 +1,12 @@
+/* ============================================================
+   ESTILOS: Detalle de Tienda (Admin)
+   Vista completa de una tienda para el administrador: hero con
+   acciones de moderación, KPIs de actividad, info de contacto,
+   lista de productos y pedidos, notas de administrador y modal
+   de detalle de pedido con totales.
+   ============================================================ */
+
+/* ── CONTENEDOR PRINCIPAL ── */
 .admin-store-detail {
   display: grid;
   gap: 20px;
@@ -7,7 +16,7 @@
   box-sizing: border-box;
 }
 
-/* BADGES */
+/* ── BADGES DE ESTADO ── */
 .status-badge,
 .badge {
   padding: 5px 10px;

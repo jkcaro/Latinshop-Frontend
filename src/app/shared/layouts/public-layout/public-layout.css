@@ -1,6 +1,12 @@
-/* ════════════════════════════════════
-   Layout raíz
-════════════════════════════════════ */
+/* ============================================================
+   ESTILOS: Public Layout (Layout Padre — Área Pública)
+   Estructura principal del área pública del marketplace: sidebar
+   con accesos a login/registro, buscador global y categorías.
+   Las páginas públicas se renderizan dentro del <router-outlet>
+   de este layout. Accesible sin autenticación.
+   ============================================================ */
+
+/* ── LAYOUT RAÍZ ── */
 .layout {
   display: flex;
   height: 100vh;

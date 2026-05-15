@@ -1,3 +1,11 @@
+/* ============================================================
+   ESTILOS: Mensajes de Pedido (Compartido)
+   Widget de chat entre cliente y tienda dentro de un pedido.
+   Muestra el historial de mensajes con burbujas diferenciadas
+   por emisor, campo de texto y botón de envío.
+   ============================================================ */
+
+/* ── WIDGET CONTENEDOR ── */
 .msg-widget {
   background: var(--card-bg, #fff);
   border: 1px solid var(--border, #e5e7eb);

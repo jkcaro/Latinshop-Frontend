@@ -1,8 +1,17 @@
+/* ============================================================
+   ESTILOS: Lista de Ofertas (Pública)
+   Catálogo de productos en oferta: grid de tarjetas con badge
+   de descuento, precio original tachado, precio de oferta
+   destacado y acciones de carrito.
+   ============================================================ */
+
+/* ── LAYOUT EXTERNO ── */
 .public-page {
   background: #f3f4f6;
   padding: 28px;
 }
 
+/* ── CONTENEDOR INTERNO ── */
 .public-container {
   max-width: 1320px;
   margin: 0 auto;

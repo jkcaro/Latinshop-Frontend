@@ -1,3 +1,11 @@
+/* ============================================================
+   ESTILOS: Cookie Banner (Compartido)
+   Banner de consentimiento de cookies fijo en la parte inferior
+   de la pantalla. Incluye vista principal con opciones básicas
+   y panel expandido de preferencias por categoría de cookie.
+   ============================================================ */
+
+/* ── OVERLAY Y POSICIONAMIENTO ── */
 .cookie-overlay {
   position: fixed;
   inset: 0;

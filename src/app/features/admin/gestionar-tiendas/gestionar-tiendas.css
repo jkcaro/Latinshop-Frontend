@@ -1,3 +1,12 @@
+/* ============================================================
+   ESTILOS: Gestionar Tiendas (Admin)
+   Panel de administración de tiendas del marketplace agrupadas
+   por estado (PENDIENTE / APROBADA / BLOQUEADA / RECHAZADA).
+   Cada tienda se muestra en una fila compacta de una sola línea
+   con los botones de acción al mismo nivel.
+   ============================================================ */
+
+/* ── CONTENEDOR PRINCIPAL ── */
 .admin-stores-page {
   display: grid;
   gap: 20px;
@@ -58,17 +67,29 @@
   justify-content: space-between;
   align-items: center;
   gap: 12px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-left-width: 4px;
 }
+
+.pending-title  { border-left-color: #f59e0b; }
+.approved-title { border-left-color: #22c55e; }
+.blocked-title  { border-left-color: #ef4444; }
+.rejected-title { border-left-color: #9ca3af; }
 
 .section-title h2 {
   margin: 0;
   color: #111827;
-  font-size: 1.18rem;
+  font-size: 1.05rem;
+  font-weight: 700;
 }
 
 .section-title span {
   color: #6b7280;
-  font-size: 0.86rem;
+  font-size: 0.82rem;
+  font-weight: 600;
 }
 
 .stores-list {
@@ -78,14 +99,19 @@
 
 .store-row {
   display: grid;
-  grid-template-columns: auto 1.3fr 2fr auto;
+  grid-template-columns: auto 1.4fr 2fr auto auto;
   align-items: center;
   gap: 14px;
   background: white;
   border-radius: 14px;
-  padding: 13px 14px;
+  padding: 12px 16px;
   border: 1px solid #e5e7eb;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: box-shadow .15s;
+}
+
+.store-row:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,.08);
 }
 
 .store-avatar {
@@ -164,12 +190,9 @@
 }
 
 .store-actions {
-  grid-column: 1 / -1;
   display: flex;
   justify-content: flex-end;
   gap: 8px;
-  border-top: 1px solid #f1f5f9;
-  padding-top: 10px;
 }
 
 .store-actions button {
@@ -224,47 +247,23 @@
   background: #f9fafb;
 }
 
-@media (max-width: 950px) {
+@media (max-width: 1050px) {
   .store-row {
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto 1fr auto auto;
   }
-
   .store-meta {
     grid-column: 1 / -1;
   }
 }
 
 @media (max-width: 700px) {
-  .stores-hero {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .hero-illustration {
-    display: none;
-  }
-
-  .store-row {
-    grid-template-columns: 1fr;
-  }
-
-  .status-badge {
-    justify-self: start;
-  }
-
-  .store-meta {
-    grid-template-columns: 1fr;
-  }
-
-  .store-meta div {
-    border-left: none;
-    padding-left: 0;
-  }
-
-  .store-actions {
-    justify-content: flex-start;
-    flex-wrap: wrap;
-  }
+  .stores-hero { flex-direction: column; align-items: flex-start; }
+  .hero-illustration { display: none; }
+  .store-row { grid-template-columns: 1fr; }
+  .status-badge { justify-self: start; }
+  .store-meta { grid-template-columns: 1fr; }
+  .store-meta div { border-left: none; padding-left: 0; }
+  .store-actions { justify-content: flex-start; flex-wrap: wrap; }
 }
 
 .store-detail-modal {

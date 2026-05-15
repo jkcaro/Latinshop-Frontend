@@ -1,3 +1,11 @@
+/* ============================================================
+   ESTILOS: Detalle de Pedido (Cliente)
+   Vista completa de un pedido: héroe con datos generales,
+   stepper de estados, grid de tarjetas informativas, tabla de
+   productos, resumen de precios y tarjetas laterales de soporte.
+   ============================================================ */
+
+/* ── CONTENEDOR PRINCIPAL ── */
 .order-detail-page {
   display: grid;
   gap: 20px;

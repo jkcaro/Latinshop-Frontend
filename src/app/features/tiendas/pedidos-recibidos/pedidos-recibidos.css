@@ -1,3 +1,11 @@
+/* ============================================================
+   ESTILOS: Pedidos Recibidos (Tienda)
+   Gestión de pedidos recibidos por la tienda: hero informativo,
+   filtros por estado y búsqueda, lista de tarjetas de pedido
+   con badge de estado y acciones de gestión.
+   ============================================================ */
+
+/* ── CONTENEDOR PRINCIPAL ── */
 .pr-page {
   display: grid;
   gap: 20px;

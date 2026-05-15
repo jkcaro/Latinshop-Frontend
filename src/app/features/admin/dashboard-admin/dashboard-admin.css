@@ -1,3 +1,10 @@
+/* ============================================================
+   ESTILOS: Dashboard Admin
+   Panel principal del administrador con KPIs, gráfica de ventas,
+   actividad reciente y accesos rápidos a las secciones del sistema.
+   ============================================================ */
+
+/* ── CONTENEDOR PRINCIPAL ── */
 .admin-dashboard {
   display: grid;
   gap: 20px;
@@ -7,6 +14,7 @@
   box-sizing: border-box;
 }
 
+/* ── SELECTOR DE TEMA ── */
 .theme-section-admin {
   background: white;
   border-radius: 18px;
@@ -35,12 +43,13 @@
   transition: transform 0.15s, box-shadow 0.15s;
 }
 
-.theme-btn:hover { transform: translateY(-2px); }
-.theme-btn.ocean  { background: linear-gradient(90deg, #3b82f6, #2563eb); }
-.theme-btn.sunset { background: linear-gradient(90deg, #f2994a, #eb5757); }
-.theme-btn.forest { background: linear-gradient(90deg, #22c55e, #16a34a); }
-.theme-btn.active { border-color: #111827; box-shadow: 0 4px 14px rgba(0,0,0,0.2); transform: translateY(-2px); }
+.theme-btn:hover              { transform: translateY(-2px); }
+.theme-btn.ocean              { background: linear-gradient(90deg, #3b82f6, #2563eb); }
+.theme-btn.sunset             { background: linear-gradient(90deg, #f2994a, #eb5757); }
+.theme-btn.forest             { background: linear-gradient(90deg, #22c55e, #16a34a); }
+.theme-btn.active             { border-color: #111827; box-shadow: 0 4px 14px rgba(0,0,0,0.2); transform: translateY(-2px); }
 
+/* ── SOMBRA COMPARTIDA ── */
 .admin-hero,
 .kpi-card,
 .summary-chart-card,
@@ -50,6 +59,7 @@
   box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
 }
 
+/* ── HERO (cabecera del dashboard) ── */
 .admin-hero {
   background: linear-gradient(135deg, #fff7ed, #ffffff);
   border-radius: 18px;
@@ -75,6 +85,7 @@
   font-size: 0.96rem;
 }
 
+/* ── KPIs (tarjetas de métricas clave) ── */
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -85,9 +96,7 @@
   border-radius: 16px;
   padding: 18px;
   border-left: 4px solid var(--accent-2);
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .kpi-card:hover,
@@ -99,6 +108,7 @@
   box-shadow: 0 12px 26px rgba(0, 0, 0, 0.1);
 }
 
+/* Icono de cada KPI con color según tipo */
 .kpi-icon {
   width: 42px;
   height: 42px;
@@ -108,50 +118,18 @@
   margin-bottom: 12px;
 }
 
-.kpi-icon lucide-angular {
-  width: 22px;
-  height: 22px;
-}
+.kpi-icon lucide-angular { width: 22px; height: 22px; }
 
-.kpi-icon.green {
-  background: #dcfce7;
-  color: #22c55e;
-}
+.kpi-icon.green  { background: #dcfce7; color: #22c55e; }
+.kpi-icon.blue   { background: #dbeafe; color: #2563eb; }
+.kpi-icon.orange { background: #ffedd5; color: #f97316; }
+.kpi-icon.purple { background: #f3e8ff; color: #9333ea; }
 
-.kpi-icon.blue {
-  background: #dbeafe;
-  color: #2563eb;
-}
+.kpi-label { margin: 0 0 10px; font-size: 13px; color: #666; }
+.kpi-value { margin: 0; font-size: 26px; font-weight: 800; color: #111827; }
+.kpi-sub   { margin: 10px 0 0; font-size: 12px; color: #888; }
 
-.kpi-icon.orange {
-  background: #ffedd5;
-  color: #f97316;
-}
-
-.kpi-icon.purple {
-  background: #f3e8ff;
-  color: #9333ea;
-}
-
-.kpi-label {
-  margin: 0 0 10px;
-  font-size: 13px;
-  color: #666;
-}
-
-.kpi-value {
-  margin: 0;
-  font-size: 26px;
-  font-weight: 800;
-  color: #111827;
-}
-
-.kpi-sub {
-  margin: 10px 0 0;
-  font-size: 12px;
-  color: #888;
-}
-
+/* ── GRID PRINCIPAL (gráfica + actividad reciente) ── */
 .dashboard-grid {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
@@ -165,6 +143,7 @@
   padding: 24px;
 }
 
+/* ── GRÁFICA DE VENTAS ── */
 .summary-chart-header {
   display: flex;
   justify-content: space-between;
@@ -179,10 +158,7 @@
   color: #111827;
 }
 
-.summary-chart-header p {
-  margin: 6px 0 0;
-  color: #6b7280;
-}
+.summary-chart-header p { margin: 6px 0 0; color: #6b7280; }
 
 .period-pill {
   padding: 10px 14px;
@@ -201,10 +177,8 @@
   align-items: stretch;
 }
 
-.summary-metrics {
-  display: grid;
-  gap: 12px;
-}
+/* Métricas numéricas a la izquierda de la gráfica */
+.summary-metrics { display: grid; gap: 12px; }
 
 .summary-metrics div {
   padding: 14px;
@@ -213,37 +187,21 @@
   border-left: 3px solid #eb5757;
 }
 
-.summary-metrics span {
-  display: block;
-  color: #6b7280;
-  font-size: 0.82rem;
-  font-weight: 800;
-}
+.summary-metrics span   { display: block; color: #6b7280; font-size: 0.82rem; font-weight: 800; }
+.summary-metrics strong { display: block; margin-top: 8px; color: #111827; font-size: 1.35rem; }
 
-.summary-metrics strong {
-  display: block;
-  margin-top: 8px;
-  color: #111827;
-  font-size: 1.35rem;
-}
-
-.chart-box {
-  min-height: 300px;
-}
+/* Canvas de Chart.js — tamaño fijo para mantener proporciones */
+.chart-box { min-height: 300px; }
 
 .chart-box canvas {
   width: 100% !important;
   height: 300px !important;
 }
 
-.activity-card h3 {
-  margin-bottom: 16px;
-}
+/* ── ACTIVIDAD RECIENTE ── */
+.activity-card h3 { margin-bottom: 16px; }
 
-.activity-list {
-  display: grid;
-  gap: 14px;
-}
+.activity-list { display: grid; gap: 14px; }
 
 .activity-item {
   display: flex;
@@ -251,6 +209,7 @@
   align-items: center;
 }
 
+/* Icono de tipo de actividad con color semántico */
 .activity-icon {
   width: 40px;
   height: 40px;
@@ -260,36 +219,14 @@
   flex: 0 0 auto;
 }
 
-.activity-icon lucide-angular {
-  width: 20px;
-  height: 20px;
-}
+.activity-icon lucide-angular { width: 20px; height: 20px; }
 
-.activity-icon.pedido {
-  background: #dbeafe;
-  color: #2563eb;
-}
+.activity-icon.pedido  { background: #dbeafe; color: #2563eb; }
+.activity-icon.tienda  { background: #dcfce7; color: #16a34a; }
+.activity-icon.usuario { background: #f3e8ff; color: #9333ea; }
 
-.activity-icon.tienda {
-  background: #dcfce7;
-  color: #16a34a;
-}
-
-.activity-icon.usuario {
-  background: #f3e8ff;
-  color: #9333ea;
-}
-
-.activity-item p {
-  margin: 0;
-  color: #111827;
-  font-weight: 700;
-}
-
-.activity-item span {
-  color: #6b7280;
-  font-size: 0.85rem;
-}
+.activity-item p    { margin: 0; color: #111827; font-weight: 700; }
+.activity-item span { color: #6b7280; font-size: 0.85rem; }
 
 .activity-link {
   margin-top: 18px;
@@ -314,11 +251,9 @@
   transform: translateY(-1px);
 }
 
-.activity-link-icon {
-  font-size: 1.4rem;
-  line-height: 1;
-}
+.activity-link-icon { font-size: 1.4rem; line-height: 1; }
 
+/* ── ACCESOS RÁPIDOS ── */
 .quick-actions {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -329,25 +264,13 @@
   display: flex;
   align-items: center;
   min-height: 140px;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.quick-card:hover {
-  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.1);
-}
+.quick-card:hover { box-shadow: 0 14px 32px rgba(15, 23, 42, 0.1); }
 
-.quick-card h3 {
-  margin: 0 0 6px;
-  color: #111827;
-}
-
-.quick-card p {
-  margin: 0 0 14px;
-  color: #6b7280;
-  font-size: 0.9rem;
-}
+.quick-card h3 { margin: 0 0 6px; color: #111827; }
+.quick-card p  { margin: 0 0 14px; color: #6b7280; font-size: 0.9rem; }
 
 .quick-card button {
   border: none;
@@ -357,21 +280,12 @@
   cursor: pointer;
 }
 
-.quick-card.tiendas button {
-  background: #fee2e2;
-  color: #b91c1c;
-}
+/* Colores de botón según sección destino */
+.quick-card.tiendas  button { background: #fee2e2; color: #b91c1c; }
+.quick-card.usuarios button { background: #dbeafe; color: #1d4ed8; }
+.quick-card.informes button { background: #dcfce7; color: #166534; }
 
-.quick-card.usuarios button {
-  background: #dbeafe;
-  color: #1d4ed8;
-}
-
-.quick-card.informes button {
-  background: #dcfce7;
-  color: #166534;
-}
-
+/* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   .dashboard-grid,
   .summary-chart-body,
@@ -379,19 +293,12 @@
     grid-template-columns: 1fr;
   }
 
-  .summary-chart-header {
-    flex-direction: column;
-  }
+  .summary-chart-header { flex-direction: column; }
 }
 
 @media (max-width: 640px) {
-  .admin-dashboard {
-    gap: 16px;
-  }
-
-  .kpi-grid {
-    grid-template-columns: 1fr;
-  }
+  .admin-dashboard { gap: 16px; }
+  .kpi-grid        { grid-template-columns: 1fr; }
 
   .summary-chart-card,
   .activity-card,

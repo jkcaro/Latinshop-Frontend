@@ -1,8 +1,18 @@
+/* ============================================================
+   ESTILOS: Editar Producto (Tienda)
+   Formulario de edición de producto: hero informativo, layout
+   de dos columnas (formulario a la izquierda, vista previa a
+   la derecha), campos de nombre/precio/descripción/imagen
+   y botón de guardado con feedback de éxito/error.
+   ============================================================ */
+
+/* ── CONTENEDOR PRINCIPAL ── */
 .product-page {
   display: grid;
   gap: 28px;
 }
 
+/* ── HERO ── */
 .product-hero {
   background: linear-gradient(135deg, #fff7ed, #ffffff);
   border-radius: 24px;

@@ -1,3 +1,8 @@
+<!-- ============================================ -->
+<!-- LAYOUT PADRE: Área pública (PublicLayout)   -->
+<!-- Estructura compartida para todas las rutas  -->
+<!-- públicas: sidebar, topbar, footer y toasts. -->
+<!-- ============================================ -->
 <div class="layout" data-theme="sunset">
   <button class="mobile-menu-btn" type="button" (click)="toggleSidebar()">☰</button>
 
@@ -142,6 +147,7 @@
     </header>
 
     <main>
+      <!-- CONTENIDO HIJO: aquí se renderizan las páginas públicas (home, productos, tiendas, auth, legal) -->
       <router-outlet></router-outlet>
     </main>
 

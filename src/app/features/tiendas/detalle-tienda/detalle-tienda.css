@@ -1,3 +1,11 @@
+/* ============================================================
+   ESTILOS: Detalle de Tienda (Pública)
+   Página pública de la tienda: hero con logo e información,
+   categorías, grid de productos con paginación, sección de
+   reseñas con formulario y modal, y horarios de atención.
+   ============================================================ */
+
+/* ── CONTENEDOR PRINCIPAL ── */
 .store-page {
   display: grid;
   gap: 18px;

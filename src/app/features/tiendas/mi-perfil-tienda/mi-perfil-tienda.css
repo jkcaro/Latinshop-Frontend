@@ -1,3 +1,11 @@
+/* ============================================================
+   ESTILOS: Mi Perfil de Tienda
+   Gestión del perfil de la tienda: hero, datos de contacto,
+   selector de tema, horarios de atención, configuración de
+   envío gratis y formulario de guardar con feedback de éxito.
+   ============================================================ */
+
+/* ── CONTENEDOR PRINCIPAL ── */
 .profile-page {
   display: grid;
   gap: 20px;

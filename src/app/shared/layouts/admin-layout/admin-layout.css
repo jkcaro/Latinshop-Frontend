@@ -1,4 +1,13 @@
-﻿:host {
+﻿/* ============================================================
+   ESTILOS: Admin Layout (Layout Padre — Área de Admin)
+   Estructura principal del panel de administración: sidebar
+   oscuro con navegación, topbar sticky, área de contenido
+   central con scroll y footer legal. Las páginas del admin
+   se renderizan dentro del <router-outlet> de este layout.
+   ============================================================ */
+
+/* ── VARIABLES CSS Y HOST ── */
+:host {
   display: block;
   min-height: 100vh;
 
@@ -11,6 +20,7 @@
   --border: #e5e7eb;
 }
 
+/* ── SHELL RAÍZ ── */
 .admin-shell {
   display: block;
   min-height: 100vh;

@@ -1,4 +1,11 @@
-/* ── LAYOUT ── */
+/* ============================================================
+   ESTILOS: Home (Página de inicio pública)
+   Dashboard de bienvenida al marketplace: buscador de productos
+   y tiendas, grid de categorías, listados de tiendas y productos
+   destacados, sidebar de ofertas y sección "Cómo funciona".
+   ============================================================ */
+
+/* ── LAYOUT PRINCIPAL ── */
 .home-dashboard {
   display: grid;
   grid-template-columns: 1fr 340px;

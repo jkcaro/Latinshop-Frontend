@@ -1,8 +1,17 @@
+/* ============================================================
+   ESTILOS: App (Raíz de la aplicación)
+   Estilos base del componente raíz. Garantiza que el host
+   ocupe el alto mínimo de la pantalla y que el área de
+   contenido principal tenga el fondo y padding correctos.
+   ============================================================ */
+
+/* ── HOST ── */
 :host {
   display: block;
   min-height: 100vh;
 }
 
+/* ── CONTENIDO PRINCIPAL ── */
 .main-content {
   min-height: calc(100vh - 120px);
   padding: 24px;

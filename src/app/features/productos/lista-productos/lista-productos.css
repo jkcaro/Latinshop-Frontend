@@ -1,6 +1,11 @@
-/* ════════════════════════════════════
-   Layout — igual que home y tiendas
-════════════════════════════════════ */
+/* ============================================================
+   ESTILOS: Lista de Productos (Pública)
+   Catálogo público de productos con grid de tarjetas, filtros
+   por categoría y búsqueda, paginación y toast de notificación
+   al añadir al carrito o intentar mezclar tiendas.
+   ============================================================ */
+
+/* ── LAYOUT EXTERNO ── */
 .public-page {
   background: #f3f4f6;
   padding: 28px;

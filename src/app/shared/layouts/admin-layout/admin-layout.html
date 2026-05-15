@@ -1,3 +1,8 @@
+<!-- ================================================ -->
+<!-- LAYOUT PADRE: Área de administración (AdminLayout) -->
+<!-- Protegido por adminGuard. Panel completo de        -->
+<!-- supervisión: tiendas, pedidos, usuarios, reportes. -->
+<!-- ================================================ -->
 <section class="admin-shell" [attr.data-theme]="themeService.adminTheme()">
   <aside class="admin-sidebar" [class.open]="mobileMenuOpen()">
     <div class="admin-brand">
@@ -202,6 +207,7 @@
     </header>
 
     <main class="admin-content">
+      <!-- CONTENIDO HIJO: aquí se renderizan las páginas del admin (dashboard, tiendas, pedidos, usuarios…) -->
       <router-outlet></router-outlet>
     </main>
 

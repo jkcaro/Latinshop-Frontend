@@ -1,6 +1,12 @@
-/* ════════════════════════════════════
-   Layout raíz — ocupa exactamente la pantalla
-════════════════════════════════════ */
+/* ============================================================
+   ESTILOS: Cliente Layout (Layout Padre — Área de Cliente)
+   Estructura principal del panel de cliente: sidebar fijo con
+   navegación, topbar con carrito, área de contenido con scroll
+   y footer legal. Las páginas del cliente se renderizan dentro
+   del <router-outlet> de este layout.
+   ============================================================ */
+
+/* ── LAYOUT RAÍZ ── */
 .layout {
   display: flex;
   height: 100vh;       /* altura fija: llena la pantalla */

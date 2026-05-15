@@ -1,9 +1,18 @@
+/* ============================================================
+   ESTILOS: Detalle de Producto (Público)
+   Página pública de un producto: layout de dos columnas con
+   imagen a la izquierda e información (nombre, precio, tienda,
+   descripción, acciones de carrito) a la derecha.
+   ============================================================ */
+
+/* ── CONTENEDOR PRINCIPAL ── */
 .detalle-producto {
   max-width: 960px;
   margin: 2rem auto;
   padding: 0 1rem;
 }
 
+/* ── LAYOUT DOS COLUMNAS ── */
 .detalle-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;

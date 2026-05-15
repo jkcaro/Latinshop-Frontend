@@ -1,3 +1,11 @@
+/* ============================================================
+   ESTILOS: Modal de Administración (Compartido)
+   Componente de modal reutilizable para el área de admin.
+   Usado para acciones críticas como bloquear/rechazar tiendas
+   y ver detalles de entidades. Incluye animaciones de entrada.
+   ============================================================ */
+
+/* ── BACKDROP Y POSICIONAMIENTO ── */
 .modal-backdrop {
   position: fixed;
   inset: 0;

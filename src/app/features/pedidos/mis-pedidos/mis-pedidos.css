@@ -1,3 +1,10 @@
+/* ============================================================
+   ESTILOS: Mis Pedidos (Cliente)
+   Historial de pedidos del cliente con héroe informativo,
+   barra de filtros y tarjetas de pedido con badge de estado.
+   ============================================================ */
+
+/* ── CONTENEDOR PRINCIPAL ── */
 .orders-page {
   display: grid;
   gap: 20px;

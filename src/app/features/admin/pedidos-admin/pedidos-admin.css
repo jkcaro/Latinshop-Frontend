@@ -1,3 +1,11 @@
+/* ============================================================
+   ESTILOS: Gestión de Pedidos (Admin)
+   Panel de administración de todos los pedidos del marketplace.
+   Incluye KPIs, toolbar de filtros, tabla paginada con acciones
+   inline de cambio de estado y modal de detalle de pedido.
+   ============================================================ */
+
+/* ── CONTENEDOR PRINCIPAL ── */
 .orders-admin-page {
   display: grid;
   gap: 18px;
@@ -7,6 +15,7 @@
   box-sizing: border-box;
 }
 
+/* ── HERO ── */
 .orders-hero {
   background: linear-gradient(135deg, #fff7ed, #ffffff);
   border-radius: 18px;

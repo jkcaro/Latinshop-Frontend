@@ -1,3 +1,11 @@
+/* ============================================================
+   ESTILOS: Mi Perfil (Cliente)
+   Gestión del perfil del comprador: hero con datos de cuenta,
+   layout de dos columnas con tarjeta resumen y formulario de
+   edición de datos personales, contraseña y selector de tema.
+   ============================================================ */
+
+/* ── CONTENEDOR PRINCIPAL ── */
 .profile-page {
   display: grid;
   gap: 20px;

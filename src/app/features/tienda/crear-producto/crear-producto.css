@@ -1,3 +1,12 @@
+/* ============================================================
+   ESTILOS: Crear Producto (Tienda)
+   Formulario de alta de nuevo producto: hero con instrucciones,
+   layout de formulario con campos de nombre, precio, descripción,
+   categoría, imagen y toggle de oferta. Vista previa de imagen
+   en tiempo real antes de guardar.
+   ============================================================ */
+
+/* ── HOST / CONTENEDOR ── */
 :host {
   display: block;
   max-width: 1100px;

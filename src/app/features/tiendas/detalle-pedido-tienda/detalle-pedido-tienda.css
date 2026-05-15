@@ -1,3 +1,11 @@
+/* ============================================================
+   ESTILOS: Detalle de Pedido (Tienda)
+   Vista completa de un pedido recibido por la tienda: hero con
+   datos del cliente, stepper de estados, grid de información,
+   tabla de productos, totales y panel de cambio de estado.
+   ============================================================ */
+
+/* ── CONTENEDOR PRINCIPAL ── */
 .dp-page {
   display: grid;
   gap: 20px;

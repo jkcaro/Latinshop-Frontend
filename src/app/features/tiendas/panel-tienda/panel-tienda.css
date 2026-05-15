@@ -1,3 +1,11 @@
+/* ============================================================
+   ESTILOS: Panel de Tienda (Dashboard)
+   Dashboard principal del propietario de tienda: KPIs de ventas
+   y pedidos, filas de actividad reciente y accesos rápidos a
+   las secciones de gestión de productos y pedidos.
+   ============================================================ */
+
+/* ── HOST / CONTENEDOR ── */
 :host {
   display: block;
   max-width: 1320px;
@@ -5,6 +13,7 @@
   padding: 22px 28px;
 }
 
+/* ── DASHBOARD GRID ── */
 .store-dashboard {
   display: grid;
   gap: 20px;

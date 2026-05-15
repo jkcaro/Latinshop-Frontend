@@ -1,3 +1,8 @@
+<!-- ============================================= -->
+<!-- LAYOUT PADRE: Área de tienda (TiendaLayout)  -->
+<!-- Protegido por tiendaGuard. Gestión interna   -->
+<!-- de productos, pedidos recibidos y perfil.    -->
+<!-- ============================================= -->
 <div class="layout" [attr.data-theme]="themeService.tiendaTheme()">
   <button class="mobile-menu-btn" type="button" (click)="toggleSidebar()">☰</button>
 
@@ -121,6 +126,7 @@
     </header>
 
     <main>
+      <!-- CONTENIDO HIJO: aquí se renderizan las páginas de tienda (panel, productos, pedidos, perfil) -->
       <router-outlet></router-outlet>
     </main>
 

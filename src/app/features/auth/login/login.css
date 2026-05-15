@@ -1,3 +1,10 @@
+/* ============================================================
+   ESTILOS: Login
+   Página de inicio de sesión con layout de dos columnas:
+   panel izquierdo informativo (beneficios del marketplace)
+   y formulario de autenticación a la derecha.
+   ============================================================ */
+
 /* ── LAYOUT ── */
 .login-page {
   display: grid;
