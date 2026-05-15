@@ -71,10 +71,18 @@ export class ListaProductos {
         this.normalizar(p.descripcion ?? '').includes(q) ||
         this.normalizar(p.marca ?? '').includes(q)
       );
-      return filtrados;
     }
 
-    if (cat) return filtrados;
+    // Deduplicar por nombre normalizado — un producto por nombre independientemente de la tienda
+    const nombresVistos = new Set<string>();
+    filtrados = filtrados.filter(p => {
+      const key = this.normalizar(p.nombre);
+      if (nombresVistos.has(key)) return false;
+      nombresVistos.add(key);
+      return true;
+    });
+
+    if (q || cat) return filtrados;
 
     const contadorPorTienda = new Map<number, number>();
     return filtrados.filter(p => {
