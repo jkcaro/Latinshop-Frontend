@@ -459,7 +459,10 @@
 }
 
 .user {
-  padding: 7px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px 6px 6px;
   border-radius: 999px;
   background: #f3f4f6;
   border: 1px solid #e5e7eb;
@@ -467,6 +470,28 @@
   font-weight: 600;
   color: #374151;
   white-space: nowrap;
+}
+
+.user-avatar-img,
+.user-avatar-inicial {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.user-avatar-img {
+  object-fit: cover;
+}
+
+.user-avatar-inicial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 900;
 }
 
 /* ── Main ── */
@@ -567,7 +592,10 @@ main {
     z-index: 999;
   }
 
-  .topbar { position: relative; }
+  .topbar {
+    position: relative;
+    padding-left: 64px;
+  }
 
   main { padding: 18px; }
 }

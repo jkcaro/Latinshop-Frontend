@@ -12,6 +12,14 @@
     </div>
   } @else if (tienda()) {
     <section class="store-page-header">
+      <div class="store-header-logo-wrap">
+        @if (tienda()?.imagenUrl) {
+          <img class="store-header-logo-img" [src]="tienda()!.imagenUrl" [alt]="tienda()!.nombreNegocio" />
+        } @else {
+          <span class="store-header-logo-inicial">{{ tienda()?.nombreNegocio?.charAt(0)?.toUpperCase() }}</span>
+        }
+      </div>
+
       <div>
         <div class="store-title-row">
           <h1>{{ tienda()?.nombreNegocio }}</h1>

@@ -39,8 +39,9 @@ export class ClienteLayout {
   private readonly carritoService = inject(CarritoService);
   readonly themeService = inject(ThemeService);
 
-  readonly currentUser = this.authService.currentUser;
+  readonly currentUser   = this.authService.currentUser;
   readonly nombreUsuario = computed(() => this.currentUser()?.nombre ?? 'Cliente');
+  readonly fotoCliente   = computed(() => this.currentUser()?.fotoPerfil ?? '');
   readonly totalCarrito   = this.carritoService.totalItems;
   readonly mensajeCarrito = this.carritoService.mensaje;
   readonly mensajeExito   = this.carritoService.mensajeExito;

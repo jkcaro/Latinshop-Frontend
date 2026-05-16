@@ -24,6 +24,7 @@ import {
 
 import { AuthService } from '../../../core/services/auth';
 import { ThemeService } from '../../../core/services/theme';
+import { TiendasService } from '../../../core/services/tiendas';
 
 @Component({
   selector: 'app-tienda-layout',
@@ -32,11 +33,16 @@ import { ThemeService } from '../../../core/services/theme';
   styleUrl: './tienda-layout.css',
 })
 export class TiendaLayout {
-  private readonly authService = inject(AuthService);
-  readonly themeService = inject(ThemeService);
+  private readonly authService   = inject(AuthService);
+  private readonly tiendasService = inject(TiendasService);
+  readonly themeService           = inject(ThemeService);
 
-  readonly currentUser = this.authService.currentUser;
+  readonly currentUser  = this.authService.currentUser;
   readonly nombreTienda = computed(() => this.currentUser()?.nombre ?? 'Mi tienda');
+  readonly imagenTienda = computed(() => {
+    const id = this.currentUser()?.tiendaId;
+    return id ? (this.tiendasService.obtenerPorId(id)?.imagenUrl ?? '') : '';
+  });
 
   readonly HomeIcon         = LayoutDashboard;
   readonly ProductosIcon    = Package;

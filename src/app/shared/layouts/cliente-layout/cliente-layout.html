@@ -151,6 +151,11 @@
       </div>
 
       <div class="user">
+        @if (fotoCliente()) {
+          <img class="user-avatar-img" [src]="fotoCliente()" [alt]="nombreUsuario()" />
+        } @else {
+          <span class="user-avatar-inicial">{{ nombreUsuario().charAt(0).toUpperCase() }}</span>
+        }
         {{ nombreUsuario() }}
       </div>
     </header>

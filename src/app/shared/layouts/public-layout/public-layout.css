@@ -601,7 +601,10 @@ main {
     z-index: 999;
   }
 
-  .topbar { position: relative; }
+  .topbar {
+    position: relative;
+    padding-left: 64px;
+  }
 
   main { padding: 18px; }
 }

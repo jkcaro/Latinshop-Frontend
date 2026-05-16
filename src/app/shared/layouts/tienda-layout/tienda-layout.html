@@ -13,6 +13,7 @@
 
   <aside class="sidebar" [class.open]="sidebarOpen()">
     <div class="sidebar-header">
+      <img src="assets/logo1.jpeg" alt="LatinShop" class="sidebar-logo" />
       <h2>LatinShop</h2>
       <span>Panel de tienda</span>
     </div>
@@ -122,6 +123,11 @@
       </div>
 
       <div class="user">
+        @if (imagenTienda()) {
+          <img class="user-avatar-img" [src]="imagenTienda()" [alt]="nombreTienda()" />
+        } @else {
+          <span class="user-avatar-inicial">{{ nombreTienda().charAt(0).toUpperCase() }}</span>
+        }
         {{ nombreTienda() }}
       </div>
     </header>
